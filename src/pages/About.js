@@ -1,4 +1,6 @@
 import queryString from 'query-string';
+import React from 'react';
+import Counter from '../components/CounterContainer';
 import DevMenu from '../components/DevMenu'
 
 const About = ({location , match}) => {
@@ -13,6 +15,7 @@ const About = ({location , match}) => {
             <h2>About {match.params.name}</h2>
             <h2>{detail ? '안녕하세요' : '접속오류' }</h2>
             <DevMenu/>
+            <Counter/>
         </div>
     );
 };
