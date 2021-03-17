@@ -1,8 +1,11 @@
 
+import Axios from 'axios'
+
 import {
     INCREMENT,
     DECREMENT,
     SET_DIFF,
+    SIGN_UP,
 } from './types';
 
 
@@ -24,3 +27,16 @@ export function setDiff(value) {
         diff: value
     };
 }
+
+
+export function signUp(value) {
+
+    const request = Axios.post('/api/sign-up', value) 
+    .then(response => response.data) 
+
+    return {
+        type: SIGN_UP,
+        payload : request
+    };
+}
+

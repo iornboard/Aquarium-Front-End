@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from "react"
+import { useDispatch } from 'react-redux';
+import { signUp } from '../_actions/index';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -47,8 +49,29 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignUp() {
-  const classes = useStyles();
 
+  const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const [values, setValues] = useState({ user_email: "", user_password: "" , user_name: "" , user_nickname: "" });
+
+  const handleChange = (event) => {
+    const { name, value } = event.target
+    setValues({ ...values, [name]: value })
+  }
+
+
+  const onSubmitHandler = (event) => {
+    event.preventDefault(); //페이지가 리프레시 되는 것을 막는다.
+
+    dispatch(signUp(values)) 
+    setValues({ user_email: "", user_password: "" , user_name: "" , user_nickname: "" })
+  }
+
+
+
+
+  
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -61,26 +84,17 @@ export default function SignUp() {
         </Typography>
         <form className={classes.form} noValidate>
           <Grid container spacing={2}>
-          <Grid item xs={12}>
-              <TextField
-                variant="outlined"
-                required
-                fullWidth
-                id="userName"
-                label="userName"
-                name="userName"
-                autoComplete="userName"
-              />
-            </Grid>
             <Grid item xs={12}>
               <TextField
                 variant="outlined"
                 required
                 fullWidth
-                id="email"
+                id="user_email"
                 label="Email Address"
-                name="email"
-                autoComplete="email"
+                name="user_email"
+                value={values.user_email}
+                onChange={handleChange}
+                autoComplete="user_email"
               />
             </Grid>
             <Grid item xs={12}>
@@ -88,13 +102,42 @@ export default function SignUp() {
                 variant="outlined"
                 required
                 fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
+                name="user_password"
+                value={values.user_password}
+                onChange={handleChange}
+                label="user_password"
+                type="user_password"
+                id="user_password"
                 autoComplete="current-password"
               />
             </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="user_name"
+                label="user_name"
+                name="user_name"
+                value={values.user_name}
+                onChange={handleChange}
+                autoComplete="user_name"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="user_nickname"
+                label="user_nickname"
+                name="user_nickname"
+                value={values.user_nickname}
+                onChange={handleChange}
+                autoComplete="user_nickname"
+              />
+            </Grid>
+
             <Grid item xs={12}>
               <FormControlLabel
                 control={<Checkbox value="allowExtraEmails" color="primary" />}
@@ -108,6 +151,7 @@ export default function SignUp() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick = {onSubmitHandler}
           >
             계정 생성
           </Button>

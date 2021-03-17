@@ -8,3 +8,4 @@ ex)
 export const INCREMENT = 'INCREMENT';
 export const DECREMENT = 'DECREMENT';
 export const SET_DIFF = 'SET_DIFF';
+export const SIGN_UP = 'SIGN_UP';
