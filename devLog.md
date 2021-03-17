@@ -17,4 +17,11 @@
             [ https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd/related ]
 
 
-     2. 리덕트 실행을 위한 실행코드와 컴포넌트를 만들과 about 페이지에 실험적으로 넣음. 프로젝트에는 사용하지 않을 것임
+     2. 리덕트 실행을 위한 실행코드와 컴포넌트를 만들과 about 페이지에 실험적으로 넣음. 프로젝트에는 사용하지 않을 것임]]]
+
+
+
+# 남현수 - 21.03.18
+    1. 회원가입을 위한 간단한 코드를 작성함
+        -> page에 우선 있는 템플렛을 이용해서 작성하였음
+        -> testSignUp에 회원가입을 할 수 있는 템플릿과 usestate , action, 을 추가함
