@@ -31,7 +31,7 @@ export function setDiff(value) {
 
 export function signUp(value) {
 
-    const request = Axios.post('/api/sign-up', value) 
+    const request = Axios.post('/api/join', value) 
     .then(response => response.data) 
 
     return {

@@ -34,8 +34,8 @@ function App() {
           <Switch>
             <Route path="/about/:name" component={About}/>  {/* :키 로하는 params를 새로 생성한다. */}
             <Route path="/about" component={About}/>
-            <Route path="/Login" component={Login}/>
-            <Route path="/SignUp" component={SignUp}/>
+            <Route path="/signin" component={Login}/>
+            <Route path="/signup" component={SignUp}/>
             <Route path="/Sun" component={Sun}/>
             
           </Switch>

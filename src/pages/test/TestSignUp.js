@@ -53,7 +53,7 @@ export default function SignUp() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const [values, setValues] = useState({ user_email: "", user_password: "" , user_name: "" , user_nickname: "" });
+  const [values, setValues] = useState({  password: ""  , userEmail: "", userFullname: "" , userNickname: "" });
 
   const handleChange = (event) => {
     const { name, value } = event.target
@@ -65,7 +65,7 @@ export default function SignUp() {
     event.preventDefault(); //페이지가 리프레시 되는 것을 막는다.
 
     dispatch(signUp(values)) 
-    setValues({ user_email: "", user_password: "" , user_name: "" , user_nickname: "" })
+    setValues({  password: ""  , userEmail: "", userFullname: "" , userNickname: ""  })
   }
 
 
@@ -88,12 +88,12 @@ export default function SignUp() {
                 variant="outlined"
                 required
                 fullWidth
-                id="user_email"
+                id="userEmail"
                 label="Email Address"
-                name="user_email"
-                value={values.user_email}
+                name="userEmail"
+                value={values.userEmail}
                 onChange={handleChange}
-                autoComplete="user_email"
+                autoComplete="userEmail"
               />
             </Grid>
             <Grid item xs={12}>
@@ -101,12 +101,12 @@ export default function SignUp() {
                 variant="outlined"
                 required
                 fullWidth
-                name="user_password"
-                value={values.user_password}
+                name="password"
+                value={values.password}
                 onChange={handleChange}
-                label="user_password"
-                type="user_password"
-                id="user_password"
+                label="password"
+                type="password"
+                id="password"
                 autoComplete="current-password"
               />
             </Grid>
@@ -115,12 +115,12 @@ export default function SignUp() {
                 variant="outlined"
                 required
                 fullWidth
-                id="user_name"
-                label="user_name"
-                name="user_name"
-                value={values.user_name}
+                id="userFullname"
+                label="userFullname"
+                name="userFullname"
+                value={values.userFullname}
                 onChange={handleChange}
-                autoComplete="user_name"
+                autoComplete="userFullname"
               />
             </Grid>
             <Grid item xs={12}>
@@ -128,12 +128,12 @@ export default function SignUp() {
                 variant="outlined"
                 required
                 fullWidth
-                id="user_nickname"
-                label="user_nickname"
-                name="user_nickname"
-                value={values.user_nickname}
+                id="userNickname"
+                label="userNickname"
+                name="userNickname"
+                value={values.userNickname}
                 onChange={handleChange}
-                autoComplete="user_nickname"
+                autoComplete="userNickname"
               />
             </Grid>
 
