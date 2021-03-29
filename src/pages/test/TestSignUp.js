@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { useDispatch } from 'react-redux';
-import { signUp } from '../../_actions/index';
+import { join } from '../../_actions/index';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -64,7 +64,7 @@ export default function SignUp() {
   const onSubmitHandler = (event) => {
     event.preventDefault(); //페이지가 리프레시 되는 것을 막는다.
 
-    dispatch(signUp(values)) 
+    dispatch(join(values)) 
     setValues({  password: ""  , userEmail: "", userFullname: "" , userNickname: ""  })
   }
 
@@ -156,7 +156,7 @@ export default function SignUp() {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="login" variant="body2">
+              <Link href="signin" variant="body2">
                 이미 계정이 있으신가요?
               </Link>
             </Grid>

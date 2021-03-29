@@ -1,11 +1,11 @@
-
 import Axios from 'axios'
 
 import {
     INCREMENT,
     DECREMENT,
     SET_DIFF,
-    SIGN_UP,
+    JOIN,
+    LOGIN,
 } from './types';
 
 
@@ -28,15 +28,24 @@ export function setDiff(value) {
     };
 }
 
-
-export function signUp(value) {
+export function join(value) {
 
     const request = Axios.post('/api/join', value) 
     .then(response => response.data) 
 
     return {
-        type: SIGN_UP,
+        type: JOIN,
         payload : request
     };
 }
 
+export function login(value) {
+
+    const request = Axios.post('/api/login', value) 
+    .then(response => response.data) 
+
+    return {
+        type: LOGIN,
+        payload : request
+    };
+}

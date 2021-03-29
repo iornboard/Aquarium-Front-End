@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from "react"
+import { useDispatch } from 'react-redux';
+import { login } from '../../_actions/index';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,8 +13,12 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import { makeStyles } from '@material-ui/core/styles';
-import Appbar from "../../components/AppBarMain"
+
 
 function Copyright() {
   return (
@@ -54,12 +60,53 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
+    margin: theme.spacing(1, 0, 1),
+  },
+  google: { 
+     background: 'linear-gradient(45deg, #ffffff 90%, #ff1744 90%)',
+     color: 'black',
+     margin: theme.spacing(1, 0, 1) 
+  },
+  facebook: { 
+     background: 'linear-gradient(45deg, #ffffff 90%, #3f51b5 90%)', 
+     color: 'black' ,
+     margin: theme.spacing(1, 0, 1)
+  },
+  naver: { 
+     background: 'linear-gradient(45deg, #ffffff 90%, #8bc34a 90%)', 
+     color: 'black',
+     margin: theme.spacing(1, 0, 1)
   },
 }));
 
 export default function SignInSide() {
+
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const [open, setOpen] = React.useState(false);
+  const [values, setValues] = useState({  password: ""  , userEmail: "" });
+
+  const handleChange = (event) => {
+    const { name, value } = event.target
+    setValues({ ...values, [name]: value })
+  }
+
+  const onSubmitHandler = (event) => {
+    event.preventDefault(); //페이지가 리프레시 되는 것을 막는다.
+
+    dispatch(login(values)) 
+    setValues({  password: ""  , userEmail: "" });
+  }
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -79,11 +126,12 @@ export default function SignInSide() {
               margin="normal"
               required
               fullWidth
-              id="email"
+              id="userEmail"
               label="Email Address"
-              name="email"
-              autoComplete="email"
+              name="userEmail"
+              autoComplete="userEmail"
               autoFocus
+              onChange = {handleChange}
             />
             <TextField
               variant="outlined"
@@ -95,6 +143,7 @@ export default function SignInSide() {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange = {handleChange}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
@@ -106,13 +155,17 @@ export default function SignInSide() {
               variant="contained"
               color="primary"
               className={classes.submit}
+              onClick = {onSubmitHandler}
             >
               Sign In
+            </Button>
+            <Button fullWidth  variant="contained" color="primary"  className={classes.submit} onClick={handleClickOpen}>
+              계정을 연동할 수 있나요?
             </Button>
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
-                  Forgot password?
+                  비밀번호를 잊으셨나요?
                 </Link>
               </Grid>
               <Grid item>
@@ -126,7 +179,31 @@ export default function SignInSide() {
             </Box>
           </form>
         </div>
+        <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+        >
+        <DialogTitle id="alert-dialog-title">{"did you have any account?"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            사용 가능한 계정을 선택해 보세요
+          </DialogContentText>
+          <Button fullWidth  variant="contained" color="primary" href="http://localhost:8080/oauth2/authorization/google"  className={classes.google}>
+            google
+          </Button>
+          <Button fullWidth  variant="contained" color="primary" href="http://localhost:8080/oauth2/authorization/facebook"  className={classes.facebook}>
+            Facebook
+          </Button>
+          <Button fullWidth  variant="contained" color="primary" href="http://localhost:8080/oauth2/authorization/naver"  className={classes.naver}>
+            naver
+          </Button>
+        </DialogContent>
+        </Dialog>
       </Grid>
     </Grid>
+
+
   );
 }

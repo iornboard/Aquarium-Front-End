@@ -1,15 +1,21 @@
-import { SIGN_UP } from '../_actions/types';
+import { JOIN ,LOGIN } from '../_actions/types';
 
 
 const auth = (state = {}, action) => {
     switch (action.type) {
       
-        case SIGN_UP:
+        case JOIN:
           return {
             ...state,
             SignUpSuccess: action.payload
-          };   
-          
+          };  
+          break;
+        case LOGIN:
+          return {
+            ...state,
+            SignInSuccess: action.payload
+          }; 
+          break;
         default:
           return state;
       }
