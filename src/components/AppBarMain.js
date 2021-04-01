@@ -25,6 +25,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import Link from '@material-ui/core/Link';
 
 const drawerWidth = 240;
 
@@ -192,8 +193,10 @@ export default function PersistentDrawerLeft() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <Link color="inherit" href="/UserInfo">
+        <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      </Link>
+        <MenuItem onClick={handleMenuClose}>My account</MenuItem>
     </Menu>
   );
 
@@ -353,7 +356,7 @@ export default function PersistentDrawerLeft() {
         글 크기 변경 글 크기 변경 글 크기 변경글 크기 변경 글 크기 변경 글 크기 변경 글 크기 변경
         </Typography>
       </main>
-      {renderMobileMenu}
+      {/* {renderMobileMenu} */}
       {renderMenu}
     </div>
   );
