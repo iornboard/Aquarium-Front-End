@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from "react"
+import { useDispatch } from 'react-redux';
+import { CreatePost } from '../../_actions/index';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -40,14 +42,29 @@ const useStyles = makeStyles((theme) => ({
 
 export default function StickyFooter() {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const [values, setValues] = useState({  postText: "" });
+
+  const handleChange = (event) => {
+    const { name, value } = event.target
+    setValues({ ...values, [name]: value })
+  }
+
+  const onSubmitHandler = (event) => {
+    event.preventDefault(); //페이지가 리프레시 되는 것을 막는다.
+
+    dispatch(CreatePost(values)) 
+    setValues({  postText: "" });
+  }
 
   return (
     <div className={classes.root}>
       <CssBaseline />
       <Container component="main" className={classes.main} maxWidth="sm">
         <form className={classes.root} noValidate autoComplete="off">
-          <TextField id="standard-basic" label="Standard" />
-          <Button variant="contained" color="primary">
+          <TextField id="postText" name="postText" label="Standard" onChange = {handleChange} />
+          <Button variant="contained" color="primary" type="submit" onClick = {onSubmitHandler}>
             글쓰기
           </Button>
         </form>

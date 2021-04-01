@@ -6,6 +6,8 @@ import {
     SET_DIFF,
     JOIN,
     LOGIN,
+    CREATE_POST,
+    POST
 } from './types';
 
 
@@ -49,3 +51,26 @@ export function login(value) {
         payload : request
     };
 }
+
+export function CreatePost(value) {
+
+    const request = Axios.post('/api/create-post', value) 
+    .then(response => response.data) 
+
+    return {
+        type: CREATE_POST,
+        payload : request
+    };
+}
+
+export function Post(value) {
+
+    const request = Axios.post('/api/post', value) 
+    .then(response => response.data) 
+
+    return {
+        type: POST,
+        payload : request
+    };
+}
+
