@@ -7,6 +7,10 @@ import Link from '@material-ui/core/Link';
 import AppBar from '../../components/AppBarMain';
 import Scroll from '../../components/ListMain';
 
+import Avatar from '@material-ui/core/Avatar'; 
+//아바타
+
+//------------이거삭제해보기
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary">
@@ -19,6 +23,7 @@ function Copyright() {
     </Typography>
   );
 }
+//--------이거삭제해보기
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -65,7 +70,18 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(6),
   },
+
+//--아바타
+  root: {
+    display: 'flex',
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
+//--아바타
 }));
+
+
 
 export default function StickyFooter() {
   const classes = useStyles();
@@ -73,6 +89,11 @@ export default function StickyFooter() {
   return (
     <React.Fragment>
     <div className={classes.root}>
+
+      <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+      <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
+      <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
+
       <CssBaseline />
       <Container component="main" className={classes.main} maxWidth="sm">
         <Typography variant="h2" component="h1" gutterBottom>
@@ -89,11 +110,13 @@ export default function StickyFooter() {
           <Typography variant="body1">My sticky footer can be found here.</Typography>
           <Copyright />
         </Container>
+      
       </footer>
     </div>
     
     <CssBaseline />
-      <AppBar />
+      <AppBar /> 
+      {/* 바로 위에줄이 app바 import확인하기 */}
       <main>
         {/* Hero unit */}
         <div className={classes.heroContent}>

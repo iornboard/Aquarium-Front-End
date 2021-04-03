@@ -352,8 +352,7 @@ export default function PersistentDrawerLeft() {
       >
         <div className={classes.drawerHeader} />
         <Typography paragraph>
-         글 크기 변경 글 크기 변경 글 크기 변경 글 크기 변경 글 크기 변경 글 크기 변경 글 크기 변경 글 크기 변경 글 크기 변경
-        글 크기 변경 글 크기 변경 글 크기 변경글 크기 변경 글 크기 변경 글 크기 변경 글 크기 변경
+         글 크기 변경 글 크기 변경 컴포넌트 AppBarMain에 paragraph확인하기
         </Typography>
       </main>
       {/* {renderMobileMenu} */}
