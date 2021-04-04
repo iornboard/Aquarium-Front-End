@@ -83,6 +83,7 @@ export default function Album() {
       </footer>
       {/* End footer */}
 
+
     </React.Fragment>
   );
 }
