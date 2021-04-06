@@ -9,6 +9,7 @@ import Link from '@material-ui/core/Link';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import UploadTab from '../../components/UploadTab'
+import AppBar from '../../components/AppBarMain';
 
 function Copyright() {
   return (
@@ -56,6 +57,7 @@ export default function PostPage() {
 
   return (
       <Container component="main" maxWidth="sm" >
+        <AppBar />
         <CssBaseline />
         <div className={classes.paper}>
         <UploadTab/>

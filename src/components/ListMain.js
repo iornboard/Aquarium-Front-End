@@ -6,21 +6,14 @@ import Card from './Card'
 
 
 const useStyles = makeStyles((theme) => ({
-  margin: {
-    marginTop: theme.spacing(5),
+  grid: {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-  },
-  media: {
-    height: 0,
-    paddingTop: '56.25%', // 16:9
+    width: '100%',
   },
   gridList: {
     height: 800,
-  },
-  grid: {
-    width: '100%',
   },
   fabButton: {
     zIndex: 1,
@@ -29,6 +22,10 @@ const useStyles = makeStyles((theme) => ({
     right: 0,
     margin: '0 auto',
   },
+  mediaCard:{
+    width: '100%',
+    marginTop: theme.spacing(1),
+  }
 }));
 
 
@@ -67,14 +64,11 @@ function ScrollList() {
 
   return (
 
-    <div >
       <Container alignItems='baseline' className={classes.grid}>
         <GridList cellHeight={60} className={classes.gridList} cols={3} onScroll={handleScroll}>
-            {posts ? posts.map((pos) => <Card text = {pos.postText}/> ) : "로딩중.."  }
+            {posts ? posts.map((pos) => <Card text = {pos.postText} className={classes.mediaCard} /> ) : "로딩중.."  }
         </GridList>
       </Container>
-
-    </div>
 
   );
 }
