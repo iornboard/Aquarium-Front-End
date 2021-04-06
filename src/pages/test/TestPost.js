@@ -8,6 +8,7 @@ import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import UploadTab from '../../components/UploadTab'
 
 function Copyright() {
   return (
@@ -23,24 +24,19 @@ function Copyright() {
 }
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  paper: {
+    marginTop: theme.spacing(8),
     display: 'flex',
     flexDirection: 'column',
-    minHeight: '100vh',
+    alignItems: 'center',
   },
-  main: {
-    marginTop: theme.spacing(8),
-    marginBottom: theme.spacing(2),
-  },
-  footer: {
-    padding: theme.spacing(3, 2),
-    marginTop: 'auto',
-    backgroundColor:
-      theme.palette.type === 'light' ? theme.palette.grey[200] : theme.palette.grey[800],
+  form: {
+    width: '100%',
+    marginTop: theme.spacing(1),
   },
 }));
 
-export default function StickyFooter() {
+export default function PostPage() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -59,16 +55,35 @@ export default function StickyFooter() {
   }
 
   return (
-    <div className={classes.root}>
-      <CssBaseline />
-      <Container component="main" className={classes.main} maxWidth="sm">
-        <form className={classes.root} noValidate autoComplete="off">
-          <TextField id="postText" name="postText" label="Standard" onChange = {handleChange} />
-          <Button variant="contained" color="primary" type="submit" onClick = {onSubmitHandler}>
-            글쓰기
-          </Button>
-        </form>
+      <Container component="main" maxWidth="sm" >
+        <CssBaseline />
+        <div className={classes.paper}>
+        <UploadTab/>
+          <form className={classes.form} noValidate>
+            <TextField 
+              variant="outlined" 
+              margin="normal"
+              id="postText" 
+              name="postText" 
+              label="제목" 
+              fullWidth
+              onChange = {handleChange} />
+            <TextField
+              variant="outlined" 
+              margin="normal"
+              id="standard-multiline-flexible"
+              label="여기에 글을 입력해주세요"
+              multiline
+              rows={4}
+              rowsMax={8}
+              fullWidth
+              onChange={handleChange}
+            />
+            <Button variant="contained" color="primary" type="submit" onClick = {onSubmitHandler}>
+              글쓰기
+            </Button>
+          </form>
+        </div>
       </Container>
-    </div>
   );
 }
