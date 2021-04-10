@@ -18,7 +18,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { makeStyles } from '@material-ui/core/styles';
-import { PrintOutlined } from "@material-ui/icons";
+import { withRouter } from 'react-router-dom';
 
 
 function Copyright() {
@@ -80,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignInSide(props) {
+function SignInSide(props) {
 
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -99,6 +99,7 @@ export default function SignInSide(props) {
     dispatch(login(values))
      .then(res => {
       if(res){
+        localStorage.setItem('jwt', res.payload);
         props.history.push('/')
       } else {
         alert("this is enable account!")
@@ -217,3 +218,5 @@ export default function SignInSide(props) {
 
   );
 }
+
+export default withRouter(SignInSide)

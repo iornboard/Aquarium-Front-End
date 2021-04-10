@@ -4,9 +4,24 @@ import {
     JOIN,
     LOGIN,
     CREATE_POST,
-    POST
+    POST,
+    AUTH
 } from './types';
 
+
+
+export function auth() {
+
+    let token = localStorage.getItem('jwt') || '';
+
+    const request = Axios.get('/api/auth',{ headers : { authorization : token }}) 
+        .then(response => response.data) 
+
+    return {
+        type: AUTH,
+        payload : request
+    };
+}
 
 export function join(value) {
 

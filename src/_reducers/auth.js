@@ -1,9 +1,15 @@
-import { JOIN ,LOGIN } from '../_actions/types';
+import { AUTH, JOIN ,LOGIN } from '../_actions/types';
 
 
 const auth = (state = {}, action) => {
     switch (action.type) {
-      
+
+        case AUTH:
+          return {
+            ...state,
+            userData: action.payload
+          };  
+          break;
         case JOIN:
           return {
             ...state,
