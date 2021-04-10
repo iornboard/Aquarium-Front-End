@@ -18,6 +18,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { makeStyles } from '@material-ui/core/styles';
+import { PrintOutlined } from "@material-ui/icons";
 
 
 function Copyright() {
@@ -79,13 +80,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function SignInSide() {
+export default function SignInSide(props) {
 
   const classes = useStyles();
   const dispatch = useDispatch();
 
   const [open, setOpen] = React.useState(false);
-  const [values, setValues] = useState({  password: ""  , userEmail: "" });
+  const [values, setValues] = useState({  password: ""  , username: "" });
 
   const handleChange = (event) => {
     const { name, value } = event.target
@@ -95,8 +96,17 @@ export default function SignInSide() {
   const onSubmitHandler = (event) => {
     event.preventDefault(); //페이지가 리프레시 되는 것을 막는다.
 
-    dispatch(login(values)) 
-    setValues({  password: ""  , userEmail: "" });
+    dispatch(login(values))
+     .then(res => {
+      if(res){
+        props.history.push('/')
+      } else {
+        alert("this is enable account!")
+      }
+     })
+    
+    setValues({});
+
   }
 
   const handleClickOpen = () => {
@@ -126,10 +136,10 @@ export default function SignInSide() {
               margin="normal"
               required
               fullWidth
-              id="userEmail"
+              id="username"
               label="Email Address"
-              name="userEmail"
-              autoComplete="userEmail"
+              name="username"
+              autoComplete="username"
               autoFocus
               onChange = {handleChange}
             />

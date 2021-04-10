@@ -66,7 +66,7 @@ function ScrollList() {
 
       <Container alignItems='baseline' className={classes.grid}>
         <GridList cellHeight={60} className={classes.gridList} cols={3} onScroll={handleScroll}>
-            {posts ? posts.map((pos) => <Card text = {pos.postText} className={classes.mediaCard} /> ) : "로딩중.."  }
+            {/* {posts ? posts.map((pos) => <Card text = {pos.postText} className={classes.mediaCard} /> ) : "로딩중.."  } */}
         </GridList>
       </Container>
 

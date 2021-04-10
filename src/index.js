@@ -3,14 +3,14 @@ import ReactDOM from 'react-dom';
 import Root from './client/Root';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-import Reducer from './_reducers/index';
+import Reducer from './_reducers/index';  // 이하 리덕스 관리
 import { composeWithDevTools } from 'redux-devtools-extension'; // 리덕스 개발자 도구
+import { Provider } from 'react-redux';
+import thunk from "redux-thunk";
+import { createStore , applyMiddleware } from 'redux';
+import promiseMiddleware from 'redux-promise';
 
-
-
-const store = createStore(Reducer, composeWithDevTools()); // 스토어 생성 +  composeWithDevTools 를 사용하여 리덕스 개발자 도구 활성화
+const store = createStore(Reducer, composeWithDevTools(applyMiddleware(promiseMiddleware, thunk))); // 스토어 생성 +  composeWithDevTools 를 사용하여 리덕스 개발자 도구 활성화
 //console.log(store.getState());
 
 ReactDOM.render(

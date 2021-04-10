@@ -1,5 +1,5 @@
 import { Route, Switch } from 'react-router-dom';
-import { About , Login, SignUp , Main, Sun, Post, UserInfo } from '../pages';
+import { Login, SignUp , Main, Sun, Post, UserInfo } from '../pages';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
 const theme = createMuiTheme({
@@ -32,8 +32,6 @@ function App() {
        <ThemeProvider theme={theme} style={{ padding: '20px' }}>
             <Route exact path="/" component={Main}/>
           <Switch>
-            <Route path="/about/:name" component={About}/>  {/* :키 로하는 params를 새로 생성한다. */}
-            <Route path="/about" component={About}/>
             <Route path="/signin" component={Login}/>
             <Route path="/signup" component={SignUp}/>
             <Route path="/Sun" component={Sun}/>
