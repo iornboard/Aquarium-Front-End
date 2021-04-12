@@ -14,7 +14,11 @@ import Container from '@material-ui/core/Container';
 import Fab from "@material-ui/core/Fab";
 import TextField from '@material-ui/core/TextField';
 import { image } from '../_actions/index'
-  
+import { useDropzone } from 'react-dropzone'
+import RootRef from '@material-ui/core/RootRef'
+import Grid from '@material-ui/core/Grid';
+import Paper from '@material-ui/core/Paper';
+import { ClassSharp, PrintOutlined } from '@material-ui/icons';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -64,38 +68,70 @@ const useStyles = makeStyles((theme) => ({
   button: {
     margin: 10
   },
+  dropzoneContainer: {
+    height: 300,
+    background: "#efefef",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    borderStyle: "dashed",
+    borderColor: "#aaa",
+  },
+  preview: {
+    width: 200,
+    height: 300,
+    margin: "auto",
+    display: "block",
+    marginBottom: theme.spacing(2),
+    objectFit: "contain",
+  }
 }));
 
 export default function ScrollableTabsButtonForce() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const [value, setValue] = useState(0);
 
-  const [postImg, setpostImg] = useState(null);
-  const [postImgName, setpostImgName] = useState("");  // ??
+  const [value, setValue] = useState(0);
+  const [postImg, setpostImg] = useState();
+  const [preview, setPreview] = useState(); 
+  const [postImgUrl, setPostImgUrl] = useState(""); 
+
+
+  const onDrop = React.useCallback((acceptedFile) => {
+
+    setpostImg(acceptedFile[0])
+    const previewUrl = URL.createObjectURL(acceptedFile[0])
+    setPreview(previewUrl);
+
+    upload(acceptedFile[0])  // !!! useState 에서 가져오지 못했음 추후에 꼭 수정할것 !!!
+ 
+  },[])
+
+
+  const upload = async (file) => {
+
+    const body = await new FormData();
+    await body.append("img", file)
+
+    dispatch(image(body))   
+      .then(res => {
+        console.log(res.payload)
+
+        setPostImgUrl(res.payload.fileDownloadUri)
+    })
+  }
+
+  const {getRootProps, getInputProps} = useDropzone({ multiple: false, onDrop,})
+  const { ref, ...rootProps } = getRootProps();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  const handleFileChange = (event) => {
-    setpostImg(event.target.files[0]);
-    setpostImgName(event.target.value);
-
-    const body = new FormData();
-    body.append("img", postImg);
-
-    dispatch(image(body))   
-      .then(res => {
-        console.log(res)
-        //setUrl(response.payload.url);
-      })
-
-  };
-
   return (
     <div className={classes.root}>
+
       <AppBar position="static" color="default">
         <Tabs
           value={value}
@@ -112,6 +148,7 @@ export default function ScrollableTabsButtonForce() {
           <Tab label="Item Four" icon={<AddCommentIcon />} {...a11yProps(3)} />
         </Tabs>
       </AppBar>
+      
       <TabPanel value={value} index={0}>
         <Container className={classes.main}>
             <Fab component="span" className={classes.button}>
@@ -119,12 +156,36 @@ export default function ScrollableTabsButtonForce() {
             </Fab>
         </Container>
       </TabPanel>
+
       <TabPanel value={value} index={1}>
-        <Container className={classes.main}>
-          <TextField variant="outlined" type="file" id="file" name="file" file={postImg} value={postImgName} onChange={handleFileChange} />
-            이미지를 추가해주세요
-        </Container>
+        <Grid container className={classes.main}>
+
+            <Grid item xs= {6} style={{padding:16}}>
+              <Typography align= "center" variant="subtitle">
+                drop here
+              </Typography>
+              <RootRef rootRef = {ref}>
+              <Paper {...rootProps} elevation={0}  className={classes.dropzoneContainer} >
+                <input {...getInputProps()}/>
+                <p> here's file </p>
+              </Paper>
+              </RootRef>
+            </Grid>
+
+            <Grid item xs= {6} style={{padding:16}}>
+              <Typography align= "center" variant="subtitle">
+                Preview
+              </Typography>
+              <img
+                  onLoad= {() => URL.revokeObjectURL(preview) }  // 이미지 업로드와 동시에, 메모리에서 URL 해재
+                  className={classes.preview}
+                  src = {preview}
+                />
+            </Grid>
+          </Grid>
+        
       </TabPanel>
+
       <TabPanel value={value} index={2}>
         <Container className={classes.main}>
             <Fab component="span" className={classes.button}>
@@ -133,6 +194,7 @@ export default function ScrollableTabsButtonForce() {
             필요한 URL를 입력해주세요
         </Container>
       </TabPanel>
+
       <TabPanel value={value} index={3}>
         <Container className={classes.main}>
             <Fab component="span" className={classes.button}>
@@ -140,6 +202,7 @@ export default function ScrollableTabsButtonForce() {
             </Fab>
         </Container>
       </TabPanel>
+
     </div>
   );
 }

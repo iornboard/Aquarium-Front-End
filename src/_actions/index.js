@@ -13,7 +13,7 @@ const mtConfig = {
 export function image(value) {
 
     const request = Axios.post('/api/image', value , mtConfig ) 
-        .then(res => console.log(res)) 
+        .then(response => response.data) 
 
     return {
         type: IMAGE,
