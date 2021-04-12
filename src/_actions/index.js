@@ -1,69 +1,22 @@
 import Axios from 'axios'
 
 import {
-    JOIN,
-    LOGIN,
-    CREATE_POST,
-    POST,
-    AUTH
+    IMAGE
 } from './types';
 
+const mtConfig = {
+    headers: {
+        'content-type': 'multipart/form-data'
+    }
+}
 
+export function image(value) {
 
-export function auth() {
-
-    let token = localStorage.getItem('jwt') || '';
-
-    const request = Axios.get('/api/auth',{ headers : { authorization : token }}) 
-        .then(response => response.data) 
+    const request = Axios.post('/api/image', value , mtConfig ) 
+        .then(res => console.log(res)) 
 
     return {
-        type: AUTH,
+        type: IMAGE,
         payload : request
     };
 }
-
-export function join(value) {
-
-    const request = Axios.post('/api/join', value) 
-        .then(response => response.data) 
-
-    return {
-        type: JOIN,
-        payload : request
-    };
-}
-
-export function login(value) {
-
-    const request = Axios.post('/api/login', value) 
-    .then(res => res.headers.authorization)
-
-    return {
-        type: LOGIN,
-        payload : request
-    };
-}
-
-export function CreatePost(value) {
-
-    const request = Axios.post('/api/create-post', value) 
-        .then(response => response.data)
-
-    return {
-        type: CREATE_POST,
-        payload : request
-    };
-}
-
-export function Post(value) {
-
-    const request = Axios.post('/api/post', value) 
-        .then(response => response.data) 
-
-    return {
-        type: POST,
-        payload : request
-    };
-}
-

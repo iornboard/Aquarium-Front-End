@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { useDispatch } from 'react-redux';
-import { CreatePost } from '../../_actions/index';
+import { CreatePost } from '../../_actions/actionPost';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';

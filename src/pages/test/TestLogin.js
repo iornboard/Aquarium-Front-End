@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import { useDispatch } from 'react-redux';
-import { login } from '../../_actions/index';
+import { login } from '../../_actions/actionUser';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';

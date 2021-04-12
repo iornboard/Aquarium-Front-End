@@ -1,4 +1,5 @@
-import React from 'react';
+import React , { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -11,6 +12,8 @@ import AddCommentIcon from '@material-ui/icons/AddComment';
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 import Container from '@material-ui/core/Container';
 import Fab from "@material-ui/core/Fab";
+import TextField from '@material-ui/core/TextField';
+import { image } from '../_actions/index'
   
 
 function TabPanel(props) {
@@ -65,10 +68,30 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ScrollableTabsButtonForce() {
   const classes = useStyles();
-  const [value, setValue] = React.useState(0);
+  const dispatch = useDispatch();
+
+  const [value, setValue] = useState(0);
+
+  const [postImg, setpostImg] = useState(null);
+  const [postImgName, setpostImgName] = useState("");  // ??
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
+  };
+
+  const handleFileChange = (event) => {
+    setpostImg(event.target.files[0]);
+    setpostImgName(event.target.value);
+
+    const body = new FormData();
+    body.append("img", postImg);
+
+    dispatch(image(body))   
+      .then(res => {
+        console.log(res)
+        //setUrl(response.payload.url);
+      })
+
   };
 
   return (
@@ -98,9 +121,7 @@ export default function ScrollableTabsButtonForce() {
       </TabPanel>
       <TabPanel value={value} index={1}>
         <Container className={classes.main}>
-            <Fab component="span" className={classes.button}>
-                <ImageIcon />
-            </Fab>
+          <TextField variant="outlined" type="file" id="file" name="file" file={postImg} value={postImgName} onChange={handleFileChange} />
             이미지를 추가해주세요
         </Container>
       </TabPanel>
