@@ -1,12 +1,10 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
-import Collapse from '@material-ui/core/Collapse';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
@@ -32,9 +30,17 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     backgroundColor: red[500],
   },
+  media: {
+    height: 0,
+    paddingTop: '56.25%', // 16:9
+  },
 }));
 
 export default function NomalCard(props) {
+
+  const post = props.post
+  const {postText, postTitle, postImgUrl} = {...post}
+
   const classes = useStyles();
 
   return (
@@ -50,13 +56,18 @@ export default function NomalCard(props) {
             <MoreVertIcon />
           </IconButton>
         }
-        title="Shrimp and Chorizo Paella"
+        title= {postTitle}
         subheader="September 14, 2016"
       />
+        <CardMedia
+          className={classes.media}
+          image= {postImgUrl}
+          title="Paella dish"
+        />
         <CardContent>
-          <Typography paragraph> {props.text} </Typography>
+          <Typography paragraph> {postText} </Typography>
         </CardContent>
-      <CardActions disableSpacing>
+        <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
           <FavoriteIcon />
         </IconButton>
