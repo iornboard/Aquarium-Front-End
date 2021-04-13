@@ -5,18 +5,14 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
 import AppBar from '../../components/AppBarMain';
-import Scroll from '../../components/ListMain';
 import Avatar from '@material-ui/core/Avatar';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import DeleteIcon from '@material-ui/icons/Delete';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import KeyboardVoiceIcon from '@material-ui/icons/KeyboardVoice';
-import Icon from '@material-ui/core/Icon';
 import SaveIcon from '@material-ui/icons/Save';
-//아바타+텍스트필드
 
-//------------이거삭제해보기
+//유튜브 메뉴참고해보기 메뉴 축약되는거
+
+//------------이거삭제해보기 저작권
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary">
@@ -39,6 +35,9 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '150vh'
   },
   main: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
     marginTop: theme.spacing(10),
     marginBottom: theme.spacing(2),
   },
@@ -109,12 +108,11 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export default function StickyFooter() {
+export default function StickyFooter() {//컨테이너로 감싸고 그리드로해서 만들기
   const classes = useStyles();
-
   return (
-    <React.Fragment>
-    <div className={classes.root}>
+    <div>
+      <AppBar /> 
       <CssBaseline />
       
       <Container component="main" className={classes.main} maxWidth="sm">
@@ -124,57 +122,24 @@ export default function StickyFooter() {
         <Typography variant="h5" component="h6" gutterBottom>
           내 정보 수정
         </Typography>
-{/* https://material-ui.com/components/text-fields/#text-field */}
-        <form className={classes.root} noValidate autoComplete="off">
-          <TextField id="outlined-basic" label="Email Address" />
-          <TextField id="outlined-basic" label="Password" />
-          <TextField id="outlined-basic" label="userFullname" />
+        {/* https://material-ui.com/components/text-fields/#text-field */}
+        {/* classes.root수정하기 */}
+        <form  noValidate autoComplete="off">
+          <TextField id="outlined-basic" margin="normal" fullWidth label="Email Address" />
+          <TextField id="outlined-basic" fullWidth label="Password" />
+          <TextField id="outlined-basic" margin="normal" label="userFullname" />
           <TextField id="outlined-basic" label="userNickname" />
+          {/* 팔로워,팔로잉, 프로필사진(없으면 기본사진), 관리자,공지동의,최근 접속일, 비밀번호(보안성있게 만들기),토큰(권한설정즉 비번확인), 만든거,올린거 */}
         </form>
-
+        {/* ERD랑 다른 커뮤니티 확인 */}
         <Button variant="contained"  color="primary"size="large"className={classes.button}startIcon={<SaveIcon />}>
           수정 및 저장
         </Button>
-        <Typography variant="h5" component="h2" gutterBottom>
-          {'Pin a footer to the bottom of the viewport.'}
-          {'The footer will move as the main element of the page grows.'}
-        </Typography>
-        <Typography variant="body1">Sticky footer placeholder.</Typography>
-      </Container>
-      <footer className={classes.footer}>
-        <Container maxWidth="sm">
-          <Typography variant="body1">My sticky footer can be found here.</Typography>
-          <Copyright />
-        </Container>
-      
-      </footer>
-    </div>
-    
-    <CssBaseline />
-      <AppBar /> 
-      {/* 바로 위에줄이 app바 import확인하기 */}
-      <main>
-        {/* Hero unit */}
-        <div className={classes.heroContent}>
-          <Container maxWidth="sm">
         
-            <Scroll/>
+      </Container>
 
-          </Container>
-        </div>
-      </main>
+    </div>
 
-      {/* Footer */}
-      <footer className={classes.footer}>
-        <Typography variant="h6" align="center" gutterBottom>
-          Footer
-        </Typography>
-        <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-          Something here to give the footer a purpose!
-        </Typography>
-        <Copyright />
-      </footer>
-      {/* End footer */}
-    </React.Fragment>
+  
   );
 }
