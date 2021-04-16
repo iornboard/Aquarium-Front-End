@@ -4,7 +4,6 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
-import AppBar from '../../components/AppBarMain';
 import Avatar from '@material-ui/core/Avatar';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -112,9 +111,7 @@ export default function StickyFooter() {//컨테이너로 감싸고 그리드로
   const classes = useStyles();
   return (
     <div>
-      <AppBar /> 
       <CssBaseline />
-      
       <Container component="main" className={classes.main} maxWidth="sm">
         {/* 해당경로에 사진추가 및 위치변경하기 */}
       <Avatar alt="Aquarium" src="/static/images/avatar/1.jpg" className={classes.large}/>

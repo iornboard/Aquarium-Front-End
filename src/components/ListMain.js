@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import Container from '@material-ui/core/Container';
-import Card from './Card'
-
+import CardForm from './Card'
+import Grid from '@material-ui/core/Grid';
 
 const useStyles = makeStyles((theme) => ({
   grid: {
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   mediaCard:{
     width: '100%',
     marginTop: theme.spacing(1),
-  }
+  },
 }));
 
 
@@ -57,17 +57,16 @@ function ScrollList() {
     return post
   }
   
-  console.log(posts)
-
-
   //---------------------------- summit 부분 --------------------------------------
 
   return (
 
       <Container alignItems='baseline' className={classes.grid}>
-        <GridList cellHeight={60} className={classes.gridList} cols={3} onScroll={handleScroll}>
-            {posts ? posts.map((pos) => <Card post = {pos} className={classes.mediaCard} /> ) : "로딩중.."  }
-        </GridList>
+        <Grid container>
+          <GridList cellHeight={60} className={classes.gridList} cols={1} onScroll={handleScroll}>
+              {posts ? posts.map((pos) => <CardForm post = {pos} className={classes.mediaCard} style={{padding:10}} /> ) : "로딩중.."  }
+          </GridList>
+        </Grid>
       </Container>
 
   );
