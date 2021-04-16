@@ -361,8 +361,6 @@ export default function (SpecificComponent){
               ))}
             </List>
             <Divider />
-            
-            <Divider />
             <List>
               {['아쿠아리움이란', '만든이' ].map((text, index) => (
                 <ListItem button key={text}>
