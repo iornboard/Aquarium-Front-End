@@ -26,6 +26,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Link from '@material-ui/core/Link';
+import logo from './logo.png';
 
 const drawerWidth = 240;
 
@@ -193,10 +194,18 @@ export default function PersistentDrawerLeft() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
+      
       <Link color="inherit" href="/UserInfo">
-        <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+        <MenuItem onClick={handleMenuClose}>Mypage</MenuItem>
       </Link>
-        <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+
+        <MenuItem onClick={handleMenuClose}>활동내역</MenuItem>
+
+      <Link color="inherit" href="/post">
+        <MenuItem onClick={handleMenuClose}>글쓰기</MenuItem>
+      </Link>
+
+        <MenuItem onClick={handleMenuClose}>로그아웃</MenuItem>
     </Menu>
   );
 
@@ -260,8 +269,14 @@ export default function PersistentDrawerLeft() {
           >
             <MenuIcon />
           </IconButton>
+          <div>
+          <Link color="inherit" href="/">
+          <img src={logo} width = "60" height="60"/>
+          </Link>
+          </div>
+
           <Typography className={classes.title} variant="h6" noWrap>
-            Material-UI
+            Aquarium
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
@@ -328,7 +343,16 @@ export default function PersistentDrawerLeft() {
         </div>
         <Divider />
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+          {['커뮤니티','최신글','인기글',].map((text, index) => (
+            <ListItem button key={text}>
+              <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          ))}
+        
+        <Divider />
+        
+          {['프로젝트 관리', '프로젝트 일정','프로젝트 생성', ].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
               <ListItemText primary={text} />
@@ -336,14 +360,17 @@ export default function PersistentDrawerLeft() {
           ))}
         </List>
         <Divider />
+        
+        <Divider />
         <List>
-          {['All mail', 'Trash', 'Spam'].map((text, index) => (
+          {['아쿠아리움이란', '만든이' ].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
               <ListItemText primary={text} />
             </ListItem>
           ))}
         </List>
+      
       </Drawer>
       <main
         className={clsx(classes.content, {
