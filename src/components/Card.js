@@ -25,6 +25,9 @@ import Button from '@material-ui/core/Button';
 import CommentForm from './Comment'
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
+import { useDispatch , useSelector } from 'react-redux';
+import { createComment , getComments } from '../_actions/actionComment'
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,36 +59,57 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default function NomalCard(props) {
 
-  const post = props.post
-  const {postText, postTitle, postImgUrl} = {...post}
+  const classes = useStyles();
+  const dispatch = useDispatch();
+
+
+  // !!! hardCoding !!! 
+
+  const {postText, postTitle, postImgUrl, id} = props.post
+
+  const userInfo = useSelector( store => store.auth.userData , []);
+
+ // !!! hardCoding !!! 
+
   const [open, setOpen] = React.useState(false);
   const [values, setValues] = React.useState([]);
-  
-
-  const classes = useStyles();
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleScroll = (event) => {
-    const { scrollTop, clientHeight, scrollHeight } = event.currentTarget;
-
-    if (scrollHeight - scrollTop === clientHeight) {
-      //callApiPost().then(res => setPosts(res));
-    }
-
-  };
+  const [comments, setComments] = React.useState();
 
   const handleFormChange = (event) => {
     const { name, value } = event.target
     setValues({ ...values, [name]: value })
   }
 
+  const handleClickOpen = () => {
+    setOpen(true);
+
+    // 사실상 useEffect를 대신하는 것
+    if(!comments){
+      dispatch(getComments())
+      .then(res => setComments(res.payload))
+    }
+    
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const onSubmitHandler = (event) => {
+    event.preventDefault(); //페이지가 리프레시 되는 것을 막는다.
+
+    const postId = id
+    const userId = userInfo.id
+
+    const body = {...values, postId, userId }
+    
+    dispatch(createComment(body))
+
+    // !!! hardCoding !!! 
+    setTimeout( dispatch(getComments()).then(res => setComments(res.payload)), 1500);
+    // !!! hardCoding !!! 
+
+  }
 
 
   return (
@@ -168,10 +192,10 @@ export default function NomalCard(props) {
                   <AccountCircle />
                 </Grid>
                 <Grid item xs= {9}>
-                  <TextField fullWidth id="input-with-icon-grid" label="With a grid" />
+                  <TextField fullWidth id="input-with-icon-grid" label="With a grid" name="commentText" onChange={handleFormChange }/>
                 </Grid>
                 <Grid item xs= {1} >
-                  <Button variant="contained" color="primary">
+                  <Button variant="contained" color="primary" onClick = { onSubmitHandler }>
                     go!
                   </Button>
                 </Grid>
@@ -179,11 +203,10 @@ export default function NomalCard(props) {
             </Grid>
 
             <Grid item xs= {4} style={{padding:16}}>
-              <GridList cellHeight={60} className={classes.gridList} cols={1} onScroll={handleScroll}>
+              <GridList cellHeight={60} className={classes.gridList} cols={1}>
                   <List>
                     
-                    <CommentForm/>
-                    <Divider variant="inset" component="li" />
+                    {comments? comments.map( co => <div> <CommentForm comment={co}/>  <Divider variant="inset" component="li" /> </div> ) : "" }   
 
                   </List>
               </GridList>

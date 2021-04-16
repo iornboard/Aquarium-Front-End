@@ -17,8 +17,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CommentList() {
+export default function CommentList(props) {
   const classes = useStyles();
+
+  const {commentText} = props.comment
+
 
   return (
       <ListItem alignItems="flex-start">
@@ -36,7 +39,7 @@ export default function CommentList() {
                 color="textPrimary"
               >
               </Typography>
-              {" I'll be in your neighborhood doing errands this… "}
+              {commentText}
             </React.Fragment>
           }
         />   

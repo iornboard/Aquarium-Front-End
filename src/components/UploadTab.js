@@ -12,13 +12,11 @@ import AddCommentIcon from '@material-ui/icons/AddComment';
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
 import Container from '@material-ui/core/Container';
 import Fab from "@material-ui/core/Fab";
-import TextField from '@material-ui/core/TextField';
 import { image } from '../_actions/index'
 import { useDropzone } from 'react-dropzone'
 import RootRef from '@material-ui/core/RootRef'
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import { ClassSharp, PrintOutlined } from '@material-ui/icons';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
