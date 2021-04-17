@@ -6,7 +6,6 @@ import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
 import Scroll from '../../components/ListMain';
 
-
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">

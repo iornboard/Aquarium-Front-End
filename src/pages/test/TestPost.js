@@ -45,12 +45,10 @@ export default function PostPage() {
   // !!! hardCoding !!! 
 
   const userInfo = useSelector( store => store.auth.userData , []);
-  const {id} = {...userInfo}
-  const userId = id
+  const {userId} = {...userInfo}
 
   const fileInfo = useSelector( store => store.file.ImgFileInfo , []);
   const {fileDownloadUri} = {...fileInfo}
-  const postImgUrl =  fileDownloadUri 
 
    // !!! hardCoding !!! 
 
@@ -72,6 +70,8 @@ export default function PostPage() {
 
   const onSubmitHandler = (event) => {
     event.preventDefault(); //페이지가 리프레시 되는 것을 막는다.
+
+    const postImgUrl =  fileDownloadUri 
 
     const body = {...values, ...states , postImgUrl , userId }
     console.log(body)

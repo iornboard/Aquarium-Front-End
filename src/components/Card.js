@@ -65,9 +65,11 @@ export default function NomalCard(props) {
 
   // !!! hardCoding !!! 
 
-  const {postText, postTitle, postImgUrl, id} = props.post
+  const {postText, postTitle, postImgUrl, postId } = props.post
+  const {userNickname, userImgUrl} = props.post.user
 
   const userInfo = useSelector( store => store.auth.userData , []);
+  const {userId} = {...userInfo}
 
  // !!! hardCoding !!! 
 
@@ -88,7 +90,7 @@ export default function NomalCard(props) {
       dispatch(getComments())
       .then(res => setComments(res.payload))
     }
-    
+
   };
 
   const handleClose = () => {
@@ -97,9 +99,6 @@ export default function NomalCard(props) {
 
   const onSubmitHandler = (event) => {
     event.preventDefault(); //페이지가 리프레시 되는 것을 막는다.
-
-    const postId = id
-    const userId = userInfo.id
 
     const body = {...values, postId, userId }
     
@@ -116,7 +115,7 @@ export default function NomalCard(props) {
     <Card className={classes.root}>
       <CardHeader
         avatar={
-          <Avatar aria-label="recipe" className={classes.avatar}>
+          <Avatar aria-label="recipe" className={classes.avatar} src = {userImgUrl}>
             R
           </Avatar>
         }
@@ -126,8 +125,9 @@ export default function NomalCard(props) {
           </IconButton>
         }
         title= {postTitle}
-        subheader="September 14, 2016"
+        subheader={userNickname} 
       />
+      
         {postImgUrl ? <CardMedia
           className={classes.media}
           image= {postImgUrl}
