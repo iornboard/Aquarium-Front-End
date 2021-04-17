@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
   },
   gridList: {
     height: 800,
+    width: '95%',
   },
   fabButton: {
     zIndex: 1,
