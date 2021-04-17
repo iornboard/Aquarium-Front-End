@@ -105,7 +105,7 @@ export default function NomalCard(props) {
     dispatch(createComment(body))
 
     // !!! hardCoding !!! 
-    setTimeout( dispatch(getComments()).then(res => setComments(res.payload)), 1500);
+    setTimeout( dispatch(getComments()).then(res => setComments(res.payload)),5000);
     // !!! hardCoding !!! 
 
   }

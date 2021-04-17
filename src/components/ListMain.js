@@ -63,11 +63,11 @@ function ScrollList() {
   return (
 
       <Container alignItems='baseline' className={classes.grid}>
-        <Grid container>
+        
           <GridList cellHeight={60} className={classes.gridList} cols={1} onScroll={handleScroll}>
               {posts ? posts.map((pos) => <CardForm post = {pos} className={classes.mediaCard} style={{padding:10}} /> ) : "로딩중.."  }
           </GridList>
-        </Grid>
+        
       </Container>
 
   );
