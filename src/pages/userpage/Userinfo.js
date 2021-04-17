@@ -8,6 +8,19 @@ import Avatar from '@material-ui/core/Avatar';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import SaveIcon from '@material-ui/icons/Save';
+import Dialog from '@material-ui/core/Dialog';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Slide from '@material-ui/core/Slide';
+import IconButton from '@material-ui/core/IconButton';
+import Uploader from  '../../components/Uploader';
+import { userImage } from '../../_actions/actionUser' 
+import { useDispatch , useSelector } from 'react-redux';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 
 //유튜브 메뉴참고해보기 메뉴 축약되는거
 
@@ -105,16 +118,50 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-
-
 export default function StickyFooter() {//컨테이너로 감싸고 그리드로해서 만들기
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const userInfo = useSelector( store => store.auth.userData , []);
+  const {userId, userEmail, userFullname, userNickname, userImgUrl} = {...userInfo}
+
+  const fileInfo = useSelector( store => store.file.ImgFileInfo , []);
+  const {fileDownloadUri} = {...fileInfo}
+
+
+  const [open, setOpen] = React.useState(false);
+
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const onSubmitHandler = (event) => {
+    event.preventDefault(); //페이지가 리프레시 되는 것을 막는다.
+
+    const userImgUrl =  fileDownloadUri 
+
+    const body = {userId , userImgUrl}
+
+    dispatch(userImage(body))
+    setOpen(false);
+
+  }
+
   return (
     <div>
       <CssBaseline />
       <Container component="main" className={classes.main} maxWidth="sm">
         {/* 해당경로에 사진추가 및 위치변경하기 */}
-      <Avatar alt="Aquarium" src="/static/images/avatar/1.jpg" className={classes.large}/>
+
+        <IconButton component="span" onClick = {handleClickOpen}>
+          <Avatar alt="Aquarium" src={userImgUrl} className={classes.large}/>
+        </IconButton>
 
         <Typography variant="h5" component="h6" gutterBottom>
           내 정보 수정
@@ -134,6 +181,31 @@ export default function StickyFooter() {//컨테이너로 감싸고 그리드로
         </Button>
         
       </Container>
+
+      <Dialog 
+        fullWidth
+        maxWidth='lg'
+        open={open}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleClose}
+      >
+        <DialogTitle id="alert-dialog-slide-title"> 프로필 사진을 넣어주세요 </DialogTitle>
+        <DialogContent>
+          <Container>      
+            <Uploader/>
+              <Button 
+                fullWidth
+                variant="contained"
+                color="primary"
+                startIcon={<SaveIcon/>}
+                onClick = {onSubmitHandler}
+                >
+                Save
+              </Button>
+          </Container>
+        </DialogContent>
+      </Dialog>
 
     </div>
 

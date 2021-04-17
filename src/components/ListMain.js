@@ -54,6 +54,7 @@ function ScrollList() {
   const callApiPost = async () => {
     const response = await fetch('/api/post');
     const post = await response.json();
+    console.log(post)
     return post
   }
   

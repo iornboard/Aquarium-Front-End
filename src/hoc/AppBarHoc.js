@@ -22,10 +22,11 @@ import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Link from '@material-ui/core/Link';
+import { useSelector } from 'react-redux';
+import Avatar from '@material-ui/core/Avatar';
 
 const drawerWidth = 240;
 
@@ -152,6 +153,10 @@ export default function (SpecificComponent){
     function AppBarDrawerLeft() {
       const classes = useStyles();
       const theme = useTheme();
+
+      const userInfo = useSelector( store => store.auth.userData , []);
+      const {userId, userEmail, userFullname, userNickname, userImgUrl} = {...userInfo}
+
       const [open, setOpen] = React.useState(false);
       const [anchorEl, setAnchorEl] = React.useState(null);
       const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -244,7 +249,7 @@ export default function (SpecificComponent){
               aria-haspopup="true"
               color="inherit"
             >
-              <AccountCircle />
+              {/* <AccountCircle/> */}
             </IconButton>
             <p>Profile</p>
           </MenuItem>
@@ -312,7 +317,7 @@ export default function (SpecificComponent){
                   onClick={handleProfileMenuOpen}
                   color="inherit"
                 >
-                  <AccountCircle />
+                  <Avatar src = {userImgUrl} />
                 </IconButton>
               </div>
               <div className={classes.sectionMobile}>

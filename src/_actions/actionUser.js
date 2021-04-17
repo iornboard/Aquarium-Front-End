@@ -3,7 +3,8 @@ import Axios from 'axios'
 import {
     JOIN,
     LOGIN,
-    AUTH
+    AUTH,
+    USERIMAGE
 } from './types';
 
 export function auth() {
@@ -37,6 +38,17 @@ export function login(value) {
 
     return {
         type: LOGIN,
+        payload : request
+    };
+}
+
+export function userImage(value) {
+
+    const request = Axios.patch('/api/user-image', value) 
+    .then(res => res.data)
+
+    return {
+        type: USERIMAGE,
         payload : request
     };
 }
