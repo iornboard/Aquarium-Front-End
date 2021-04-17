@@ -26,6 +26,8 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import Link from '@material-ui/core/Link';
+import { image } from '../_actions';
+import logo from './logo.png';
 
 const drawerWidth = 240;
 
@@ -271,11 +273,13 @@ export default function (SpecificComponent){
                 <MenuIcon />
               </IconButton>
               <div>
-              <Link color="inherit" href="/">
-              {/* <img src={logo} width = "60" height="60"/> */}
-              </Link>
-              </div>
 
+             
+              </div>
+              <Link color="inherit" href="/">
+              <img src={logo} width = "60" height="60" alignItems = "center" />
+              </Link>
+              
               <Typography className={classes.title} variant="h6" noWrap>
                 Aquarium
               </Typography>
