@@ -1,11 +1,10 @@
 import React from 'react';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
-import TaskBarViewer  from '../../components/TaskBarViewer'
-import TaskScheduleViewer  from '../../components/TaskScheduleViewer'
+import GridList from '@material-ui/core/GridList';
+import TasktBar from './TasktBar'
 
 
 function Copyright() {
@@ -21,28 +20,22 @@ function Copyright() {
   );
 }
 
-
 const taskOne = {
-  taskName : "기말고사",
-  taskStatus : "진행중",
-  taskImgUrl : "",
-  taskVideoUrl : "",
-  taskMemo : "",
-  taskType : "기말고사",
-  taskStartDate : '2021-05-15T09:45',
-  taskEndDate: '2021-06-15T11:00',
-  taskProperties : "" ,
-  taskIsWorking : false,
-  taskIsEnd : false,
-  taskIsAccept : false,
-  userName : "남현수",
-}
+    taskName : "기말고사",
+    taskStatus : "진행중",
+    taskImgUrl : "",
+    taskVideoUrl : "",
+    taskMemo : "",
+    taskType : "기말고사",
+    taskStartDate : '2021-05-15T09:45',
+    taskEndDate: '2021-06-15T11:00',
+    taskProperties : "" ,
+    taskIsWorking : false,
+    taskIsEnd : false,
+    taskIsAccept : false,
+    userName : "남현수",
+  }
 
-const currentDate = '2018-11-01';
-const schedulerData = [
-  { startDate: '2018-11-01T09:45', endDate: '2018-11-01T11:00', title: 'Meeting' },
-  { startDate: '2018-11-01T12:00', endDate: '2018-11-01T13:30', title: 'Go to a gym' },
-];
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -73,10 +66,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function StickyFooter() {
+export default function StickyFooter(props) {
   const classes = useStyles();
 
   const [value, setValue] = React.useState(0);
+ 
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -85,13 +79,16 @@ export default function StickyFooter() {
   return (
     <div className={classes.root}>
 
-      <CssBaseline />
+      <Container component="main" className={classes.main} maxWidth="md">
+        <GridList  cellHeight={160} className={classes.gridList} cols={0}>
 
-      <TaskBarViewer />  {/* 작업 모음 리스트 뷰어 */}
+          <TasktBar task={taskOne} className={classes.list}/>
+          <TasktBar task={taskOne} className={classes.list}/>
+          <TasktBar task={taskOne} className={classes.list}/>
 
-      <TaskScheduleViewer/> {/* 작업 스케쥴 리스트 뷰어 */}
-   
-    
+        </GridList>
+      </Container>
+
     </div>
   );
 }
