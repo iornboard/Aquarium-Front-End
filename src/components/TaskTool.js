@@ -9,13 +9,13 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    minHeight: '80vh',
+    minHeight: '100vh',
   },
   testSection1: {
     marginTop: theme.spacing(1),
     background : '#2ECCFA',
     width : '100%', 
-    minHeight: '40vh',
+    minHeight: '50vh',
     maxHeight: '50vh',
 
   },
@@ -23,14 +23,14 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
     background : '#2ECCFA',
     width : '100%', 
-    minHeight: '20vh',
+    minHeight: '30vh',
     maxHeight: '30vh',
   },
   testSection3 : {
     marginTop: theme.spacing(1),
     background : '#2ECCFA',
     width : '100%', 
-    minHeight: '9.5vh',
+    minHeight: '14.5vh',
     maxHeight: '14.5vh',
   },
 }));

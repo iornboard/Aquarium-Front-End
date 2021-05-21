@@ -137,8 +137,8 @@ export default function FloatingActionButtons(props) {
 
 
         <Dialog
-          fullWidth
-          maxWidth='lg'
+          fullScreen
+          maxWidth='xl'
           open={open}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"

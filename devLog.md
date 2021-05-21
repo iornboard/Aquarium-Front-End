@@ -83,3 +83,7 @@
         -> TaskBar [작업바 -> 버튼으로 만들고 dialog를 추가함] 
     
  
+# 남현수 - 21.05.21
+    1. 컴포넌트 변경
+        -> TaskBar , TaskTool [ task 작업환경 크기 변경함]
+    

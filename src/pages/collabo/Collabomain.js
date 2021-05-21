@@ -73,6 +73,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
 export default function StickyFooter() {
   const classes = useStyles();
 

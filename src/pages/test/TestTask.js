@@ -22,7 +22,7 @@ export default function TestTask() {
   return (
     <div className={classes.root}>
         <CssBaseline />
-        <Container component="main" className={classes.main} maxWidth="md">
+        <Container component="main" className={classes.main} maxWidth="xl">
         
             <TaskTool/>
 
