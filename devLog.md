@@ -87,3 +87,7 @@
     1. 컴포넌트 변경
         -> TaskBar , TaskTool [ task 작업환경 크기 변경함]
     
+# 남현수 - 21.05.22
+    1. 컴포넌트 추가
+        -> taskItems 디렉토리 안에 TaskChatViewer, TaskMovieViewer , TaskPointViewr , TaskStatusViewer , TaskToolBar 컴포넌트를 추가함
+    
