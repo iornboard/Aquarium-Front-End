@@ -2,7 +2,7 @@ import React from 'react';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import TaskTool from '../../components/task/TaskTool'
+import Task from '../../components/tasks/Task'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,7 +24,7 @@ export default function TestTask() {
         <CssBaseline />
         <Container component="main" className={classes.main} maxWidth="xl">
         
-            <TaskTool/>
+            <Task/>
 
         </Container>
     </div>

@@ -11,7 +11,7 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import TaskTool from './TaskTool'
+import Task from './Task'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -146,7 +146,7 @@ export default function FloatingActionButtons(props) {
         <DialogTitle id="alert-dialog-title">{taskName}</DialogTitle>
         <DialogContent>
 
-          <TaskTool/>
+          <Task/>
 
         </DialogContent>
         <DialogActions>

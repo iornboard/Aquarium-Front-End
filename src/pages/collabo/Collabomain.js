@@ -3,8 +3,8 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Link from '@material-ui/core/Link';
-import TaskBarViewer  from '../../components/task/TaskBarViewer'
-import TaskScheduleViewer  from '../../components/task/TaskBarViewer'
+import TaskBarViewer  from '../../components/tasks/TaskBarViewer'
+import TaskScheduleViewer  from '../../components/tasks/TaskBarViewer'
 
 
 function Copyright() {

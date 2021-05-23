@@ -3,7 +3,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
-
+import TaskItemPointViewr from '../taskItems/TaskItemPointViewr'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TaskTool() {
+export default function Task() {
   const classes = useStyles();
 
   return (
@@ -45,10 +45,12 @@ export default function TaskTool() {
         <Grid container spacing={1}>
 
             <Grid item xs={8}>
-
+                
                 <Card className={classes.testSection1}/>
-                <Card  className={classes.testSection2}/>
-  
+                <Card className={classes.testSection2}>
+                  <TaskItemPointViewr/>
+                </Card>
+                
             </Grid>  
 
             <Grid item xs={4}>

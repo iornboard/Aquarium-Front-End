@@ -91,3 +91,9 @@
     1. 컴포넌트 추가
         -> taskItems 디렉토리 안에 TaskChatViewer, TaskMovieViewer , TaskPointViewr , TaskStatusViewer , TaskToolBar 컴포넌트를 추가함
     
+# 남현수 - 21.05.23
+    1. task 관련 컴포넌트를 디렉터리로 관리
+    
+    2. TaskItemPointViewr의 내용을 추가함 -> 실제 리스트를 추가해서 기능의 일부를 구현
+    
+    
