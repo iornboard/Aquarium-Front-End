@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Box from '@material-ui/core/Box';
-import AvatarComp from './AvatarComp'
+import AvatarComp from '../AvatarComp';
 import Chip from '@material-ui/core/Chip';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
