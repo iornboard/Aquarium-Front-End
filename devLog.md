@@ -96,4 +96,9 @@
     
     2. TaskItemPointViewr의 내용을 추가함 -> 실제 리스트를 추가해서 기능의 일부를 구현
     
+# 남현수 - 21.05.25
+    1. TaskItemStatusViewer일부 구현 -> Task 컴포넌트에 적용
     
+
+    
+        

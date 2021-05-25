@@ -4,6 +4,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import TaskItemPointViewr from '../taskItems/TaskItemPointViewr'
+import TaskItemStatusViewer from '../taskItems/TaskItemStatusViewer'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,23 +16,37 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
     background : '#2ECCFA',
     width : '100%', 
-    minHeight: '50vh',
-    maxHeight: '50vh',
+    minHeight: '60vh',
+    maxHeight: '60vh',
 
   },
   testSection2 : {
     marginTop: theme.spacing(1),
     background : '#2ECCFA',
     width : '100%', 
-    minHeight: '30vh',
-    maxHeight: '30vh',
+    minHeight: '20vh',
+    maxHeight: '20vh',
   },
   testSection3 : {
     marginTop: theme.spacing(1),
     background : '#2ECCFA',
     width : '100%', 
-    minHeight: '14.5vh',
-    maxHeight: '14.5vh',
+    minHeight: '10vh',
+    maxHeight: '10vh',
+  },
+  testSection4 : {
+    marginTop: theme.spacing(1),
+    background : '#2ECCFA',
+    width : '100%', 
+    minHeight: '40vh',
+    maxHeight: '40vh',
+  },
+  testSection5 : {
+    marginTop: theme.spacing(1),
+    background : '#2ECCFA',
+    width : '100%', 
+    minHeight: '29vh',
+    maxHeight: '29vh',
   },
 }));
 
@@ -44,7 +59,7 @@ export default function Task() {
 
         <Grid container spacing={1}>
 
-            <Grid item xs={8}>
+            <Grid item xs={7}>
                 
                 <Card className={classes.testSection1}/>
                 <Card className={classes.testSection2}>
@@ -53,12 +68,13 @@ export default function Task() {
                 
             </Grid>  
 
-            <Grid item xs={4}>
+            <Grid item xs={5}>
 
                 <Card className={classes.testSection3}/>
-                <Card className={classes.testSection1}/>
-                <Card className={classes.testSection3}/>
-        
+                <Card className={classes.testSection4}/>
+                <Card className={classes.testSection5}>
+                  <TaskItemStatusViewer/>
+                </Card>
             </Grid>  
             
   
