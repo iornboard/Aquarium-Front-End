@@ -5,6 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import TaskItemPointViewr from '../taskItems/TaskItemPointViewr'
 import TaskItemStatusViewer from '../taskItems/TaskItemStatusViewer'
+import TaskItemChatViewer from '../taskItems/TaskItemChatViewer'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -71,13 +72,14 @@ export default function Task() {
             <Grid item xs={5}>
 
                 <Card className={classes.testSection3}/>
-                <Card className={classes.testSection4}/>
+                <Card className={classes.testSection4}>
+                  <TaskItemChatViewer/>
+                </Card>
                 <Card className={classes.testSection5}>
                   <TaskItemStatusViewer/>
                 </Card>
             </Grid>  
-            
-  
+      
         </Grid>  
         
     </div>

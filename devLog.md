@@ -100,5 +100,9 @@
     1. TaskItemStatusViewer일부 구현 -> Task 컴포넌트에 적용
     
 
-    
+
+# 남현수 - 21.05.26
+    1. 채팅기능을 사용하기 위해서 react-chat-widget 오픈소스를 사용 
+    2. TaskItemChatViewer를 구현하고 기능을 추가하도록 함
+       
         
