@@ -1,7 +1,5 @@
 import React  from 'react';
-import ChatBox, { ChatFrame } from 'react-chat-plugin';
-import Card from '@material-ui/core/Card';
-
+import ChatBox from 'react-chat-plugin';
 
 export default  function Example() {
   const [attr, setAttr] = React.useState({
@@ -39,7 +37,6 @@ export default  function Example() {
       }),
     });
   };
-
 
   return (
 
