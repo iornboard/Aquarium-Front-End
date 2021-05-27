@@ -1,6 +1,7 @@
 import React  from 'react';
 import ChatBox from 'react-chat-plugin';
 
+
 export default  function Example() {
   const [attr, setAttr] = React.useState({
     showChatbox: true,
@@ -13,15 +14,7 @@ export default  function Example() {
     ],
   });
 
-  const handleClickIcon = () => {
-    // toggle showChatbox and showIcon
-    setAttr({
-      ...attr,
-      showChatbox: !attr.showChatbox,
-      showIcon: !attr.showIcon,
-    });
-  };
-
+  
   const handleOnSendMessage = (message) => {
     setAttr({
       ...attr,
