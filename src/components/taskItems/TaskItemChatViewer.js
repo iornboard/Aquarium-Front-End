@@ -1,20 +1,58 @@
-import React, { Component } from 'react';
-import { Widget } from 'react-chat-widget';
+import React  from 'react';
+import ChatBox, { ChatFrame } from 'react-chat-plugin';
+import Card from '@material-ui/core/Card';
 
-class App extends Component {
-  handleNewUserMessage = (newMessage) => {
-    console.log(`New message incomig! ${newMessage}`);
-  }
 
-  render() {
-    return (
-      <div className="App">
-        <Widget
-          handleNewUserMessage={this.handleNewUserMessage}
-        />
-      </div>
-    );
-  }
+export default  function Example() {
+  const [attr, setAttr] = React.useState({
+    showChatbox: true,
+    messages: [
+      {
+        text: 'user2 has joined the conversation',
+        timestamp: 1578366389250,
+        type: 'notification',
+      }
+    ],
+  });
+
+  const handleClickIcon = () => {
+    // toggle showChatbox and showIcon
+    setAttr({
+      ...attr,
+      showChatbox: !attr.showChatbox,
+      showIcon: !attr.showIcon,
+    });
+  };
+
+  const handleOnSendMessage = (message) => {
+    setAttr({
+      ...attr,
+      messages: attr.messages.concat({
+        author: {
+          username: 'user1',
+          id: 1,
+          avatarUrl: 'https://image.flaticon.com/icons/svg/2446/2446032.svg',
+        },
+        text: message,
+        type: 'text',
+        timestamp: +new Date(),
+      }),
+    });
+  };
+
+
+  return (
+
+
+          <ChatBox
+            onSendMessage={handleOnSendMessage}
+            userId={1}
+            messages={attr.messages}
+            width={'100vh'}
+            height={'40vh'}
+            showTypingIndicator={false}
+            activeAuthor={{ username: 'user2', id: 2, avatarUrl: null }}
+          />
+    
+  );
 }
-
-export default App;

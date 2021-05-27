@@ -6,6 +6,7 @@ import Card from '@material-ui/core/Card';
 import TaskItemPointViewr from '../taskItems/TaskItemPointViewr'
 import TaskItemStatusViewer from '../taskItems/TaskItemStatusViewer'
 import TaskItemChatViewer from '../taskItems/TaskItemChatViewer'
+import TaskItemToolBar from '../taskItems/TaskItemToolBar'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -13,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     minHeight: '100vh',
   },
-  testSection1: {
+  Section1: {
     marginTop: theme.spacing(1),
     background : '#2ECCFA',
     width : '100%', 
@@ -21,33 +22,41 @@ const useStyles = makeStyles((theme) => ({
     maxHeight: '60vh',
 
   },
-  testSection2 : {
+  Section2 : {
     marginTop: theme.spacing(1),
     background : '#2ECCFA',
     width : '100%', 
-    minHeight: '20vh',
+    
     maxHeight: '20vh',
   },
-  testSection3 : {
+  Section3 : {
     marginTop: theme.spacing(1),
     background : '#2ECCFA',
     width : '100%', 
-    minHeight: '10vh',
-    maxHeight: '10vh',
+    minHeight: '15vh',
+    maxHeight: '15vh',
   },
-  testSection4 : {
+  Section4 : {
     marginTop: theme.spacing(1),
     background : '#2ECCFA',
     width : '100%', 
-    minHeight: '40vh',
-    maxHeight: '40vh',
+    minHeight: '35vh',
+    maxHeight: '35vh',
   },
-  testSection5 : {
+  Section5 : {
     marginTop: theme.spacing(1),
     background : '#2ECCFA',
     width : '100%', 
     minHeight: '29vh',
     maxHeight: '29vh',
+  },
+  Section6: {
+    marginTop: theme.spacing(1),
+    background : '#2ECCFA',
+    width : '100%', 
+    minHeight: '80.5vh',
+    maxHeight: '80.5vh',
+
   },
 }));
 
@@ -60,22 +69,31 @@ export default function Task() {
 
         <Grid container spacing={1}>
 
+          
+            <Grid item xs={1}>
+                
+                <Card className={classes.Section6}/>
+                
+            </Grid>  
+
             <Grid item xs={7}>
                 
-                <Card className={classes.testSection1}/>
-                <Card className={classes.testSection2}>
+                <Card className={classes.Section1}/>
+                <Card className={classes.Section2}>
                   <TaskItemPointViewr/>
                 </Card>
                 
             </Grid>  
 
-            <Grid item xs={5}>
+            <Grid item xs={4}>
 
-                <Card className={classes.testSection3}/>
-                <Card className={classes.testSection4}>
+                <Card className={classes.Section3}>
+                  <TaskItemToolBar/>
+                </Card>
+                <Card className={classes.Section4}>
                   <TaskItemChatViewer/>
                 </Card>
-                <Card className={classes.testSection5}>
+                <Card className={classes.Section5}>
                   <TaskItemStatusViewer/>
                 </Card>
             </Grid>  
