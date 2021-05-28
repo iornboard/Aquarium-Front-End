@@ -3,10 +3,11 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
-import TaskItemPointViewr from '../taskItems/TaskItemPointViewr'
-import TaskItemStatusViewer from '../taskItems/TaskItemStatusViewer'
-import TaskItemChatViewer from '../taskItems/TaskItemChatViewer'
-import TaskItemToolBar from '../taskItems/TaskItemToolBar'
+import TaskItemPointViewr from '../taskItems/TaskItemPointViewr';
+import TaskItemStatusViewer from '../taskItems/TaskItemStatusViewer';
+import TaskItemChatViewer from '../taskItems/TaskItemChatViewer';
+import TaskItemToolBar from '../taskItems/TaskItemToolBar';
+import TaskItemMovieViewer from '../taskItems/TaskItemMovieViewer' ;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -78,7 +79,9 @@ export default function Task() {
 
             <Grid item xs={7}>
                 
-                <Card className={classes.Section1}/>
+                <Card className={classes.Section1}>
+                  <TaskItemMovieViewer/>
+                </Card>
                 <Card className={classes.Section2}>
                   <TaskItemPointViewr/>
                 </Card>
