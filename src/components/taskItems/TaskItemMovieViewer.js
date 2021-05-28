@@ -1,33 +1,23 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
+import YouTube from 'react-youtube';
 
-const useStyles = makeStyles({
-  root: {
-    minWidth: 275,
-    minHeight: 275,
-  },
-  bullet: {
-    display: 'inline-block',
-    margin: '0 2px',
-    transform: 'scale(0.8)',
-  },
-  title: {
-    fontSize: 14,
-  },
-  pos: {
-    marginBottom: 12,
-  },
-});
+export default  class Example extends React.Component {
+  render() {
+    const opts = {
+      height: '455',
+      width: '100%',
+      playerVars: {
+        // https://developers.google.com/youtube/player_parameters
+        autoplay: 1,
+      },
+    };
 
-  
-export default function SimpleCard() {
-  const classes = useStyles();
-  const bull = <span className={classes.bullet}>•</span>;
+    return <YouTube videoId="2g811Eo7K8U" opts={opts} onReady={this._onReady} />;
+  }
 
-  return (
-    <Card className={classes.root}>
-     
-    </Card>
-  );
+  _onReady(event) {
+    // access to player in all event handlers via event.target
+    event.target.pauseVideo();
+  }
 }
+
