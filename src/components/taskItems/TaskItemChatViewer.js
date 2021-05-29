@@ -38,8 +38,8 @@ export default  function Example() {
             onSendMessage={handleOnSendMessage}
             userId={1}
             messages={attr.messages}
-            width={'100vh'}
-            height={'40vh'}
+            width={'35vw'}
+            height={'35vh'}
             showTypingIndicator={false}
             activeAuthor={{ username: 'user2', id: 2, avatarUrl: null }}
           />

@@ -79,7 +79,7 @@ export default function Task() {
 
             <Grid item xs={7}>
                 
-                <Card className={classes.Section1}>
+                <Card>
                   <TaskItemMovieViewer/>
                 </Card>
                 <Card className={classes.Section2}>
@@ -88,19 +88,19 @@ export default function Task() {
                 
             </Grid>  
 
-            <Grid item xs={4}>
+            <Grid item xs={3}>
 
                 <Card className={classes.Section3}>
                   <TaskItemToolBar/>
                 </Card>
-                <Card className={classes.Section4}>
-                  <TaskItemChatViewer/>
+                <Card>
+                  <TaskItemChatViewer className={classes.Section4}/>
                 </Card>
                 <Card className={classes.Section5}>
                   <TaskItemStatusViewer/>
                 </Card>
             </Grid>  
-      
+            
         </Grid>  
         
     </div>
