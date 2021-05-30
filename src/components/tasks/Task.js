@@ -15,49 +15,8 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     minHeight: '100vh',
   },
-  Section1: {
+  Section: {
     marginTop: theme.spacing(1),
-    background : '#2ECCFA',
-    width : '100%', 
-    minHeight: '60vh',
-    maxHeight: '60vh',
-
-  },
-  Section2 : {
-    marginTop: theme.spacing(1),
-    background : '#2ECCFA',
-    width : '100%', 
-    
-    maxHeight: '20vh',
-  },
-  Section3 : {
-    marginTop: theme.spacing(1),
-    background : '#2ECCFA',
-    width : '100%', 
-    minHeight: '15vh',
-    maxHeight: '15vh',
-  },
-  Section4 : {
-    marginTop: theme.spacing(1),
-    background : '#2ECCFA',
-    width : '100%', 
-    minHeight: '35vh',
-    maxHeight: '35vh',
-  },
-  Section5 : {
-    marginTop: theme.spacing(1),
-    background : '#2ECCFA',
-    width : '100%', 
-    minHeight: '29vh',
-    maxHeight: '29vh',
-  },
-  Section6: {
-    marginTop: theme.spacing(1),
-    background : '#2ECCFA',
-    width : '100%', 
-    minHeight: '80.5vh',
-    maxHeight: '80.5vh',
-
   },
 }));
 
@@ -73,16 +32,16 @@ export default function Task() {
           
             <Grid item xs={1}>
                 
-                <Card className={classes.Section6}/>
+        
                 
             </Grid>  
 
             <Grid item xs={7}>
                 
-                <Card>
+                <Card className={classes.Section}>
                   <TaskItemMovieViewer/>
                 </Card>
-                <Card className={classes.Section2}>
+                <Card className={classes.Section}>
                   <TaskItemPointViewr/>
                 </Card>
                 
@@ -90,13 +49,13 @@ export default function Task() {
 
             <Grid item xs={3}>
 
-                <Card className={classes.Section3}>
+                <Card className={classes.Section}>
                   <TaskItemToolBar/>
                 </Card>
-                <Card>
-                  <TaskItemChatViewer className={classes.Section4}/>
+                <Card className={classes.Section}>
+                  <TaskItemChatViewer/>
                 </Card>
-                <Card className={classes.Section5}>
+                <Card className={classes.Section}>
                   <TaskItemStatusViewer/>
                 </Card>
             </Grid>  

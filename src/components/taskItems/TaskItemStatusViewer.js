@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.paper,
     display: 'flex',
-    maxHeight: 300,
+    maxHeight: '35vh',
     width: '100%',
   },
   tabs: {
@@ -69,34 +69,26 @@ export default function VerticalTabs() {
         aria-label="Vertical tabs example"
         className={classes.tabs}
       >
-        <Tab label="Item One" {...a11yProps(0)} />
-        <Tab label="Item Two" {...a11yProps(1)} />
-        <Tab label="Item Three" {...a11yProps(2)} />
-        <Tab label="Item Four" {...a11yProps(3)} />
-        <Tab label="Item Five" {...a11yProps(4)} />
-        <Tab label="Item Six" {...a11yProps(5)} />
-        <Tab label="Item Seven" {...a11yProps(6)} />
+        <Tab label="기간 설정" {...a11yProps(0)} />
+        <Tab label="상태 설정" {...a11yProps(1)} />
+        <Tab label="인원 설정" {...a11yProps(2)} />
+        <Tab label="프로젝트 메모" {...a11yProps(3)} />
+        <Tab label="프로젝트 히스토리" {...a11yProps(4)} />
       </Tabs>
       <TabPanel value={value} index={0}>
-        Item One
+        프로젝트 기간
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
+        프로젝트 상태
       </TabPanel>
       <TabPanel value={value} index={2}>
-        Item Three
+        프로젝트 인원 현황
       </TabPanel>
       <TabPanel value={value} index={3}>
-        Item Four
+        프로젝트 메모
       </TabPanel>
       <TabPanel value={value} index={4}>
-        Item Five
-      </TabPanel>
-      <TabPanel value={value} index={5}>
-        Item Six
-      </TabPanel>
-      <TabPanel value={value} index={6}>
-        Item Seven
+        프로젝트 히스토리
       </TabPanel>
     </div>
   );

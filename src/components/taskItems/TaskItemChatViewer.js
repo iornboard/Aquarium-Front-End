@@ -33,7 +33,6 @@ export default  function Example() {
 
   return (
 
-
           <ChatBox
             onSendMessage={handleOnSendMessage}
             userId={1}

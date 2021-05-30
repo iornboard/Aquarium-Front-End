@@ -8,7 +8,7 @@ import Typography from '@material-ui/core/Typography';
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
-    minHeight: '30vh',
+    minHeight: '25vh',
     backgroundColor: theme.palette.background.paper,
   },
   chip: {
