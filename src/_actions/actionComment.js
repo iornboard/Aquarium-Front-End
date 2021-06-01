@@ -6,9 +6,9 @@ import {
 } from './types';
 
 
-export function getComments() {
+export function getPostComments(postId) {
 
-    const request = Axios.get('/api/comments') 
+    const request = Axios.get('/api/post-comments?postId=' + postId ) 
         .then(response => response.data) 
 
     return {

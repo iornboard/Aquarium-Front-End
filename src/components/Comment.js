@@ -3,8 +3,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
+import AvatarComp from './AvatarComp';
+import Avatar from '@material-ui/core/Avatar';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,16 +21,18 @@ const useStyles = makeStyles((theme) => ({
 export default function CommentList(props) {
   const classes = useStyles();
 
-  const {commentText} = props.comment
+  const {commentText , user , post } = props.comment
+  const {postText, postTitle, postImgUrl, postId } = props.comment.post
+  const {userNickname, userImgUrl} = props.comment.user
 
 
   return (
       <ListItem alignItems="flex-start">
         <ListItemAvatar>
-          <Avatar alt="Remy Sharp" />
+          <AvatarComp user = {user} />
         </ListItemAvatar>
         <ListItemText
-          primary="사용자 이름"
+          primary= {userNickname}
           secondary={
             <React.Fragment>
               <Typography

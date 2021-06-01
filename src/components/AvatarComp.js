@@ -19,6 +19,8 @@ export default function AvatarComp(props) {
 
   const classes = useStyles();
 
+  const {userNickname, userImgUrl} = props.user
+
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -33,7 +35,7 @@ export default function AvatarComp(props) {
         <div>
 
         <IconButton onClick = {handleClickOpen} >
-            <Avatar className={classes.large}/>
+            <Avatar src = {userImgUrl} />
         </IconButton>
 
 
@@ -43,7 +45,7 @@ export default function AvatarComp(props) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         >
-        <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{userNickname}</DialogTitle>
         <DialogContent>
           
         </DialogContent>

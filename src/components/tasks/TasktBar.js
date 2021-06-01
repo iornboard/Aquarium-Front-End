@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Box from '@material-ui/core/Box';
-import AvatarComp from '../AvatarComp';
+import Avatar from '@material-ui/core/Avatar';
 import Chip from '@material-ui/core/Chip';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -44,6 +44,10 @@ const useStyles = makeStyles((theme) => ({
     },
     taskbar: {
         marginLeft: theme.spacing(1),
+    },
+    large: {
+      width: theme.spacing(7),
+      height: theme.spacing(7),
     },
   }));
 
@@ -114,7 +118,7 @@ export default function FloatingActionButtons(props) {
                 <Chip label={taskType} size='small' />
               </Box>
               <Box display="flex" alignItems="center">
-                <AvatarComp/>
+                <Avatar className={classes.large}/>
                 <Typography gutterBottom >
                   {userName}
                 </Typography> 

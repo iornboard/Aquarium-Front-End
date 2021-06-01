@@ -5,7 +5,6 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import CardActions from '@material-ui/core/CardActions';
-import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import { red } from '@material-ui/core/colors';
@@ -25,8 +24,9 @@ import Button from '@material-ui/core/Button';
 import CommentForm from './Comment'
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
+import AvatarComp from './AvatarComp';
 import { useDispatch , useSelector } from 'react-redux';
-import { createComment , getComments } from '../_actions/actionComment'
+import { createComment , getPostComments } from '../_actions/actionComment'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -64,8 +64,7 @@ export default function NomalCard(props) {
 
 
   // !!! hardCoding !!! 
-
-  const {postText, postTitle, postImgUrl, postId } = props.post
+  const {postText, postTitle, postImgUrl, postId ,user } = props.post
   const {userNickname, userImgUrl} = props.post.user
 
   const userInfo = useSelector( store => store.auth.userData , []);
@@ -87,7 +86,7 @@ export default function NomalCard(props) {
 
     // 사실상 useEffect를 대신하는 것
     if(!comments){
-      dispatch(getComments())
+      dispatch(getPostComments(postId))
       .then(res => setComments(res.payload))
     }
 
@@ -105,7 +104,7 @@ export default function NomalCard(props) {
     dispatch(createComment(body))
 
     // !!! hardCoding !!! 
-    setTimeout( dispatch(getComments()).then(res => setComments(res.payload)),5000);
+    setTimeout( dispatch(getPostComments(postId)).then(res => setComments(res.payload)),5000);
     // !!! hardCoding !!! 
 
   }
@@ -115,9 +114,7 @@ export default function NomalCard(props) {
     <Card className={classes.root}>
       <CardHeader
         avatar={
-          <Avatar aria-label="recipe" className={classes.avatar} src = {userImgUrl}>
-            R
-          </Avatar>
+          <AvatarComp user = {user}/>
         }
         action={
           <IconButton aria-label="settings">
@@ -166,9 +163,7 @@ export default function NomalCard(props) {
               <Card className={classes.root}>
               <CardHeader
                 avatar={
-                  <Avatar aria-label="recipe" className={classes.avatar}>
-                    R
-                  </Avatar>
+                  <AvatarComp user = {user}/>
                 }
                 action={
                   <IconButton aria-label="settings">
