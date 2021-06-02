@@ -8,10 +8,8 @@ import ListItemText from '@material-ui/core/ListItemText';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import Card from '@material-ui/core/Card';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -19,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     position: 'relative',
     overflow: 'auto',
-    maxHeight: '27vh',
+    maxHeight: '20vh',
   },
   listSection: {
     backgroundColor: 'inherit',
