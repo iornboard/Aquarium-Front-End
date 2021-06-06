@@ -20,6 +20,8 @@ export default  function Example() {
       .then(res => setAttr({ messages : res.payload }) )
   }, 1);
 
+
+  
   const handleOnSendMessage = (message) => {
 
     var chat = {
