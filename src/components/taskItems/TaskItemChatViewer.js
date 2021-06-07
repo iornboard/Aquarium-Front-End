@@ -21,7 +21,6 @@ export default  function Example() {
   }, 1);
 
 
-  
   const handleOnSendMessage = (message) => {
 
     var chat = {
