@@ -13,6 +13,24 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    minHeight: '100vh',
+    backgroundColor: theme.palette.background.paper,
+    width: '100%',
+  },
+  main: {
+    marginTop: theme.spacing(8),
+    marginBottom: theme.spacing(2),
+  },
+  tab: {
+    flexGrow: 1,
+  },
+}));
+
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary">
@@ -76,37 +94,6 @@ function a11yProps(index) {
   };
 }
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: 'flex',
-    flexDirection: 'column',
-    minHeight: '100vh',
-    backgroundColor: theme.palette.background.paper,
-    width: 500,
-  },
-  list: {
-    marginTop: theme.spacing(8),
-    marginBottom: theme.spacing(2),
-  },
-  main: {
-    marginTop: theme.spacing(8),
-    marginBottom: theme.spacing(2),
-  },
-  footer: {
-    padding: theme.spacing(3, 2),
-    marginTop: 'auto',
-    backgroundColor:
-      theme.palette.type === 'light' ? theme.palette.grey[200] : theme.palette.grey[800],
-  },
-  gridList: {
-    height: 450,
-    width: '100%'
-  },
-  tab: {
-    flexGrow: 1,
-  },
-}));
-
 export default function FullWidthTabs() {
   const classes = useStyles();
   const theme = useTheme();
@@ -122,38 +109,41 @@ export default function FullWidthTabs() {
 
   return (
     <div className={classes.root}>
-      
-      <AppBar position="static" color="default">
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          indicatorColor="primary"
-          textColor="primary"
-          variant="fullWidth"
-          aria-label="full width tabs example"
-        >
-          <Tab label="Management" {...a11yProps(0)} />
-          <Tab label="schedule" {...a11yProps(1)} />
-        </Tabs>
-      </AppBar>
-      
 
-      <SwipeableViews
-        axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-        index={value}
-        onChangeIndex={handleChangeIndex}
-      >
-        <div className={classes.root}>
-          <CssBaseline />
+      <CssBaseline />
+      
+      <Container component="main" className={classes.main} maxWidth="lg">
+        <AppBar position="static" color="default">
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            indicatorColor="primary"
+            textColor="primary"
+            variant="fullWidth"
+            aria-label="full width tabs example"
+          >
+            <Tab label="Management" {...a11yProps(0)} />
+            <Tab label="schedule" {...a11yProps(1)} />
+          </Tabs>
+        </AppBar>
+
+
+        <SwipeableViews
+          axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+          index={value}
+          onChangeIndex={handleChangeIndex}
+        >
+
           <TabPanel value={value} index={0} dir={theme.direction}>
-            <TaskBarViewer />  {/* 작업 모음 리스트 뷰어 */}
+              <TaskBarViewer />  {/* 작업 모음 리스트 뷰어 */}
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
-            <TaskScheduleViewer/> {/* 작업 스케쥴 리스트 뷰어 */}
+              <TaskScheduleViewer/> {/* 작업 스케쥴 리스트 뷰어 */}
           </TabPanel>
-        </div>
-      </SwipeableViews>
-      
+          
+        </SwipeableViews>
+       
+       </Container>
     </div>
     
   );
