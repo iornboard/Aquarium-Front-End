@@ -4,7 +4,8 @@ import {
     JOIN,
     LOGIN,
     AUTH,
-    USERIMAGE
+    USERIMAGE,
+    USERINFO
 } from './types';
 
 export function auth() {
@@ -49,6 +50,17 @@ export function userImage(value) {
 
     return {
         type: USERIMAGE,
+        payload : request
+    };
+}
+
+export function userInfo(userId) {
+
+    const request = Axios.get('/api/user-info?userId='+userId) 
+    .then(res => res.data)
+
+    return {
+        type: USERINFO,
         payload : request
     };
 }
