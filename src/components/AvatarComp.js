@@ -37,17 +37,20 @@ export default function AvatarComp(props) {
         <IconButton onClick = {handleClickOpen} >
             <Avatar src = {userImgUrl} />
         </IconButton>
-
-
+``
         <Dialog
         open={open}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         >
-        <DialogTitle id="alert-dialog-title">{userNickname}</DialogTitle>
+
+        <DialogTitle id="alert-dialog-title"> <div><Avatar src = {userImgUrl} /></div>  <div></div>{userNickname}</DialogTitle>
+
         <DialogContent>
-          
+
+          유저정보를 표기합니다
+
         </DialogContent>
       </Dialog>
         </div>

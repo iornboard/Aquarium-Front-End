@@ -27,7 +27,7 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import Link from '@material-ui/core/Link';
 import { useSelector } from 'react-redux';
 import Avatar from '@material-ui/core/Avatar';
-import logo from './logo.png'
+import logo from './logo.png';
 
 const drawerWidth = 240;
 
@@ -149,7 +149,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function (SpecificComponent){
+export default function (SpecificComponent) {
 
     function AppBarDrawerLeft() {
       const classes = useStyles();
@@ -190,6 +190,12 @@ export default function (SpecificComponent){
         setOpen(false);
       };
 
+// 로그아웃
+        const userLogout = () => {
+          localStorage.removeItem('jwt');
+          setOpen(false);
+        };
+
       const menuId = 'primary-search-account-menu';
       const renderMenu = (
         <Menu
@@ -212,7 +218,11 @@ export default function (SpecificComponent){
             <MenuItem onClick={handleMenuClose}>글쓰기</MenuItem>
           </Link>
 
-            <MenuItem onClick={handleMenuClose}>로그아웃</MenuItem>
+            <MenuItem onClick={userLogout}>
+            <Link color="inherit" href="/">
+              로그아웃
+              </Link>
+              </MenuItem>
         </Menu>
       );
 
@@ -390,5 +400,6 @@ export default function (SpecificComponent){
         </div>
       );
     }
+    
     return AppBarDrawerLeft
-}
+    }
