@@ -25,6 +25,7 @@ export default function TestTask() {
   const dispatch = useDispatch();
 
 
+
   const handleChangeIndex = (index) => {
     dispatch(userInfo(1))
     .then( res => console.log(res))
