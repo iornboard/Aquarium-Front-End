@@ -41,6 +41,7 @@ function App() {
             <Route path="/userInfo" component={Auth(AppBar(UserInfo), true)}/>
             <Route path="/collabomain" component={Auth(AppBar(collabomain), true)}/>
             <Route path="/test" component={Auth(AppBar(TestTask), true)}/>
+            
 
           </Switch>
           {/* 리엑트 라우터에서 <switch> 컴포넌트를 통해서 중복되는 라우터중에서 하나(맨 위에 있는거)만 표현가능하다*/}
