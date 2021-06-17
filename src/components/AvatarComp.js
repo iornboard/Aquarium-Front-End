@@ -37,7 +37,7 @@ export default function AvatarComp(props) {
         <IconButton onClick = {handleClickOpen} >
             <Avatar src = {userImgUrl} />
         </IconButton>
-``
+
         <Dialog
         open={open}
         onClose={handleClose}

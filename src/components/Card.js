@@ -62,7 +62,6 @@ export default function NomalCard(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-
   // !!! hardCoding !!! 
   const {postText, postTitle, postImgUrl, postId ,user } = props.post
   const {userNickname, userImgUrl} = props.post.user
