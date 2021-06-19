@@ -7,6 +7,8 @@ import Task from '../../components/tasks/Task'
 import { userInfo } from '../../_actions/actionUser';
 import { useDispatch } from 'react-redux';
 
+import OAuthGoogle from '../../components/oAuth/OAuthGoogle'
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,6 +39,7 @@ export default function TestTask() {
   return (
     <div className={classes.root}>
         <CssBaseline />
+        <OAuthGoogle/>
         <Container component="main" className={classes.main} maxWidth="xl">
         <Button onClick={handleChangeIndex} variant="contained" color="primary">
         Primary
