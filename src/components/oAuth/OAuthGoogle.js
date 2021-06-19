@@ -1,5 +1,6 @@
 import React from "react";
 import { GoogleLogin } from "react-google-login";
+import {GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_SCOPE} from "../../conf/oAuthConfig"
 import Axios from "axios";
 
 const config = {
@@ -17,14 +18,14 @@ const responseGoogle = async (response) => {
   );
   if (jwtToken.status === 200) {
     console.log(2, jwtToken.data);
-    localStorage.setItem("jwtToken", jwtToken.data);
+    localStorage.setItem("jwt", jwtToken.data);
   }
 };
 
 const Login = () => {
   return (
     <GoogleLogin
-      clientId="클라이언트ID"
+      clientId={GOOGLE_CLIENT_ID}
       buttonText="Login"
       onSuccess={responseGoogle}
       onFailure={responseGoogle}
