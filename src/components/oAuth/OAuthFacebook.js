@@ -2,31 +2,34 @@ import React from 'react';
 import FacebookLogin from 'react-facebook-login';
 import {FACEBOOK_CLIENT_ID, FACEBOOK_CLIENT_SECRET, FACEBOOK_SCOPE} from "../../conf/oAuthConfig"
 import Axios from "axios";
+import { withRouter } from 'react-router-dom';
 
 const config = {
     headers: {
       "Content-Type": "application/json; charset=utf-8",
     },
   };
-  
-  const responseFacebook = async (response) => {
-    console.log(1, response);
-    let jwtToken = await Axios.post(
-      "http://localhost:8080/api/oauth/jwt/facebook",
-      JSON.stringify(response),
-      config
-    );
-    if (jwtToken.status === 200) {
-      console.log(2, jwtToken.data);
-      localStorage.setItem("jwt", jwtToken.data);
-    }
-  };
 
-  const Login = () => {
+  const Login = (props) => {
+
+    const responseFacebook = async (response) => {
+      console.log(1, response);
+      let jwtToken = await Axios.post(
+        "http://localhost:8080/api/oauth/jwt/facebook",
+        JSON.stringify(response),
+        config
+      );
+      if (jwtToken.status === 200) {
+        console.log(2, jwtToken.data);
+        localStorage.setItem("jwt", jwtToken.data);
+        props.history.push('/')
+      }
+    };
+
     return (
         <FacebookLogin
         appId={FACEBOOK_CLIENT_ID}
-        fields={FACEBOOK_SCOPE}
+        // fields={FACEBOOK_SCOPE}
         callback={responseFacebook}
         icon="fa-facebook"
         size="medium"
@@ -35,4 +38,4 @@ const config = {
     );
   };
   
-  export default Login;
+  export default withRouter(Login);

@@ -9,6 +9,8 @@ import { useDispatch } from 'react-redux';
 
 import OAuthGoogle from '../../components/oAuth/OAuthGoogle'
 import OAuthFacebook from '../../components/oAuth/OAuthFacebook'
+import OAuthNaver from '../../components/oAuth/OAuthNaver'
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,6 +44,10 @@ export default function TestTask() {
         <Container component="main" className={classes.main} maxWidth="xl">
         <OAuthGoogle/>
         <OAuthFacebook/>
+        <OAuthNaver/>
+        <Button  variant="contained" color="primary">
+          <OAuthNaver/>
+        </Button>
         <Button onClick={handleChangeIndex} variant="contained" color="primary">
         Primary
         </Button>

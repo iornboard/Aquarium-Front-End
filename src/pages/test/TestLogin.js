@@ -19,6 +19,9 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { makeStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
+import OAuthGoogle from '../../components/oAuth/OAuthGoogle'
+import OAuthFacebook from '../../components/oAuth/OAuthFacebook'
+import OAuthNaver from '../../components/oAuth/OAuthNaver'
 
 
 
@@ -79,6 +82,10 @@ const useStyles = makeStyles((theme) => ({
      color: 'black',
      margin: theme.spacing(1, 0, 1)
   },
+  oauths: { 
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
+ },
 }));
 
 function SignInSide(props) {
@@ -202,14 +209,18 @@ function SignInSide(props) {
           <DialogContentText id="alert-dialog-description">
             사용 가능한 계정을 선택해 보세요
           </DialogContentText>
-          <Button fullWidth  variant="contained" color="primary" href="http://localhost:8080/oauth2/authorization/google"  className={classes.google}>
-            google
+          
+          {/* 구버전 */}
+          {/* href="http://localhost:8080/oauth2/authorization/google" href="http://localhost:8080/oauth2/authorization/facebook" href="http://localhost:8080/oauth2/authorization/naver" */}
+          
+          <Button fullWidth  variant="contained" color="primary" className={classes.google}>
+            <OAuthGoogle />
           </Button>
-          <Button fullWidth  variant="contained" color="primary" href="http://localhost:8080/oauth2/authorization/facebook"  className={classes.facebook}>
-            Facebook
+          <Button fullWidth  variant="contained" color="primary" className={classes.facebook}>
+            <OAuthFacebook />
           </Button>
-          <Button fullWidth  variant="contained" color="primary" href="http://localhost:8080/oauth2/authorization/naver"  className={classes.naver}>
-            naver
+          <Button fullWidth  variant="contained" color="primary" className={classes.naver}>
+            <OAuthNaver />
           </Button>
         </DialogContent>
         </Dialog>
