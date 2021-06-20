@@ -3,6 +3,8 @@ import auth from './auth'
 import post from './post'
 import file from './file'
 import chat from './chat'
+import task from './task'
+import user from './user'
 
 
 
@@ -10,7 +12,9 @@ const rootReducer = combineReducers({
     auth,
     post,
     file,
-    chat
+    chat,
+    task,
+    user
 });
 
 export default rootReducer;

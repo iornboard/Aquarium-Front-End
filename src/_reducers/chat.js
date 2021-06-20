@@ -1,7 +1,7 @@
 import { GET_CHAT , CREATE_CHAT } from '../_actions/types';
 
 
-const post = (state = {}, action) => {
+const chat = (state = {}, action) => {
     switch (action.type) {
       
         case GET_CHAT :
@@ -21,4 +21,4 @@ const post = (state = {}, action) => {
       }
 };
 
-export default post;
+export default chat;

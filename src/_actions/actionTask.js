@@ -2,7 +2,8 @@ import Axios from 'axios'
 
 import {
     GET_TASK,
-    CREATE_TASK
+    CREATE_TASK,
+    SET_TASK,
 } from './types';
 
 
@@ -17,7 +18,6 @@ export function getTasks(userId) {
     };
 }
 
-
 export function createTask(value) {
 
     const request = Axios.post('/api/create-task', value) 
@@ -26,5 +26,13 @@ export function createTask(value) {
     return {
         type: CREATE_TASK,
         payload : request
+    };
+}
+
+export function setTask(value) {
+
+    return {
+        type: SET_TASK,
+        payload : value
     };
 }

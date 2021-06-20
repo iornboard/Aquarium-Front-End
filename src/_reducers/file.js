@@ -1,7 +1,7 @@
 import { IMAGE } from '../_actions/types';
 
 
-const post = (state = {}, action) => {
+const file = (state = {}, action) => {
     switch (action.type) {
       
         case IMAGE :
@@ -15,4 +15,4 @@ const post = (state = {}, action) => {
       }
 };
 
-export default post;
+export default file;

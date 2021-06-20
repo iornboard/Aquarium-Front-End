@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useDispatch , useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import LinearProgress from '@material-ui/core/LinearProgress';
@@ -13,6 +14,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
+import { setTask } from '../../_actions/actionTask'
 
 
 import Task from './Task'
@@ -67,21 +69,23 @@ const useStyles = makeStyles((theme) => ({
   }
 
 
-export default function FloatingActionButtons(props) {
+export default function TaskBarComp(props) {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const { taskName , projectType , taskStatus ,  taskType , taskStartDate , taskEndDate  , user } = {...props.task}
 
-  
   const [progress, setProgress] = React.useState(0);
   const [dDay, setdDay] = React.useState(0);
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
+    dispatch(setTask(props.task))
     setOpen(true);
   };
 
   const handleClose = () => {
+    dispatch(setTask())
     setOpen(false);
   };
 

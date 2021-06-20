@@ -5,7 +5,8 @@ import {
     LOGIN,
     AUTH,
     USERIMAGE,
-    USERINFO
+    USERINFO,
+    SET_JOIN_USERS
 } from './types';
 
 export function auth() {
@@ -62,5 +63,13 @@ export function userInfo(userId) {
     return {
         type: USERINFO,
         payload : request
+    };
+}
+
+export function setJoinUsers(value) {
+
+    return {
+        type: SET_JOIN_USERS,
+        payload : value
     };
 }

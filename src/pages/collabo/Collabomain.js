@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch , useSelector } from 'react-redux';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
@@ -23,14 +23,10 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
-import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-// import DateFnsUtils from '@date-io/date-fns';
-// import {
-//   MuiPickersUtilsProvider,
-//   KeyboardTimePicker,
-//   KeyboardDatePicker,
-// } from '@material-ui/pickers';
+import Checkbox from '@material-ui/core/Checkbox';
+import Avatar from '@material-ui/core/Avatar';
+import UserJoinList from '../../components/UserJoinList'
 import { getTasks , createTask } from '../../_actions/actionTask'
 
 const useStyles = makeStyles((theme) => ({
@@ -122,8 +118,18 @@ export default function FullWidthTabs() {
   const userInfo = useSelector( store => store.auth.userData , []);
   const {userId, userNickname, userImgUrl} = {...userInfo}
 
+  const joinUsersInfos = useSelector( store => store.user.joinUsers , []);
+
+
   const [value, setValue] = React.useState(0);
   const [open, setOpen] = React.useState(false);
+  const [today, setToday] = React.useState();
+  const [values, setValues] = useState([]);
+
+  // useEffect(() => {
+  //   var now = new Date();
+  //   setToday(now)
+  // }, 1);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -131,10 +137,17 @@ export default function FullWidthTabs() {
 
   const handleClose = () => {
 
-    const taskBody = { taskName : "이름없는 작업" , taskDescription : "내용 없음" ,  userIdList : [userId] }
+    const taskUsersId = joinUsersInfos.map( userinfo => userinfo.userId )
+
+    const taskDefault = { taskName : "이름없는 작업" , taskDescription : "내용 없음" ,  userIdList : [userId , ...taskUsersId] }
+    const taskBody = {...taskDefault , ...values }
 
     dispatch(createTask(taskBody))
       .then(res => console.log(res))
+    setOpen(false);
+  };
+
+  const handleCloseCancel = () => {
     setOpen(false);
   };
 
@@ -146,7 +159,15 @@ export default function FullWidthTabs() {
     setValue(index);
   };
 
+  const handleFormChange = (event) => {
+    const { name, value } = event.target
+    setValues({ ...values, [name]: value })
+  }
 
+  const handleDateFormChange = (event) => {
+    const { name, value } = event.target
+    setValues({ ...values, [name]:  new Date(value) })
+  }
 
   return (
     <div className={classes.root}>
@@ -191,7 +212,7 @@ export default function FullWidthTabs() {
 
        <Dialog
         open={open}
-        onClose={handleClose}
+        onClose={handleCloseCancel}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -199,36 +220,68 @@ export default function FullWidthTabs() {
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
           <Typography variant="h6" gutterBottom>
-          사용자 작업 생성
+            사용자 작업 생성
           </Typography>
         <Grid container spacing={3}>
-          <Grid item xs={12} md={6}>
-            <TextField required id="taskName" label="사용자 작업 이름" fullWidth autoComplete="cc-name" />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <TextField required id="cardNumber" label="Card number" fullWidth autoComplete="cc-number" />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <TextField required id="taskType" label="작업 형식" fullWidth autoComplete="cc-name" />
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <TextField required id="taskDescription" label="작업 설명" fullWidth/>
-          </Grid>
-          <Grid item xs={12}>
-            <FormControlLabel
-              control={<Checkbox color="secondary" name="saveCard" value="yes" />}
-              label="Remember credit card details for next time"
+            <Grid item xs={12} md={12}>
+              <TextField required name="taskName" id="taskName" label="사용자 작업 이름" fullWidth autoComplete="cc-name" onChange = {handleFormChange} />
+            </Grid>
+            <Grid item xs={12} md={6}>
+            <TextField
+              required
+              fullWidth
+              name="taskStartDate"
+              id="taskStartDate"
+              label="시작일자"
+              type="date"
+              className={classes.textField}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              onChange = {handleDateFormChange}
             />
+            </Grid>
+            <Grid item xs={12} md={6}>
+            <TextField
+              required
+              fullWidth
+              name="taskEndDate"
+              id="taskEndDate"
+              label="종료일자"
+              type="date"
+              className={classes.textField}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              onChange = {handleDateFormChange}
+            />
+            </Grid>
+            <Grid item xs={12} md={12}>
+              <TextField required name="taskType" id="taskType" label="작업 형식" fullWidth autoComplete="cc-name"  onChange = {handleFormChange} />
+              
+            </Grid>
+            <Grid item xs={12} md={12}>
+            <Typography variant="h6" gutterBottom>
+              참가 인원
+            </Typography>
+              <UserJoinList/>
+            </Grid>
+            <Grid item xs={12} md={12}>
+              <TextField required name="taskDescription" id="taskDescription" label="작업 설명" multiline rows={4} rowsMax={8} fullWidth variant="outlined"  onChange = {handleFormChange}/>
+            </Grid>
+            <Grid item xs={12}>
+              Let Google help apps determine location. This means sending anonymous location data to
+              Google, even when no apps are running.
+              <FormControlLabel
+                control={<Checkbox color="secondary" name="saveCard" value="yes" />}
+                label="위 내용을 이해하였고, 약관의 대해 동의 합니다."
+              />
+            </Grid>
+            
           </Grid>
-        </Grid>
-            Let Google help apps determine location. This means sending anonymous location data to
-            Google, even when no apps are running.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            비동의
-          </Button>
           <Button onClick={handleClose} color="primary" autoFocus>
             동의
           </Button>

@@ -73,13 +73,10 @@ export default function StickyFooter(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  // const userInfo = useSelector( store => store.auth.userData , []);
-  // const {userId, userNickname, userImgUrl} = {...userInfo}
-  
-  const [tasks, setTasks] = React.useState([]);
-
   const userInfo = useSelector( store => store.auth.userData , [])
   const {userId, userNickname, userImgUrl} = {...userInfo}
+
+  const [tasks, setTasks] = React.useState([]);
   
   // hardcoding ->   'useEffect(() => [userInfo]' 잠재적 에러 발생 가능 ///
 
@@ -106,7 +103,6 @@ export default function StickyFooter(props) {
         <GridList  cellHeight={160} className={classes.gridList} cols={0} onScroll={handleScroll} >
 
           {tasks ? tasks.map((ts) => <TasktBar task={ts} className={classes.list}/>)  : "로딩중.." } 
-          <TasktBar task={taskSample} className={classes.list}/>
 
         </GridList>
       </Container>

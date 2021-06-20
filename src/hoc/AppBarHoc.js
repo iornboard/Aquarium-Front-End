@@ -27,6 +27,7 @@ import MoreIcon from '@material-ui/icons/MoreVert';
 import Link from '@material-ui/core/Link';
 import { useSelector } from 'react-redux';
 import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
 import logo from './logo.png';
 
 const drawerWidth = 240;
@@ -146,6 +147,9 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up('md')]: {
       display: 'none',
     },
+  },
+  loginButton: {
+    marginLeft : theme.spacing(2),
   },
 }));
 
@@ -322,16 +326,22 @@ export default function (SpecificComponent) {
                     <NotificationsIcon />
                   </Badge>
                 </IconButton>
-                <IconButton
-                  edge="end"
-                  aria-label="account of current user"
-                  aria-controls={menuId}
-                  aria-haspopup="true"
-                  onClick={handleProfileMenuOpen}
-                  color="inherit"
-                >
-                  <Avatar src = {userImgUrl} />
-                </IconButton>
+                { userInfo ? 
+                  <IconButton
+                    edge="end"
+                    aria-label="account of current user"
+                    aria-controls={menuId}
+                    aria-haspopup="true"
+                    onClick={handleProfileMenuOpen}
+                    color="inherit"
+                  >
+                    <Avatar src = {userImgUrl} />
+                  </IconButton> :     
+                    <Button variant="contained" color="secondary" size="small" href="/signin" className={classes.loginButton}>
+                      Login
+                    </Button>
+                  }
+                
               </div>
               <div className={classes.sectionMobile}>
                 <IconButton
