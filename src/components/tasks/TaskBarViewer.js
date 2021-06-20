@@ -1,10 +1,13 @@
-import React from 'react';
+import React , { useState, useEffect } from 'react';
+import { useDispatch , useSelector } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
 import GridList from '@material-ui/core/GridList';
 import TasktBar from './TasktBar'
+import { getTasks , createTask } from '../../_actions/actionTask'
+
 
 
 function Copyright() {
@@ -20,7 +23,7 @@ function Copyright() {
   );
 }
 
-const taskOne = {
+const taskSample = {
     taskName : "기말고사",
     taskStatus : "진행중",
     taskImgUrl : "",
@@ -68,23 +71,42 @@ const useStyles = makeStyles((theme) => ({
 
 export default function StickyFooter(props) {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
-  const [value, setValue] = React.useState(0);
- 
+  // const userInfo = useSelector( store => store.auth.userData , []);
+  // const {userId, userNickname, userImgUrl} = {...userInfo}
+  
+  const [tasks, setTasks] = React.useState([]);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
+  const userInfo = useSelector( store => store.auth.userData , [])
+  const {userId, userNickname, userImgUrl} = {...userInfo}
+  
+  // hardcoding ->   'useEffect(() => [userInfo]' 잠재적 에러 발생 가능 ///
+
+  useEffect(() => {
+    const {userId} = {...userInfo}
+
+    dispatch(getTasks(userId)).then(res =>  setTasks(res.payload));
+  }, [userInfo] );
+
+  // hardcoding ->   'useEffect(() => [userInfo]' 잠재적 에러 발생 가능 ///
+
+  const handleScroll = (event) => {
+    const { scrollTop, clientHeight, scrollHeight } = event.currentTarget;
+
+    if (scrollHeight - scrollTop === clientHeight) {
+      dispatch(getTasks(userId)).then(res => setTasks(res.payload));
+    }
   };
 
   return (
     <div className={classes.root}>
 
       <Container component="main" className={classes.main} maxWidth="md">
-        <GridList  cellHeight={160} className={classes.gridList} cols={0}>
+        <GridList  cellHeight={160} className={classes.gridList} cols={0} onScroll={handleScroll} >
 
-          <TasktBar task={taskOne} className={classes.list}/>
-          <TasktBar task={taskOne} className={classes.list}/>
-          <TasktBar task={taskOne} className={classes.list}/>
+          {tasks ? tasks.map((ts) => <TasktBar task={ts} className={classes.list}/>)  : "로딩중.." } 
+          <TasktBar task={taskSample} className={classes.list}/>
 
         </GridList>
       </Container>

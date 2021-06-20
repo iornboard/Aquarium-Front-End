@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useDispatch , useSelector } from 'react-redux';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
@@ -12,6 +13,25 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Box from '@material-ui/core/Box';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
+import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Grid from '@material-ui/core/Grid';
+import TextField from '@material-ui/core/TextField';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+// import DateFnsUtils from '@date-io/date-fns';
+// import {
+//   MuiPickersUtilsProvider,
+//   KeyboardTimePicker,
+//   KeyboardDatePicker,
+// } from '@material-ui/pickers';
+import { getTasks , createTask } from '../../_actions/actionTask'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -96,8 +116,27 @@ function a11yProps(index) {
 
 export default function FullWidthTabs() {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const theme = useTheme();
+
+  const userInfo = useSelector( store => store.auth.userData , []);
+  const {userId, userNickname, userImgUrl} = {...userInfo}
+
   const [value, setValue] = React.useState(0);
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+
+    const taskBody = { taskName : "이름없는 작업" , taskDescription : "내용 없음" ,  userIdList : [userId] }
+
+    dispatch(createTask(taskBody))
+      .then(res => console.log(res))
+    setOpen(false);
+  };
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -107,12 +146,17 @@ export default function FullWidthTabs() {
     setValue(index);
   };
 
+
+
   return (
     <div className={classes.root}>
 
-      <CssBaseline />
-      
+      <CssBaseline />      
       <Container component="main" className={classes.main} maxWidth="lg">
+        <Fab color="primary" aria-label="add" onClick={handleClickOpen}>
+          <AddIcon />
+        </Fab>
+
         <AppBar position="static" color="default">
           <Tabs
             value={value}
@@ -144,6 +188,54 @@ export default function FullWidthTabs() {
         </SwipeableViews>
        
        </Container>
+
+       <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"작업 내역을 생성하시겠습니까?"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+          <Typography variant="h6" gutterBottom>
+          사용자 작업 생성
+          </Typography>
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={6}>
+            <TextField required id="taskName" label="사용자 작업 이름" fullWidth autoComplete="cc-name" />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField required id="cardNumber" label="Card number" fullWidth autoComplete="cc-number" />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField required id="taskType" label="작업 형식" fullWidth autoComplete="cc-name" />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField required id="taskDescription" label="작업 설명" fullWidth/>
+          </Grid>
+          <Grid item xs={12}>
+            <FormControlLabel
+              control={<Checkbox color="secondary" name="saveCard" value="yes" />}
+              label="Remember credit card details for next time"
+            />
+          </Grid>
+        </Grid>
+            Let Google help apps determine location. This means sending anonymous location data to
+            Google, even when no apps are running.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            비동의
+          </Button>
+          <Button onClick={handleClose} color="primary" autoFocus>
+            동의
+          </Button>
+        </DialogActions>
+      </Dialog>
+
+
     </div>
     
   );
