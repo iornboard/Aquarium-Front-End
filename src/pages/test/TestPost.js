@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { useDispatch , useSelector } from 'react-redux';
 import { CreatePost } from '../../_actions/actionPost';
+import { withRouter } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -37,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function PostPage() {
+function PostPage(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -77,10 +78,9 @@ export default function PostPage() {
     console.log(body)
 
     dispatch(CreatePost(body))
-    setValues();
-
+    setValues();  
+    props.history.push('/')
   }
-
 
   return (
       <Container component="main" maxWidth="sm" >
@@ -108,9 +108,9 @@ export default function PostPage() {
               fullWidth
               onChange={handleFormChange}
             />
-            <Button variant="contained" color="primary" type="submit" onClick = {onSubmitHandler}>
-              글쓰기
-            </Button>
+              <Button variant="contained" color="primary" type="submit" onClick = {onSubmitHandler}>
+                글쓰기
+              </Button>
 
              
             비밀글
@@ -134,3 +134,5 @@ export default function PostPage() {
       </Container>
   );
 }
+
+export default withRouter(PostPage);

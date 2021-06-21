@@ -67,11 +67,8 @@ function SignUp(props) {
 
     dispatch(join(values)) 
     setValues({  password: ""  , userEmail: "", userFullname: "" , userNickname: ""  })
-    props.history.push("/signin")
-    
+    props.history.push("/")
   }
-
-
 
   
   return (
@@ -154,14 +151,13 @@ function SignUp(props) {
             color="primary"
             className={classes.submit}
             onClick = {onSubmitHandler}
-            
           >
             계정 생성
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
               <Link href="signin" variant="body2">
-                이미 계정이 있으신가요?
+                이미 계정이 있으신가요
               </Link>
             </Grid>
           </Grid>
