@@ -144,10 +144,12 @@ export default function FullWidthTabs() {
 
     dispatch(createTask(taskBody))
       .then(res => console.log(res))
+      
     setOpen(false);
   };
 
   const handleCloseCancel = () => {
+    
     setOpen(false);
   };
 
@@ -285,7 +287,10 @@ export default function FullWidthTabs() {
           <Button onClick={handleClose} color="primary" autoFocus>
             동의
           </Button>
+        
         </DialogActions>
+        
+
       </Dialog>
 
 

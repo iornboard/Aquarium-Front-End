@@ -29,6 +29,15 @@ import { useSelector } from 'react-redux';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import logo from './logo.png';
+import AssignmentRoundedIcon from '@material-ui/icons/AssignmentRounded';
+import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
+import WorkRoundedIcon from '@material-ui/icons/WorkRounded';
+import EventAvailableRoundedIcon from '@material-ui/icons/EventAvailableRounded';
+import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
+import ThumbUpRoundedIcon from '@material-ui/icons/ThumbUpRounded';
+import HelpRoundedIcon from '@material-ui/icons/HelpRounded';
+import FaceRoundedIcon from '@material-ui/icons/FaceRounded';
+
 
 const drawerWidth = 240;
 
@@ -154,7 +163,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function (SpecificComponent) {
-
+// 0621
+  const classes = useStyles();
+// 0621
     function AppBarDrawerLeft() {
       const classes = useStyles();
       const theme = useTheme();
@@ -290,10 +301,7 @@ export default function (SpecificComponent) {
               >
                 <MenuIcon />
               </IconButton>
-              <div>
-
-             
-              </div>
+            
               <Link color="inherit" href="/">
               <img src={logo} width = "60" height="60" alignItems = "center" />
               </Link>
@@ -371,34 +379,99 @@ export default function (SpecificComponent) {
               </IconButton>
             </div>
             <Divider />
+            {/* 0621 */}
             <List>
-              {['커뮤니티','최신글','인기글',].map((text, index) => (
+            <Link href="/">
+              {['커뮤니티'].map((text, index) => (
                 <ListItem button key={text}>
-                  <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+                  <ListItemIcon><AssignmentRoundedIcon/></ListItemIcon>
                   <ListItemText primary={text} />
                 </ListItem>
               ))}
+              </Link>
+                 {/* 0621 */}
+              <Link href="post">
+                {['글쓰기'].map((text1, index1) => (
+                <ListItem button key={text1}>
+                  <ListItemIcon><CreateRoundedIcon/></ListItemIcon>
+                  <ListItemText primary={text1} />
+                </ListItem>
+              ))}
+              </Link>
+                {['인기글'].map((text2, index2) => (
+                  <ListItem button key={text2}>
+                    <ListItemIcon><ThumbUpRoundedIcon/></ListItemIcon>
+                    <ListItemText primary={text2} />
+                  </ListItem>
+                ))}
+            </List>
+            
             
             <Divider />
+            <List> 
+
+            <Link href="collabomain">
+                {['프로젝트 관리'].map((text, index) => (
+                <ListItem button key={text}>
+                  <ListItemIcon><WorkRoundedIcon/></ListItemIcon>
+                  <ListItemText primary={text} />
+                </ListItem>
+              ))}
+              </Link>
+
+              <Link href="collabomain">
+                {['프로젝트 일정'].map((text1, index1) => (
+                <ListItem button key={text1}>
+                  <ListItemIcon><EventAvailableRoundedIcon/></ListItemIcon>
+                  <ListItemText primary={text1} />
+                </ListItem>
+              ))}
+              </Link>
+
+              <Link href="collabomain">
+                {['프로젝트 생성'].map((text2, index2) => (
+                <ListItem button key={text2}>
+                  <ListItemIcon><AddCircleRoundedIcon/></ListItemIcon>
+                  <ListItemText primary={text2} />
+                </ListItem>
+              ))}
+              </Link>
+            </List>
             
-              {['프로젝트 관리', '프로젝트 일정','프로젝트 생성', ].map((text, index) => (
-                <ListItem button key={text}>
-                  <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItem>
-              ))}
-            </List>
-            <Divider />
+             
+
+            <Divider/>
             <List>
-              {['아쿠아리움이란', '만든이' ].map((text, index) => (
+              {/* {['아쿠아리움이란', '만든이' ].map((text, index) => (
                 <ListItem button key={text}>
                   <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
                   <ListItemText primary={text} />
                 </ListItem>
+              ))} */}
+
+              <Link href="">
+                {['아쿠아리움이란'].map((text1, index1) => (
+                <ListItem button key={text1}>
+                  <ListItemIcon><HelpRoundedIcon/></ListItemIcon>
+                  <ListItemText primary={text1} />
+                </ListItem>
               ))}
+              </Link>
+
+              <Link href="">
+                {['만든이'].map((text2, index2) => (
+                <ListItem button key={text2}>
+                  <ListItemIcon><FaceRoundedIcon/></ListItemIcon>
+                  <ListItemText primary={text2} />
+                </ListItem>
+              ))}
+              </Link>
+
             </List>
-          
+           
           </Drawer>
+
+          HelpRoundedIcon
           <main
             className={clsx(classes.content, {
               [classes.contentShift]: open,
@@ -408,6 +481,8 @@ export default function (SpecificComponent) {
           </main>
           {renderMenu}
         </div>
+
+
       );
     }
     
