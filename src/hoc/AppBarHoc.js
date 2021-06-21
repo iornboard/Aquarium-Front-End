@@ -15,7 +15,6 @@ import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import InputBase from '@material-ui/core/InputBase';
 import Badge from '@material-ui/core/Badge';
@@ -428,7 +427,8 @@ export default function (SpecificComponent) {
               ))}
               </Link>
 
-              <Link href="collabomain">
+              
+              <Link href="collabocreate">
                 {['프로젝트 생성'].map((text2, index2) => (
                 <ListItem button key={text2}>
                   <ListItemIcon><AddCircleRoundedIcon/></ListItemIcon>

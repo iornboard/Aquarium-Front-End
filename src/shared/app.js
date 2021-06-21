@@ -1,5 +1,5 @@
 import { Route, Switch } from 'react-router-dom';
-import { Login, SignUp , Main, Sun, Post, UserInfo , collabomain, TestTask } from '../pages';
+import { Login, SignUp , Main, Sun, Post, UserInfo , collabomain, TestTask, collabocreate } from '../pages';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import Auth from '../hoc/auth'  // HOC 컴포넌트, 토큰값을 확인해서 
 import AppBar from '../hoc/AppBarHoc'
@@ -41,7 +41,7 @@ function App() {
             <Route path="/userInfo" component={Auth(AppBar(UserInfo), true)}/>
             <Route path="/collabomain" component={Auth(AppBar(collabomain), true)}/>
             <Route path="/test" component={Auth(AppBar(TestTask), false)}/>
-            
+            <Route path="/collabocreate" component={Auth(AppBar(collabocreate), true)}/>
 
           </Switch>
           {/* 리엑트 라우터에서 <switch> 컴포넌트를 통해서 중복되는 라우터중에서 하나(맨 위에 있는거)만 표현가능하다*/}
