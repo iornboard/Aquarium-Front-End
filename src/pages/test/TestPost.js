@@ -78,6 +78,7 @@ export default function PostPage() {
 
     dispatch(CreatePost(body))
     setValues();
+
   }
 
 

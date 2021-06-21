@@ -176,7 +176,8 @@ export default function StickyFooter() {//컨테이너로 감싸고 그리드로
           {/* 팔로워,팔로잉, 프로필사진(없으면 기본사진), 관리자,공지동의,최근 접속일, 비밀번호(보안성있게 만들기),토큰(권한설정즉 비번확인), 만든거,올린거 */}
         </form>
         {/* ERD랑 다른 커뮤니티 확인 */}
-        <Button variant="contained"  color="primary"size="large"className={classes.button}startIcon={<SaveIcon />}>
+        <Button href="/" variant="contained"  color="primary"size="large"className={classes.button}startIcon={<SaveIcon />}>
+          
           수정 및 저장
         </Button>
         

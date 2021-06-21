@@ -67,7 +67,8 @@ function SignUp(props) {
 
     dispatch(join(values)) 
     setValues({  password: ""  , userEmail: "", userFullname: "" , userNickname: ""  })
-    props.history.push("/")
+    props.history.push("/signin")
+    
   }
 
 
@@ -153,6 +154,7 @@ function SignUp(props) {
             color="primary"
             className={classes.submit}
             onClick = {onSubmitHandler}
+            
           >
             계정 생성
           </Button>

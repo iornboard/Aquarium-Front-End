@@ -284,7 +284,7 @@ export default function FullWidthTabs() {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary" autoFocus>
+          <Button href="/collabomain" onClick={handleClose} color="primary" autoFocus>
             동의
           </Button>
         
