@@ -4,6 +4,7 @@ import {
     GET_TASK,
     CREATE_TASK,
     SET_TASK,
+    UPDATE_TASK_IMG,
 } from './types';
 
 
@@ -36,3 +37,15 @@ export function setTask(value) {
         payload : value
     };
 }
+
+export function updateTasKImg(task) {
+
+    const request = Axios.post('/api/update-task-img', task) 
+    .then(response => response.data)
+
+    return {
+        type: UPDATE_TASK_IMG,
+        payload : request
+    };
+}
+

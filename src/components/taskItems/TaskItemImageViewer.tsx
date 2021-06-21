@@ -1,29 +1,33 @@
 import React, { useState } from 'react';
 import ImageMarker, { Marker, MarkerComponentProps } from 'react-image-marker';
-import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 
+interface thisProps {
+    taskImgUrl: string;
+  }
 
+function App(prop: thisProps) {
 
-
-function App() {
-
-    const CarImage = 'http://www.mkhealth.co.kr/news/photo/202010/50970_51164_4758.jpg'
     const [markers, setMarkers] = useState<Array<Marker>>([
         { top: 10, left: 50 },
     ]);
+    const [markerTest, setMarkerTest] = useState<Array<String>>([]);
 
     const CustomMarker = (props: MarkerComponentProps) => {
         return (
-            <Button variant="contained">Default {props.itemNumber}</Button>
+            <TextField id="filled-basic" variant="filled" onChange={handleFormChange} />
         );
     };
 
+    const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => { 
+        
+      }
     
     return (
         <div className="App">
             <div className="frame">
                 <ImageMarker
-                    src={CarImage}
+                    src={prop.taskImgUrl}
                     markers={markers}
                     onAddMarker={(marker: Marker) =>
                         setMarkers([...markers, marker])

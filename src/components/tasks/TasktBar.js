@@ -16,7 +16,6 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import { setTask } from '../../_actions/actionTask'
 
-
 import Task from './Task'
 
 const useStyles = makeStyles((theme) => ({
@@ -88,7 +87,6 @@ export default function TaskBarComp(props) {
     dispatch(setTask())
     setOpen(false);
   };
-
 
   useEffect(() => {
     return () => {

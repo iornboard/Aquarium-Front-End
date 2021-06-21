@@ -30,16 +30,11 @@ export default function TestTask() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-
-
   const handleChangeIndex = (index) => {
     dispatch(userInfo(1))
     .then( res => console.log(res))
   };
 
-  
-
-  
   return (
     <div className={classes.root}>
         <CssBaseline />

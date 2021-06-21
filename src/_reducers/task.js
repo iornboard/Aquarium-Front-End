@@ -7,7 +7,7 @@ const task = (state = {}, action) => {
           return {
             ...state,
             usingTask: action.payload
-          };  
+          };
           break;
         default:
           return state;
