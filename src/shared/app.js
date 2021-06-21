@@ -40,7 +40,7 @@ function App() {
             <Route path="/post" component={Auth(AppBar(Post), true)}/>
             <Route path="/userInfo" component={Auth(AppBar(UserInfo), true)}/>
             <Route path="/collabomain" component={Auth(AppBar(collabomain), true)}/>
-            <Route path="/test" component={Auth(AppBar(TestTask), false)}/>
+            <Route path="/test" component={Auth(AppBar(TestTask), true)}/>
             <Route path="/collabocreate" component={Auth(AppBar(collabocreate), true)}/>
 
           </Switch>

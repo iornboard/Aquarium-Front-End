@@ -4,6 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Button from '@material-ui/core/Button';
 import Task from '../../components/tasks/Task'
+import TaskItemImageViewer from '../../components/taskItems/TaskItemImageViewer'
+
 import { userInfo } from '../../_actions/actionUser';
 import { useDispatch } from 'react-redux';
 
@@ -51,7 +53,7 @@ export default function TestTask() {
         <Button onClick={handleChangeIndex} variant="contained" color="primary">
         Primary
         </Button>
-        
+            <TaskItemImageViewer/>
             <Task/>
 
         </Container>
