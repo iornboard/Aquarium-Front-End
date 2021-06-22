@@ -72,7 +72,7 @@ export default function Task() {
             <Grid item xs={7}>
                 
                 <Card className={classes.Section}>
-                  {taskImg ? <TaskItemImageViewer taskImgUrl={taskImgUrl}/> : <Uploader/> }
+                  {taskImg ? <TaskItemImageViewer taskImgUrl={taskImg}/> : <Uploader/> }
                   {taskImg ? "" : <Button fullWidth variant="contained" onClick={handleUploagImg}>제출</Button> }
                 </Card>
                 <Card className={classes.Section}>
