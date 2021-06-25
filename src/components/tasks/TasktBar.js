@@ -89,9 +89,7 @@ export default function TaskBarComp(props) {
   };
 
   useEffect(() => {
-    return () => {
       putLeftDay()
-    };
   });
 
   const putLeftDay = () => {

@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import ImageMarker, { Marker, MarkerComponentProps } from 'react-image-marker';
 import TextField from '@material-ui/core/TextField';
+import Card from '@material-ui/core/Card';
+import AccountCircle from '@material-ui/icons/AccountCircle';
+import InputAdornment from '@material-ui/core/InputAdornment';
 
 interface thisProps {
     taskImgUrl: string;
@@ -15,7 +18,17 @@ function App(prop: thisProps) {
 
     const CustomMarker = (props: MarkerComponentProps) => {
         return (
-            <TextField id="filled-basic" variant="filled" onChange={handleFormChange} />
+            <Card>
+                <TextField
+                InputProps={{
+                startAdornment: (
+                    <InputAdornment position="start">
+                    <AccountCircle />
+                    </InputAdornment>
+                ),
+                }}
+                />
+            </Card>
         );
     };
 
