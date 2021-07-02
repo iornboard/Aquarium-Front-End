@@ -52,6 +52,7 @@ function App(prop: thisProps) {
                     }
                     markerComponent={CustomMarker}
                 />
+                
             </div>
         </div>
     );
