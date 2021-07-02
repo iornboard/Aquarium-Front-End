@@ -13,6 +13,7 @@ import OAuthGoogle from '../../components/oAuth/OAuthGoogle'
 import OAuthFacebook from '../../components/oAuth/OAuthFacebook'
 import OAuthNaver from '../../components/oAuth/OAuthNaver'
 
+import TestVideo from '../../components/test/testVideo'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,8 +39,13 @@ export default function TestTask() {
   return (
     <div className={classes.root}>
         <CssBaseline />
+
+        
+
         <Container component="main" className={classes.main} maxWidth="xl">
-        <OAuthGoogle/>
+        <TestVideo/>
+
+        {/* <OAuthGoogle/>
         <OAuthFacebook/>
         <OAuthNaver/>
         <Button  variant="contained" color="primary">
@@ -49,7 +55,7 @@ export default function TestTask() {
         Primary
         </Button>
             <TaskItemImageViewer/>
-            <Task/>
+            <Task/> */}
 
         </Container>
     </div>
