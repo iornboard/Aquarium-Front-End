@@ -40,9 +40,6 @@ class VideoApp extends Component {
     }
  
 
-    
-    
-
 
     render() {
         return (

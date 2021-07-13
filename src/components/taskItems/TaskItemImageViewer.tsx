@@ -25,6 +25,7 @@ function App(prop: thisProps) {
                 startAdornment: (
                     <InputAdornment position="start">
                     <AccountCircle />
+                    <AccountCircle />
                     </InputAdornment>
                 ),
                 }}
