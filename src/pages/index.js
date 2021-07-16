@@ -7,3 +7,4 @@ export { default as UserInfo } from './userpage/Userinfo';
 export { default as collabomain } from './collabo/Collabomain';
 export { default as collabocreate } from './collabo/Collabocreate';
 export { default as TestTask } from './test/TestTask';
+export { default as UserMain } from './userpage/UserMain';
