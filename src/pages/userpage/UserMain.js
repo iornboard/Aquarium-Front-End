@@ -1,4 +1,5 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
@@ -38,10 +39,10 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export default function StickyFooter(props) {
+ function UserMain({match}) {
   const classes = useStyles();
 
-  console.log(props)
+  console.log(match.params.username);
 
   return (
     <div className={classes.root}>
@@ -54,3 +55,7 @@ export default function StickyFooter(props) {
     </div>
   );
 }
+
+
+
+export default withRouter(UserMain)
