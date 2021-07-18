@@ -5,6 +5,10 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
+import Grid from '@material-ui/core/Grid';
+import Avatar from '@material-ui/core/Avatar';
+
+import WorkCard from '../../components/works/WorkCard';
 
 function Copyright() {
   return (
@@ -26,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     minHeight: '100vh',
   },
   main: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(10),
     marginBottom: theme.spacing(2),
   },
   footer: {
@@ -37,8 +41,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
-
  function UserMain({match}) {
   const classes = useStyles();
 
@@ -47,10 +49,25 @@ const useStyles = makeStyles((theme) => ({
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <Container component="main" className={classes.main} maxWidth="sm">
+      <Container component="main" className={classes.main} maxWidth="lg">
+        <Grid container spacing={2} justifyContent="center">
+          <Grid item xs={3}>
 
+            <Avatar src="https://cdn.mkhealth.co.kr/news/photo/202010/50970_51164_4758.jpg" style={{ height: '300px', width: '300px' }}/>
+              
 
+            
 
+          {match.params.username}
+          </Grid>
+
+          <Grid item xs={9}>
+
+          <WorkCard/>
+
+          {match.params.username}
+          </Grid>
+        </Grid>
       </Container>
     </div>
   );
