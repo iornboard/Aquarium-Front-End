@@ -1,4 +1,5 @@
 import React from 'react';
+import clsx from 'clsx';
 import { withRouter } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
@@ -7,8 +8,11 @@ import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
+import Paper from '@material-ui/core/Paper';
 
 import WorkCard from '../../components/works/WorkCard';
+import InfoBarChart from '../../components/informations/InfoBarChart';
+import InfoRadarChart from '../../components/informations/InfoRadarChart';
 
 function Copyright() {
   return (
@@ -39,10 +43,15 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor:
       theme.palette.type === 'light' ? theme.palette.grey[200] : theme.palette.grey[800],
   },
+  charts: {
+    minHeight: '100vh',
+  }
 }));
 
  function UserMain({match}) {
   const classes = useStyles();
+
+  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   console.log(match.params.username);
 
@@ -64,6 +73,12 @@ const useStyles = makeStyles((theme) => ({
           <Grid item xs={9}>
 
           <WorkCard/>
+          <Paper className={fixedHeightPaper}>
+            <InfoBarChart className={classes.charts}/>
+          </Paper>
+          <Paper className={fixedHeightPaper}>
+          <InfoRadarChart className={classes.charts}/>
+          </Paper>
 
           {match.params.username}
           </Grid>
