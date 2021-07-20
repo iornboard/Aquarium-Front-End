@@ -1,5 +1,15 @@
 import React from "react";
-import { BarChart, Bar } from "recharts";
+import { BarChart, Bar , ResponsiveContainer } from "recharts";
+
+import Paper from '@material-ui/core/Paper';
+
+const styles = {
+  
+  paper: {
+    width : '50vh',
+    height : '60vh'
+  },
+};
 
 const data = [
   {
@@ -46,10 +56,14 @@ const data = [
   }
 ];
 
-export default function ChartApp() {
+export default function BarChartApp() {
   return (
-    <BarChart width={500} height={500} data={data}>
-      <Bar dataKey="uv" fill="#8884d8" />
-    </BarChart>
+    <Paper style={styles.paper}>
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart width={500} height={500} data={data}>
+          <Bar dataKey="uv" fill="#8884d8" />
+        </BarChart>
+      </ResponsiveContainer>
+    </Paper>
   );
 }

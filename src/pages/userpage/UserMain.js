@@ -13,6 +13,7 @@ import Paper from '@material-ui/core/Paper';
 import WorkCard from '../../components/works/WorkCard';
 import InfoBarChart from '../../components/informations/InfoBarChart';
 import InfoRadarChart from '../../components/informations/InfoRadarChart';
+import SimpleInfoCard from '../../components/informations/simpleInfoCard';
 
 function Copyright() {
   return (
@@ -55,6 +56,8 @@ const useStyles = makeStyles((theme) => ({
 
   console.log(match.params.username);
 
+  const cards = [1, 2, 3];
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -64,21 +67,27 @@ const useStyles = makeStyles((theme) => ({
 
             <Avatar src="https://cdn.mkhealth.co.kr/news/photo/202010/50970_51164_4758.jpg" style={{ height: '300px', width: '300px' }}/>
               
-
-            
-
           {match.params.username}
           </Grid>
 
           <Grid item xs={9}>
 
+          <Grid container spacing={4}>
+            {cards.map((card) => (
+                <Grid item key={card} xs={12} sm={6} md={4}>
+                  <SimpleInfoCard className={classes.charts}/>
+                </Grid>
+              ))}
+          </Grid>
+
           <WorkCard/>
-          <Paper className={fixedHeightPaper}>
+
             <InfoBarChart className={classes.charts}/>
-          </Paper>
-          <Paper className={fixedHeightPaper}>
-          <InfoRadarChart className={classes.charts}/>
-          </Paper>
+
+            <InfoRadarChart className={classes.charts}/>
+
+
+            
 
           {match.params.username}
           </Grid>
