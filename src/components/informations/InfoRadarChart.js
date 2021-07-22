@@ -1,16 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
-import Paper from '@material-ui/core/Paper';
-
-const styles = {
-  
-  paper: {
-    width : '50vh',
-    height : '60vh'
-  },
-};
-
-
+import { useTheme } from '@material-ui/core/styles';
+import Title from './Title';
 const data = [
   {
     subject: 'Math',
@@ -51,17 +42,20 @@ const data = [
 ];
 
 export default function RadarChartApp() {
+
+  const theme = useTheme();
   
     return (
-      <Paper style={styles.paper}>
+      <React.Fragment>
+        <Title>Week</Title>
         <ResponsiveContainer width="100%" height="100%">
           <RadarChart cx="50%" cy="50%" outerRadius="80%" data={data}>
             <PolarGrid />
             <PolarAngleAxis dataKey="subject" />
             <PolarRadiusAxis />
-            <Radar name="Mike" dataKey="A" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
+            <Radar name="Mike" dataKey="A" style={{ textAnchor: 'middle', fill: theme.palette.text.primary, stroke: theme.palette.text.primary }}  fillOpacity={0.6} />
           </RadarChart>
         </ResponsiveContainer>
-      </Paper>
+      </React.Fragment>
     );
 }
