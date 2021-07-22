@@ -14,6 +14,7 @@ import WorkCard from '../../components/works/WorkCard';
 import InfoBarChart from '../../components/informations/InfoBarChart';
 import InfoRadarChart from '../../components/informations/InfoRadarChart';
 import SimpleMainInfoCard from '../../components/informations/simpleMainInfoCard';
+import SimpleInfoCard from '../../components/informations/simpleInfoCard';
 import SimpleInfoList from '../../components/informations/SimpleInfoList'
 
 function Copyright() {
@@ -128,6 +129,13 @@ function UserMain() {
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
+            <Grid item xs={12} md={8} lg={9}>
+              <Grid container>
+                  <SimpleInfoCard/>
+                  <SimpleInfoCard/>
+                  <SimpleInfoCard/>
+              </Grid>
+            </Grid>
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
                 <InfoBarChart />
