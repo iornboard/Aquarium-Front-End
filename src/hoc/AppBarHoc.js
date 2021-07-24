@@ -172,7 +172,7 @@ export default function (SpecificComponent) {
       const userInfo = useSelector( store => store.auth.userData , []);
       const {userId, userEmail, userFullname, userNickname, userImgUrl} = {...userInfo}
 
-      const [open, setOpen] = React.useState(false);
+      const [open, setOpen] = React.useState(true);
       const [anchorEl, setAnchorEl] = React.useState(null);
       const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
