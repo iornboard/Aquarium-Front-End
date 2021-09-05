@@ -344,7 +344,7 @@ export default function (SpecificComponent) {
                   >
                     <Avatar src = {userImgUrl} />
                   </IconButton> :     
-                    <Button variant="contained" color="secondary" size="small" href="/signin" className={classes.loginButton}>
+                    <Button variant="contained" color="secondary" size="small" href="/" className={classes.loginButton}>
                       Login
                     </Button>
                   }

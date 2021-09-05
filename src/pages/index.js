@@ -1,10 +1,14 @@
-export { default as Login } from './test/TestLogin';  //signin
-export { default as SignUp } from './test/TestSignUp';
-export { default as Main } from './test/TestMain';
-export { default as Sun } from './test/TestSun';
-export { default as Post } from './test/TestPost';
-export { default as UserInfo } from './userpage/Userinfo';
-export { default as collabomain } from './collabo/Collabomain';
-export { default as collabocreate } from './collabo/Collabocreate';
-export { default as TestTask } from './test/TestTask';
-export { default as UserMain } from './userpage/UserMain';
+export { default as MyPage } from './mainPages/MyPage';
+export { default as CollaboManage } from './mainPages/CollaboManage';
+export { default as Collabo } from './mainPages/Collabo';
+export { default as Login } from './mainPages/Login';  //signin
+export { default as SignUp } from './mainPages/SignUp';
+export { default as UserPorfile } from './mainPages/UserPorfile';
+
+export { default as Sun } from './testPages/TestSun'; // 테스트용 페이지 
+
+// export { default as Main } from './testPages/TestMain';
+// export { default as Post } from './testPages/TestPost';
+
+
+

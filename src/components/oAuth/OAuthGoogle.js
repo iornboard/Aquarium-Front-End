@@ -22,8 +22,8 @@ const Login = (props) => {
     );
     if (jwtToken.status === 200) {
       console.log(2, jwtToken.data);
-      localStorage.setItem("jwt", jwtToken.data);
-      props.history.push('/')
+      localStorage.setItem("jwt", jwtToken.data.authorization);
+      props.history.push(jwtToken.data.redirectUrl)
     }
   };
 

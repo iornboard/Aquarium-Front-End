@@ -1,7 +1,7 @@
 import Axios from 'axios'
 
 import {
-    IMAGE
+    IMAGE , AUTHUSERPAGE
 } from './types';
 
 const mtConfig = {
@@ -21,3 +21,12 @@ export function image(value) {
     };
 }
 
+export function authUserPage( userNickname ) {
+
+    const request = Axios.get('/api/auth-userpage', { params: { userNickname : userNickname } }) 
+
+    return {
+        type: AUTHUSERPAGE,
+        payload : request
+    };
+}

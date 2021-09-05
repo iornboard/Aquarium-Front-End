@@ -107,8 +107,10 @@ function SignInSide(props) {
     dispatch(login(values))
      .then(res => {
       if(res){
-        localStorage.setItem('jwt', res.payload); //jwt형태로 만들어서  localStorage저장
-        props.history.push('/')//화면이동
+
+        console.log(res)
+        localStorage.setItem('jwt', res.payload.authorization); //jwt형태로 만들어서  localStorage저장
+        props.history.push(res.payload.redirecturl)//화면이동
       } else {
         alert("this is enable account!")
       }

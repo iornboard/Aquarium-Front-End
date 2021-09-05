@@ -35,8 +35,8 @@ export function join(value) {
 
 export function login(value) {
 
-    const request = Axios.post('/api/login', value) 
-    .then(res => res.headers.authorization)
+    const request = Axios.post('/api/login', value)
+        .then(res => res.headers) 
 
     return {
         type: LOGIN,
