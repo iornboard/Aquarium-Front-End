@@ -1,10 +1,13 @@
 import React, { useState } from "react"
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+
+import Aquarium from "../../components/aquarium/Aquarium";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,32 +51,77 @@ export default function StickyFooter() {
   return (
 
     <div className={classes.root}>
-      <CssBaseline />
-       {name} {email}
 
-      <form className={classes.loot} noValidate autoComplete="off">
-      <TextField id="standard-basic" label="Standard" value={name} onChange={handleChange1} />
-      <TextField id="standard-basic" label="Standard" value={email} onChange={handleChange2} />
-    </form>
-      <Container component="main" className={classes.main} maxWidth="sm">
-      
-        <Typography variant="h2" component="h1" gutterBottom>
-          Sticky footer
-        </Typography>
-        <Button variant="contained" color="primary" disableElevation>
-      Disable elevation
-    </Button>
-        <Typography variant="h5" component="h2" gutterBottom>
-          {'Pin a footer to the bottom of the viewport.'}
-          {'The footer will move as the main element of the page grows.'}
-        </Typography>
-        <Typography variant="body1">Sticky footer placeholder.</Typography>
-      </Container>
-      <footer className={classes.footer}>
-        <Container maxWidth="sm">
-          <Typography variant="body1">My sticky footer can be found here.</Typography>
-        </Container>
-      </footer>
+       <Card className={classes.root}>
+          <CardContent>
+            <Typography className={classes.title} color="textSecondary" gutterBottom>
+              Word of the Day
+            </Typography>
+            <Typography variant="h5" component="h2">
+              ㅇㄹㄴㅇㄹㅇ
+            </Typography>
+            <Typography className={classes.pos} color="textSecondary">
+              adjective
+            </Typography>
+            <Typography variant="body2" component="p">
+              well meaning and kindly.
+              <br />
+              {'"a benevolent smile"'}
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <Button size="small">Learn More</Button>
+          </CardActions>
+        </Card>
+        <Card className={classes.root}>
+          <CardContent>
+            <Typography className={classes.title} color="textSecondary" gutterBottom>
+              Word of the Day
+            </Typography>
+            <Typography variant="h5" component="h2">
+              ㅇㄹㄴㅇㄹㅇ
+            </Typography>
+            <Typography className={classes.pos} color="textSecondary">
+              adjective
+            </Typography>
+            <Typography variant="body2" component="p">
+              well meaning and kindly.
+              <br />
+              {'"a benevolent smile"'}
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <Button size="small">Learn More</Button>
+          </CardActions>
+        </Card>
+        <Card className={classes.root}>
+          <CardContent>
+            <Typography className={classes.title} color="textSecondary" gutterBottom>
+              Word of the Day
+            </Typography>
+            <Typography variant="h5" component="h2">
+              ㅇㄹㄴㅇㄹㅇ
+            </Typography>
+            <Typography className={classes.pos} color="textSecondary">
+              adjective
+            </Typography>
+            <Typography variant="body2" component="p">
+              well meaning and kindly.
+              <br />
+              {'"a benevolent smile"'}
+            </Typography>
+          </CardContent>
+          <CardActions>
+            <Button size="small">Learn More</Button>
+          </CardActions>
+        </Card>
+        
+      {/* <Test/> */}
+        <Card>
+          <Box>
+            <Aquarium/>
+          </Box>
+        </Card>
     </div>
   );
 }

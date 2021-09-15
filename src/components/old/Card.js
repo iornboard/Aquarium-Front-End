@@ -24,9 +24,9 @@ import Button from '@material-ui/core/Button';
 import CommentForm from './Comment'
 import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
-import AvatarComp from './AvatarComp';
+import AvatarComp from '../common/AvatarComp';
 import { useDispatch , useSelector } from 'react-redux';
-import { createComment , getPostComments } from '../_actions/actionComment'
+import { createComment , getPostComments } from '../../_actions/actionComment'
 
 
 const useStyles = makeStyles((theme) => ({

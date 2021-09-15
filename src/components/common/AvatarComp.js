@@ -8,10 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 
 
 const useStyles = makeStyles((theme) => ({
-    large: {
-      width: theme.spacing(7),
-      height: theme.spacing(7),
-    },
+
   }));
 
 
@@ -34,25 +31,17 @@ export default function AvatarComp(props) {
   return (
         <div>
 
-        <IconButton onClick = {handleClickOpen} >
-            <Avatar src = {userImgUrl} />
-        </IconButton>
+          <Avatar variant="rounded" alt="수정" src="수정" onClick = {handleClickOpen} />
 
-        <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-        >
+          <Dialog open={open} onClose={handleClose}>
+            <DialogTitle id="alert-dialog-title"> <div><Avatar src = {userImgUrl} /></div>  <div></div>{userNickname}</DialogTitle>
 
-        <DialogTitle id="alert-dialog-title"> <div><Avatar src = {userImgUrl} /></div>  <div></div>{userNickname}</DialogTitle>
+            <DialogContent>
 
-        <DialogContent>
+              유저정보를 표기합니다
 
-          유저정보를 표기합니다
-
-        </DialogContent>
-      </Dialog>
+            </DialogContent>
+          </Dialog>
         </div>
   );
 }

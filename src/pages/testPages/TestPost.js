@@ -10,7 +10,7 @@ import Link from '@material-ui/core/Link';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Switch from '@material-ui/core/Switch';
-import UploadTab from '../../components/UploadTab'
+import UploadTab from '../../components/old/UploadTab'
 
 function Copyright() {
   return (

@@ -2,13 +2,21 @@ import React , { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
-import { image } from '../_actions/index'
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box';
+import ImageIcon from '@material-ui/icons/Image';
+import AddCommentIcon from '@material-ui/icons/AddComment';
+import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
+import Container from '@material-ui/core/Container';
+import Fab from "@material-ui/core/Fab";
+import { image } from '../../_actions/index'
 import { useDropzone } from 'react-dropzone'
 import RootRef from '@material-ui/core/RootRef'
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -36,6 +44,12 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired,
 };
 
+function a11yProps(index) {
+  return {
+    id: `scrollable-force-tab-${index}`,
+    'aria-controls': `scrollable-force-tabpanel-${index}`,
+  };
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -75,11 +89,16 @@ export default function ScrollableTabsButtonForce() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
+
+  const [value, setValue] = useState(0);
+  const [postImg, setpostImg] = useState();
   const [preview, setPreview] = useState(); 
+  const [postImgUrl, setPostImgUrl] = useState(""); 
 
 
   const onDrop = React.useCallback((acceptedFile) => {
 
+    setpostImg(acceptedFile[0])
     const previewUrl = URL.createObjectURL(acceptedFile[0])
     setPreview(previewUrl);
 
@@ -96,15 +115,47 @@ export default function ScrollableTabsButtonForce() {
     dispatch(image(body))   
       .then(res => {
         console.log(res.payload)
+
+        setPostImgUrl(res.payload.fileDownloadUri)
     })
   }
 
   const {getRootProps, getInputProps} = useDropzone({ multiple: false, onDrop,})
   const { ref, ...rootProps } = getRootProps();
 
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
   return (
     <div className={classes.root}>
 
+      <AppBar position="static" color="default">
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          variant="scrollable"
+          scrollButtons="on"
+          indicatorColor="primary"
+          textColor="primary"
+          aria-label="scrollable force tabs example"
+        >
+          <Tab label="Add Comment" icon={<AddCommentIcon />} {...a11yProps(0)} />
+          <Tab label="Add Image" icon={<ImageIcon />} {...a11yProps(1)} />
+          <Tab label="Add video" icon={<PlayCircleFilledIcon />} {...a11yProps(2)} />
+          <Tab label="Item Four" icon={<AddCommentIcon />} {...a11yProps(3)} />
+        </Tabs>
+      </AppBar>
+      
+      <TabPanel value={value} index={0}>
+        <Container className={classes.main}>
+            <Fab component="span" className={classes.button}>
+                <AddCommentIcon />
+            </Fab>
+        </Container>
+      </TabPanel>
+
+      <TabPanel value={value} index={1}>
         <Grid container className={classes.main}>
 
             <Grid item xs= {6} style={{padding:16}}>
@@ -129,7 +180,26 @@ export default function ScrollableTabsButtonForce() {
                   src = {preview}
                 />
             </Grid>
-          </Grid>        
+          </Grid>
+        
+      </TabPanel>
+
+      <TabPanel value={value} index={2}>
+        <Container className={classes.main}>
+            <Fab component="span" className={classes.button}>
+                <PlayCircleFilledIcon />
+            </Fab>
+            필요한 URL를 입력해주세요
+        </Container>
+      </TabPanel>
+
+      <TabPanel value={value} index={3}>
+        <Container className={classes.main}>
+            <Fab component="span" className={classes.button}>
+                <AddCommentIcon />
+            </Fab>
+        </Container>
+      </TabPanel>
 
     </div>
   );

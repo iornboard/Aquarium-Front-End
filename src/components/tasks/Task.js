@@ -10,7 +10,7 @@ import TaskItemChatViewer from '../taskItems/TaskItemChatViewer';
 import TaskItemToolBar from '../taskItems/TaskItemToolBar';
 import TaskItemMovieViewer from '../taskItems/TaskItemMovieViewer' ;
 import TaskItemImageViewer from '../taskItems/TaskItemImageViewer'
-import Uploader from '../Uploader'
+import Uploader from '../common/Uploader'
 import { updateTasKImg , setTask } from '../../_actions/actionTask'
 import Button from '@material-ui/core/Button';
 

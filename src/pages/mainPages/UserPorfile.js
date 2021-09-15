@@ -13,7 +13,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import IconButton from '@material-ui/core/IconButton';
-import Uploader from  '../../components/Uploader';
+import Uploader from  '../../components/common/Uploader';
 import { userImage } from '../../_actions/actionUser' 
 import { useDispatch , useSelector } from 'react-redux';
 
