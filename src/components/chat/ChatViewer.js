@@ -1,3 +1,13 @@
+// 채팅이 가능한 컴포넌트 
+// 사용 컴포넌트에서 roomId를 전달해 주면 사용할 수 있음
+
+
+//이슈
+// 이슈 1. 초반에는 모든 소켓 연결을 오두 ok함 문제는 disconnet가 없고, 언제 소켓에 연결할지 정하지 않음 -> 설계부터 필요할 듯 (디버그에서 상태를 받아 하는 것도 좋을 듯)
+  // heartbeat을 추가하고, 얼마 정도 send가 없으면 로직을 짜는 것으로 한다. 
+// 이슈 2. 채팅이 왔을 때, 알람이 어떻게 주어지도 설계해야 한다. 
+
+
 import { server } from '../../conf/Config'
 import React, { useState, useEffect, useRef } from 'react';
 import { chatHistory } from '../../_actions/actionChat'
@@ -17,6 +27,12 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     backgroundColor: theme.palette.background.paper,
   },
+  onlineForm : {
+    position: 'relative',
+    top: -50,
+    left: 10,
+    zIndex: 10,
+  }
 }));
 
 export default  function ChatViewer( {chatRoomId} ) {
@@ -29,6 +45,7 @@ export default  function ChatViewer( {chatRoomId} ) {
   const {userId, userNickname, userImgUrl} = {...userInfo} 
 
   const [attr, setAttr] = useState([]);
+  const [isOnlined, setIsOnlined] = useState(false);
 
   useEffect(()=>{
     dispatch(chatHistory(chatRoomId))
@@ -39,6 +56,7 @@ export default  function ChatViewer( {chatRoomId} ) {
     stompClient.current.debug= () => {};
     stompClient.current.reconnectDelay = 5000
 
+    setIsOnlined(true)
     connect()
   },[]);
 
@@ -77,8 +95,6 @@ export default  function ChatViewer( {chatRoomId} ) {
   };
 
 
-  
-
   return (
           <div>
             {chatRoomId ? 
@@ -92,7 +108,7 @@ export default  function ChatViewer( {chatRoomId} ) {
               "채팅을 사용할 수 없습니다."
             </Grid>
             }
-            <Online/>
+            <Online status={true} className={classes.onlineForm} />
           </div>
   );
 }
