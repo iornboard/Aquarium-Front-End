@@ -1,30 +1,18 @@
 import Axios from 'axios'
 
 import {
-    GET_CHAT,
-    CREATE_CHAT
+    CHAT_HISTORY,
 } from './types';
 
 
-export function getChats(roomId) {
+export function chatHistory(roomId) {
 
-    const request = Axios.get('/api/chat?roomId=' + roomId ) 
+    const request = Axios.get('/api/history?roomId=' + roomId ) 
         .then(response => response.data) 
 
     return {
-        type: GET_CHAT,
+        type: CHAT_HISTORY,
         payload : request
     };
 }
 
-
-export function createChat(value) {
-
-    const request = Axios.post('/api/create-chat', value) 
-        .then(response => response.data)
-
-    return {
-        type: CREATE_CHAT,
-        payload : request
-    };
-}

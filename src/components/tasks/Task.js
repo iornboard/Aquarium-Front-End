@@ -6,13 +6,13 @@ import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import TaskItemPointViewr from '../taskItems/TaskItemPointViewr';
 import TaskItemStatusViewer from '../taskItems/TaskItemStatusViewer';
-import TaskItemChatViewer from '../taskItems/TaskItemChatViewer';
 import TaskItemToolBar from '../taskItems/TaskItemToolBar';
 import TaskItemMovieViewer from '../taskItems/TaskItemMovieViewer' ;
 import TaskItemImageViewer from '../taskItems/TaskItemImageViewer'
 import Uploader from '../common/Uploader'
 import { updateTasKImg , setTask } from '../../_actions/actionTask'
 import Button from '@material-ui/core/Button';
+import ChatViewer from '../chat/ChatViewer';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -69,7 +69,7 @@ export default function Task() {
                 
             </Grid>  
 
-            <Grid item xs={7}>
+            {/* <Grid item xs={7}>
                 
                 <Card className={classes.Section}>
                   {taskImg ? <TaskItemImageViewer taskImgUrl={taskImg}/> : <Uploader/> }
@@ -79,7 +79,7 @@ export default function Task() {
                   <TaskItemPointViewr/>
                 </Card>
                 
-            </Grid>  
+            </Grid>   */}
 
             <Grid item xs={3}>
 
@@ -87,7 +87,7 @@ export default function Task() {
                   <TaskItemToolBar/>
                 </Card>
                 <Card className={classes.Section}>
-                  <TaskItemChatViewer/>
+                  <ChatViewer/>
                 </Card>
                 <Card className={classes.Section}>
                   <TaskItemStatusViewer/>

@@ -1,10 +1,8 @@
 import React, { useState } from "react"
 import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import ChatViewer from "../../components/chat/ChatViewer";
-
 import Box from '@material-ui/core/Box';
 
+import ChatViewer from "../../components/chat/ChatViewer";
 import Aquarium from "../../components/aquarium/Aquarium";
 
 const useStyles = makeStyles((theme) => ({
@@ -49,6 +47,12 @@ export default function StickyFooter() {
   return (
 
     <div className={classes.root}>
+    <Box height={700} width={500}>
+      <ChatViewer chatRoomId={13}/> 
+    </Box>
+    <Box height={700} width={500}>
+      <ChatViewer chatRoomId={13}/> 
+    </Box>
         
       {/* <Test/> */}
         {/* <Card>
@@ -56,7 +60,6 @@ export default function StickyFooter() {
             <Aquarium/>
           </Box>
         </Card> */}
-        
     </div>
   );
 }
