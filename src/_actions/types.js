@@ -23,3 +23,6 @@ export const UPDATE_TASK_IMG = 'UPDATE_TASK_IMG';
 export const AUTHUSERPAGE = 'AUTH_USER_PAGE';
 export const CHAT_HISTORY = 'CHAT_HISTORY';
 
+export const ABOUT_AQUARIUM = 'ABOUT_AQUARIUM';  // 임시의 아쿠아리움 관련 액션 전용 리덕스 타입
+export const ABOUT_MENTION = 'ABOUT_MENTION ';  // 임시의 멘션 관련 액션 전용 리덕스 타입
+

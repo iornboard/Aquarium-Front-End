@@ -1,3 +1,7 @@
+// 그림, 파일들을 업로드 할 수 있는 컴포넌트 
+
+//이슈 1. 파일 업로드 후, 컴포넌트에서 삭제되지 않음
+
 import React , { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -64,16 +68,10 @@ export default function Uploader({className}) {
 
   const [preview, setPreview] = useState(); 
 
-
-  const [postImg, setpostImg] = useState();
-  const [postImgUrl, setPostImgUrl] = useState(""); 
   const [checked, setChecked] = React.useState(false);
 
   const onDrop = React.useCallback((acceptedFile) => {
 
-    console.log("드롭 실행")
-
-    setpostImg(acceptedFile[0])
     const previewUrl = URL.createObjectURL(acceptedFile[0])
     setPreview(previewUrl);
     setChecked((prev) => !prev);
@@ -89,12 +87,6 @@ export default function Uploader({className}) {
     await body.append("img", file)
 
     dispatch(image(body))   
-      .then(res => {
-        console.log(res.payload)
-
-        setPostImgUrl(res.payload.fileDownloadUri)
-    })
-
 
   }
 

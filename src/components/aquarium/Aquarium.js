@@ -9,6 +9,7 @@
 import React, {useRef, useState, useEffect} from "react";
 import { useDispatch , useSelector } from 'react-redux';
 import { makeStyles, useTheme , withStyles } from '@material-ui/core/styles';
+import { createMention, readMention, readAllMentMark } from '../../_actions/actionMention'
 import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
 import Avatar from '@material-ui/core/Avatar';
@@ -38,6 +39,7 @@ import logo from '../../hoc/logo.png';
 //외부에서 가져온 커스컴 컴포넌트(기본 분류로 할 것) 또는 컴포넌트를 HOC형식으로 변환할 것
 import AvatarComp from "../common/AvatarComp";
 import Uploader from "../common/Uploader"
+import SimpleProgress from "../common/SimpleProgress"
 
 
 import videojs from 'video.js';
@@ -90,7 +92,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight : 15, 
   },
   drawerimage: {
-    width: 300,
+    width: "100%",
     marginTop : "5%",
     marginBottom : "5%",
     marginLeft : "auto",
@@ -120,16 +122,19 @@ const useStyles = makeStyles((theme) => ({
 
 
 var globalVideoTime = 0  // const 와 var의 차이 알아서 이 부분은 효울적으로 수정하기 !!
-const mentionInfos = [ 
-  { x:150 , y:150 , mentionText:"여기에 내용 그리고 여기에 내용", mentionId : 1 , start:0 , end:5},
-  { x:300 , y:300 , mentionText:"여기에 내용2", mentionId : 2 , start:10 , end:15},
-  { x:70 , y:300 , mentionText:"여기에 내용3", mentionId : 3 , start:5 , end:15},
-  { x:500 , y:500 , mentionText:"여기에 내용4", mentionId : 4 , start:0 , end:15},
-  { x:280 , y:600 , mentionText:"여기에 내용5", mentionId : 5 , start:10 , end:20},
+const sampleMentionInfos = [ 
+  { x:150 , y:150 , mentText:"여기에 내용 그리고 여기에 내용", mentId : 1 , start:0 , end:5},
+  { x:300 , y:300 , mentText:"여기에 내용2", mentId : 2 , start:10 , end:15},
+  { x:70 , y:300 , mentText:"여기에 내용3", mentId : 3 , start:5 , end:15},
+  { x:500 , y:500 , mentText:"여기에 내용4", mentId : 4 , start:0 , end:15},
+  { x:280 , y:600 , mentText:"여기에 내용5", mentId : 5 , start:10 , end:20},
 
 ]
+const aqrmId = 5 // 임시
 
-const Aquarium = ( {width=1280, height=720, scr='http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4'} ) => {
+
+
+const Aquarium = ( {width=1280, height=720, scr='http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4', aqrm} ) => {
   const theme = useTheme();
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -137,8 +142,14 @@ const Aquarium = ( {width=1280, height=720, scr='http://commondatastorage.google
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
 
-  const [mentions, SetMentions] = React.useState(mentionInfos);
-  const [values, setValues] = React.useState([]);
+  const userInfo = useSelector( store => store.auth.userData , []);  // 현재 유저 정보 받아오기
+  const {userId, userNickname, userImgUrl} = {...userInfo} 
+
+  const fileInfo = useSelector( store => store.file.ImgFileInfo , []);  // 현재 유저 정보 받아오기
+  const {fileDownloadUri} = {...fileInfo} 
+
+  const [mentions, SetMentions] = React.useState();
+  const [values, setValues] = React.useState("");
   const [selectedTime, setSelectedTime] = React.useState(0);
 
   const [open, setOpen] = React.useState(false);
@@ -177,7 +188,9 @@ const Aquarium = ( {width=1280, height=720, scr='http://commondatastorage.google
 
     setCtx(contextRef.current);
 
-    
+
+    dispatch(readAllMentMark(aqrmId))
+      .then(res => SetMentions(res.payload))
 
   },[])
 
@@ -188,8 +201,6 @@ const Aquarium = ( {width=1280, height=720, scr='http://commondatastorage.google
     var bx = e.target.getBoundingClientRect(),
     x = e.clientX - bx.left,y = e.clientY - bx.top;
 
-    console.log(bx)
-    console.log( x + "," + y )
 
     setPositionX(x);
     setPositionY(y);
@@ -197,17 +208,12 @@ const Aquarium = ( {width=1280, height=720, scr='http://commondatastorage.google
     setOpen(true);
     setShowed(true);
 
-    setSelectedTime(globalVideoTime-1)  // 상황에 따라서 조절하기
+    setSelectedTime(globalVideoTime)  // 상황에 따라서 조절하기
 }
 
   const handleClose = () => {
     setOpen(false);
   };
-
-  const handleFormChange = (event) => {
-    const { name, value } = event.target
-    setValues({ ...values, [name]: value })
-  }
 
   const handleChange = () => {
     setChecked((prev) => !prev);
@@ -219,19 +225,21 @@ const Aquarium = ( {width=1280, height=720, scr='http://commondatastorage.google
 
   const onSubmitHandler = (event) => {
 
-    //1. 데이터를 만들기 
-    const newMention = { x: positionX , y: positionY , mentionText: values.mentionText , start:selectedTime , end:selectedTime+5 }
-    const mentionData = mentions.concat(newMention)
-    //2. 디스패치하기
-    SetMentions( mentionData )
+    const newMention = { x: positionX, y: positionY, mentText: values.mentText, mentImgUrl : fileDownloadUri, start:selectedTime, end:selectedTime+5, userId:userId, aqrmId:aqrmId }
+    
+    dispatch(createMention(newMention))
+      .then(res => {SetMentions( prev => [...prev, res.payload] ) 
+        console.log(res.payload)})
   
     setOpen(false);
-    setValues([]);
+    setValues("");
+    console.log(values)
+
   }
 
 
   return (
-    <Box position='absolute' >
+    <Box position='absolute' zIndex={1}>
       
       <canvas 
         ref={canvasRef}
@@ -279,15 +287,16 @@ const Aquarium = ( {width=1280, height=720, scr='http://commondatastorage.google
             <Box margin="5%" display="flex" flexWrap="wrap" justifyContent="flex-end" >
 
               <TextField
-                name='mentionText'
+                name='mentText'
                 className={classes.mentionField}
                 fullWidth
                 id="filled-multi=ine-flexible"
                 multiline
                 rows={10}
                 maxRows={8}
-                onChange={handleFormChange}
+                onChange={e => setValues(e.target.value)}
                 variant="outlined" 
+                value={values}
               />
 
               <Uploader className={classes.basic}/>
@@ -336,8 +345,7 @@ const VideoPlayer = ({className, width, height, scr}) => {
     const currentSecond = Math.floor(currentTimeSecond);
     
     globalVideoTime = currentSecond
-    console.log(globalVideoTime)
-    
+    //console.log(globalVideoTime)
   };
 
   //!!! 추후 수정할 수도 있는 코드 -> 타임라인을 변경할 때마다, 마커나 다시 렌더링 될 수 있게 함 ->  아님 마커 내부에서 5초마다 다시 렌더링을 확인하는 방법 또는 show,hidden 방법의 개선이 있음 
@@ -368,17 +376,13 @@ const CustomMarker = ({mentInfo}) => {
 
   // const timeRef = useRef(0);
   
+  const [mentionMainInfo, setMentionMainInfo] = React.useState();  // 멘션 세부정보
+
   const [open, setOpen] = React.useState(false);
   const [values, setValues] = React.useState([]);
   const [checked, setChecked] = React.useState(false);
   const [showed, setshowed] = React.useState(false);
   const [progress, setProgress] = React.useState(0);
-  // !!! hardCoding !!! 
-
-  const userInfo = useSelector( store => store.auth.userData , []);
-  const {userId} = {...userInfo}
-
-   // !!! hardCoding !!!
 
   
    // !!!수정해야 하는 사항 -> 마커를 움직을 때의 이슈를 해결 할 것 
@@ -404,13 +408,16 @@ const CustomMarker = ({mentInfo}) => {
     }, 1000);
   }, []);
 
-
   const handleOpen = () => {
+
+    dispatch(readMention(mentInfo.mentId))
+      .then(res => setMentionMainInfo(res.payload))
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
+    setMentionMainInfo(null)  // ???
   };
 
   const handleFormChange = (event) => {
@@ -422,9 +429,7 @@ const CustomMarker = ({mentInfo}) => {
     setChecked((prev) => !prev);
   };
 
-  const onSubmitHandler = (event) => {
   
-  }
   
 
   return (
@@ -432,7 +437,7 @@ const CustomMarker = ({mentInfo}) => {
 
       <Fade in={showed}>
         <Box >
-          <Chip avatar={ <Avatar>M</Avatar> } label={<EllipsisText> {mentInfo.mentionText} </EllipsisText>} onClick={handleOpen} className={classes.basicShadow} />
+          <Chip avatar={ <Avatar src={mentInfo.avatarImg} /> } label={<EllipsisText> {mentInfo.mentText} </EllipsisText>} onClick={handleOpen} className={classes.basicShadow} />
             <CircularProgress value={progress} size={35} thickness={8} variant="determinate" className={classes.fabProgress} /> {/* 남은 시간 표시 */}
         </Box>
       </Fade>
@@ -452,84 +457,90 @@ const CustomMarker = ({mentInfo}) => {
           <Box width="auto" height="6%" bgcolor="grey.300" display="inline-block">
           </Box> 
 
-          <Box className={classes.rootList}>
-            <List className={classes.root}>
-            <ListItem alignItems="flex-start">
-              <ListItemAvatar>
-                <Avatar variant="rounded" alt="수정" src="수정" />
-              </ListItemAvatar>
-              <ListItemText
-                primary={
-                  <React.Fragment>
-                    <Typography
-                      component="span"
-                      variant="h5"
-                      color="textPrimary"
-                    >
-                      글쓴이
-                    </Typography>
-                  </React.Fragment>
-                }
-                secondary="이메일"
-              />
-            </ListItem>
-            <ListItem alignItems="flex-start">
-              <ListItemText
-                primary={
-                    <Typography
-                      component="span"
-                      variant="h6"
-                      color="textPrimary"
-                    >
-                      "글 내용"
-                    </Typography>
-                }
-              />
-            </ListItem>
-            <ListItem alignItems="flex-start">
-              <img className={classes.drawerimage} src={"https://cdn.mkhealth.co.kr/news/photo/202010/50970_51164_4758.jpg"} alt={"시벙용 그림"} />
-            </ListItem>
-
-            </List>
-            <Divider/>
-              <Box display="flex" flexWrap="wrap" justifyContent="flex-end">
-                  <IconButton>
-                      <CheckIcon/>
-                  </IconButton>
-                  <IconButton onClick={handleChange}>
-                    <ModeCommentIcon/>
-                  </IconButton>
-              </Box>
-            <Divider/>
-
-            <Collapse in={checked}>
-              <Box className={classes.expandedPanel}>
-                <TextField
-                      className={classes.commentField}
-                      fullWidth
-                      id="filled-multi=ine-flexible"
-                      multiline
-                      rows={4}
-                      maxRows={4}
-                      onChange={handleFormChange}
-                      variant="outlined" 
+          {mentionMainInfo ? 
+            <Box className={classes.rootList}>
+              <List className={classes.root}>
+              <ListItem alignItems="flex-start">
+                <ListItemAvatar>
+                  <Avatar variant="rounded" alt="수정" src={mentionMainInfo.userInfo.userImgUrl} />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={
+                    <React.Fragment>
+                      <Typography
+                        component="span"
+                        variant="h5"
+                        color="textPrimary"
+                      >
+                        {mentionMainInfo.userInfo.userNickname}
+                      </Typography>
+                    </React.Fragment>
+                  }
+                  secondary={mentionMainInfo.userInfo.userEmail}
                 />
+              </ListItem>
+              <ListItem alignItems="flex-start">
+                <ListItemText
+                  primary={
+                      <Typography
+                        component="span"
+                        variant="h6"
+                        color="textPrimary"
+                      >
+                        {mentionMainInfo.mentText}
+                      </Typography>
+                  }
+                />
+              </ListItem>
+              <ListItem alignItems="center" >
+                {mentionMainInfo.mentImgUrl ? <img className={classes.drawerimage} src={mentionMainInfo.mentImgUrl} alt={"시벙용 그림"} /> : ""}
+              </ListItem>
 
-                <Button variant="contained" color="secondary">
-                  댓글 버튼
-                </Button>
-              </Box>
-            </Collapse>
-            
-            <Divider/>
+              </List>
+              <Divider/>
+                <Box display="flex" flexWrap="wrap" justifyContent="flex-end">
+                    <IconButton>
+                        <CheckIcon/>
+                    </IconButton>
+                    <IconButton onClick={handleChange}>
+                      <ModeCommentIcon/>
+                    </IconButton>
+                </Box>
+              <Divider/>
 
-            <List className={classes.commentList}>
-            {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((sectionId) => (
-              <Comment/>
-            ))}
-            </List>
+              <Collapse in={checked}>
+                <Box className={classes.expandedPanel}>
+                  <TextField
+                        className={classes.commentField}
+                        fullWidth
+                        id="filled-multi=ine-flexible"
+                        multiline
+                        rows={4}
+                        maxRows={4}
+                        onChange={handleFormChange}
+                        variant="outlined" 
+                  />
 
-          </Box>   
+                  <Button variant="contained" color="secondary">
+                    댓글 버튼
+                  </Button>
+                </Box>
+              </Collapse>
+              
+              <Divider/>
+
+              <List className={classes.commentList}>
+              {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((sectionId) => (
+                <Comment/>
+              ))}
+              </List>
+
+            </Box>  
+          :  
+            <Box height={"100%"} display="flex" flexWrap="wrap" justifyContent="center" alignItems="center">
+              <SimpleProgress/>
+            </Box>  
+          }  
         </Drawer>
 
     </Box>
