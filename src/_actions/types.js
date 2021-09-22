@@ -13,8 +13,6 @@ export const AUTH = 'AUTH';
 export const USERINFO = 'USERINFO';
 export const IMAGE = 'IMAGE';
 export const USERIMAGE = 'USERIMAGE';
-export const GET_COMMENTS = 'GET_COMMENTS';
-export const CREATE_COMMENT = 'CREATE_COMMENT';
 export const GET_TASK = 'GET_TASK';
 export const CREATE_TASK = 'CREATE_TASK';
 export const SET_TASK = 'SET_TASK';
@@ -25,4 +23,5 @@ export const CHAT_HISTORY = 'CHAT_HISTORY';
 
 export const ABOUT_AQUARIUM = 'ABOUT_AQUARIUM';  // 임시의 아쿠아리움 관련 액션 전용 리덕스 타입
 export const ABOUT_MENTION = 'ABOUT_MENTION ';  // 임시의 멘션 관련 액션 전용 리덕스 타입
+export const ABOUT_COMMNET = 'ABOUT_COMMNET ';  // 임시의 멘션 관련 액션 전용 리덕스 타입
 

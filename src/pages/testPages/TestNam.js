@@ -86,7 +86,6 @@ export default function StickyFooter() {
     <div className={classes.root}>
       <Box height={100}/>
 
-
           <Card>
             <Box height={720} width={1280}>
               {aqrmInfo ? <Aquarium/> : "어항 정보를 불러와주세요" }

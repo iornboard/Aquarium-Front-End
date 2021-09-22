@@ -48,7 +48,6 @@ function Copyright() {
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
-
   },
   image: {
     backgroundImage: 'url(https://source.unsplash.com/random)',
@@ -66,10 +65,12 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
   },
   waveform: {
+    display: 'flex',
     position: 'absolute',
     zIndex: '-2',
     width: '100%',
-    bottom: -10,
+    height: '100%',
+    bottom: 0,
   },
   boxer:{
     display: 'flex',
@@ -86,7 +87,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
     borderStyle: 'solid',
-    borderWidth: 4,
+    borderWidth: 5,
     borderRadius: 20,
     borderColor: theme.palette.primary.main,
     minWidth: '50vh',
@@ -96,7 +97,8 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    
+    width: theme.spacing(12),
+    height: theme.spacing(12),
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -176,7 +178,7 @@ function SignInSide(props) {
       <CssBaseline />
         <Box className={classes.boxer}>
         <div className={classes.paper}>
-          <Avatar variant="rounded" className={classes.avatar} src={"./logo192.png"} />
+          <Avatar variant="rounded" className={classes.avatar} src={"./logo512.png"} />
           <Typography component="h1" variant="h5">
             로그인
           </Typography>
@@ -280,7 +282,7 @@ const WaveHome = () => (
   <Wave fill='#ff8346'
         paused={false}
         options={{
-          height: 20,
+          height: 600,
           amplitude: 20,
           speed: 0.20,
           points: 3

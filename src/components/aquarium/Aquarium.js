@@ -10,6 +10,7 @@ import React, {useRef, useState, useEffect} from "react";
 import { useDispatch , useSelector } from 'react-redux';
 import { makeStyles, useTheme , withStyles } from '@material-ui/core/styles';
 import { createMention, readMention, readAllMentMark } from '../../_actions/actionMention'
+import { createCommnet, readAllMentCommnet } from '../../_actions/actionComment'
 import Box from '@material-ui/core/Box';
 import Divider from '@material-ui/core/Divider';
 import Avatar from '@material-ui/core/Avatar';
@@ -225,15 +226,13 @@ const Aquarium = ( {width=1280, height=720, scr='http://commondatastorage.google
 
   const onSubmitHandler = (event) => {
 
-    const newMention = { x: positionX, y: positionY, mentText: values.mentText, mentImgUrl : fileDownloadUri, start:selectedTime, end:selectedTime+5, userId:userId, aqrmId:aqrmId }
+    const newMention = { x: positionX, y: positionY, mentText: values, mentImgUrl : fileDownloadUri, start:selectedTime, end:selectedTime+5, userId:userId, aqrmId:aqrmId }
     
     dispatch(createMention(newMention))
-      .then(res => {SetMentions( prev => [...prev, res.payload] ) 
-        console.log(res.payload)})
+      .then(res => {SetMentions( prev => [...prev, res.payload] ) })
   
     setOpen(false);
     setValues("");
-    console.log(values)
 
   }
 
@@ -262,7 +261,7 @@ const Aquarium = ( {width=1280, height=720, scr='http://commondatastorage.google
       <VideoPlayer  className={classes.canvasForm} scr={scr} /> {/* <- 비디오 컴포넌트 부분  ->*/}
 
 
-      { mentions ?  mentions.map( men => <CustomMarker mentInfo={men} />) : " " }   {/* 마커의 생성*/}
+      { mentions ?  mentions.map( men => <CustomMarker mentInfo={men} userId={userId} />) : " " }   {/* 마커의 생성*/}
 
       <Drawer
             variant="temporary"
@@ -369,7 +368,7 @@ const VideoPlayer = ({className, width, height, scr}) => {
 
 
 
-const CustomMarker = ({mentInfo}) => {
+const CustomMarker = ({mentInfo, userId }) => {
   const theme = useTheme();
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -378,8 +377,9 @@ const CustomMarker = ({mentInfo}) => {
   
   const [mentionMainInfo, setMentionMainInfo] = React.useState();  // 멘션 세부정보
 
+  const [comments, setComments] = React.useState([]);  // 댓글들 
   const [open, setOpen] = React.useState(false);
-  const [values, setValues] = React.useState([]);
+  const [values, setValues] = React.useState();
   const [checked, setChecked] = React.useState(false);
   const [showed, setshowed] = React.useState(false);
   const [progress, setProgress] = React.useState(0);
@@ -412,23 +412,32 @@ const CustomMarker = ({mentInfo}) => {
 
     dispatch(readMention(mentInfo.mentId))
       .then(res => setMentionMainInfo(res.payload))
+
+    dispatch(readAllMentCommnet(mentInfo.mentId))
+      .then(res => setComments(res.payload))
+
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
-    setMentionMainInfo(null)  // ???
+    setMentionMainInfo(null) 
   };
-
-  const handleFormChange = (event) => {
-    const { name, value } = event.target
-    setValues({ ...values, [name]: value })
-  }
 
   const handleChange = () => {
     setChecked((prev) => !prev);
   };
 
+  const onSubmitHandler = () => {
+
+    const newCommnet = { commentText : values, userId : userId, aqrmId :mentionMainInfo.aqrmId , mentId : mentionMainInfo.mentId }
+
+    dispatch(createCommnet(newCommnet))
+      .then(res => {setComments(prev => [...prev, res.payload])})
+
+    setValues("");
+    setChecked(false)
+  }
   
   
 
@@ -517,11 +526,12 @@ const CustomMarker = ({mentInfo}) => {
                         multiline
                         rows={4}
                         maxRows={4}
-                        onChange={handleFormChange}
+                        onChange={e => setValues(e.target.value)}
                         variant="outlined" 
+                        value={values}
                   />
 
-                  <Button variant="contained" color="secondary">
+                  <Button variant="contained" color="secondary" onClick={onSubmitHandler}>
                     댓글 버튼
                   </Button>
                 </Box>
@@ -530,8 +540,8 @@ const CustomMarker = ({mentInfo}) => {
               <Divider/>
 
               <List className={classes.commentList}>
-              {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((sectionId) => (
-                <Comment/>
+              {comments.map((comt) => (
+                <Comment commentInfo={comt}/>
               ))}
               </List>
 
@@ -551,16 +561,16 @@ const CustomMarker = ({mentInfo}) => {
 };
 
 
-function Comment(props) {
+function Comment({commentInfo}) {
   const classes = useStyles();
 
   return (
       <ListItem alignItems="flex-start">
         <ListItemAvatar>
-          <AvatarComp user = {'사용자 프로필 사진 주소'} />
+          <AvatarComp user = {commentInfo.userInfo} />
         </ListItemAvatar>
         <ListItemText
-          primary= {"사용자 닉네임"}
+          primary= {commentInfo.userInfo.userNickname}
           secondary={
             <React.Fragment>
               <Typography
@@ -569,7 +579,7 @@ function Comment(props) {
                 color="textPrimary"
               >
               </Typography>
-              {'코멘트'}
+              { commentInfo.commentText }
             </React.Fragment>
           }
         />   

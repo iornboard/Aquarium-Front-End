@@ -31,7 +31,7 @@ export default function AvatarComp(props) {
   return (
         <div>
 
-          <Avatar variant="rounded" alt="수정" src="수정" onClick = {handleClickOpen} />
+          <Avatar src = {userImgUrl} variant="rounded" alt="수정" onClick = {handleClickOpen} />
 
           <Dialog open={open} onClose={handleClose}>
             <DialogTitle id="alert-dialog-title"> <div><Avatar src = {userImgUrl} /></div>  <div></div>{userNickname}</DialogTitle>

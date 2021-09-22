@@ -1,30 +1,40 @@
 import Axios from 'axios'
 
 import {
-    GET_COMMENTS,
-    CREATE_COMMENT
+    ABOUT_COMMNET
 } from './types';
 
 
-export function getPostComments(postId) {
+export function createCommnet(comment) {
 
-    const request = Axios.get('/api/post-comments?postId=' + postId ) 
+    const request = Axios.post('/api/create-commnet' , comment ) 
         .then(response => response.data) 
 
     return {
-        type: GET_COMMENTS,
+        type: ABOUT_COMMNET,
         payload : request
     };
 }
 
 
-export function createComment(value) {
+export function readCommnet(commnetId) {
 
-    const request = Axios.post('/api/create-comment', value) 
-        .then(response => response.data)
+    const request = Axios.get('/api/commnet?commnetId=' + commnetId ) 
+        .then(response => response.data) 
 
     return {
-        type: CREATE_COMMENT,
+        type: ABOUT_COMMNET,
+        payload : request
+    };
+}
+
+export function readAllMentCommnet(mentId) {
+
+    const request = Axios.get('/api/ment-commnet?mentId=' + mentId ) 
+        .then(response => response.data) 
+
+    return {
+        type: ABOUT_COMMNET,
         payload : request
     };
 }
