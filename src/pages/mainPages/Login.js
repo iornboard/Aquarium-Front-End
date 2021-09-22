@@ -1,6 +1,8 @@
-import React, { useState } from "react"
+import React, { useState } from "react";
 import { useDispatch } from 'react-redux';
+
 import { login } from '../../_actions/actionUser';
+
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,17 +13,22 @@ import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+
 import Typography from '@material-ui/core/Typography';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Container from '@material-ui/core/Container';
+
 import { makeStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router-dom';
+
 import OAuthGoogle from '../../components/oAuth/OAuthGoogle'
 import OAuthFacebook from '../../components/oAuth/OAuthFacebook'
 import OAuthNaver from '../../components/oAuth/OAuthNaver'
+
+import Wave from 'react-wavify'
 
 
 
@@ -41,6 +48,7 @@ function Copyright() {
 const useStyles = makeStyles((theme) => ({
   root: {
     height: '100vh',
+
   },
   image: {
     backgroundImage: 'url(https://source.unsplash.com/random)',
@@ -50,15 +58,45 @@ const useStyles = makeStyles((theme) => ({
     backgroundSize: 'cover',
     backgroundPosition: 'center',
   },
+  background:{
+    position: 'absolute',
+    zIndex: '-4',
+    backgroundColor: theme.palette.primary.light,
+    height: '100%',
+    width: '100%',
+  },
+  waveform: {
+    position: 'absolute',
+    zIndex: '-2',
+    width: '100%',
+    bottom: -10,
+  },
+  boxer:{
+    display: 'flex',
+    justifyContent: 'center',
+    
+    height: '100%',
+  },
   paper: {
+    height: '80%',
+    width: '30%',
     margin: theme.spacing(8, 4),
+    padding: '60px 30px 60px 30px',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+    borderStyle: 'solid',
+    borderWidth: 4,
+    borderRadius: 20,
+    borderColor: theme.palette.primary.main,
+    minWidth: '50vh',
+    maxWidth: '50vh',
+    backgroundColor: 'white',
+    
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -92,8 +130,7 @@ function SignInSide(props) {
 
   const classes = useStyles();
   const dispatch = useDispatch();
-
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false); //*****
   const [values, setValues] = useState({  password: ""  , username: "" });
 
   const handleChange = (event) => {
@@ -130,16 +167,18 @@ function SignInSide(props) {
 
 
   return (
-    <Grid container component="main" className={classes.root}>
+    <Box className={classes.root}>
+      <Box className={classes.background}/>
+      <Box className={classes.waveform}>
+      <WaveHome/>
+      </Box>
+      
       <CssBaseline />
-      <Grid item xs={false} sm={4} md={7} className={classes.image} />
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <Box className={classes.boxer}>
         <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
+          <Avatar variant="rounded" className={classes.avatar} src={"./logo192.png"} />
           <Typography component="h1" variant="h5">
-            Sign in
+            로그인
           </Typography>
           <form className={classes.form} noValidate>
             <TextField
@@ -148,7 +187,7 @@ function SignInSide(props) {
               required
               fullWidth
               id="username"
-              label="Email Address"
+              label="이메일 주소"
               name="username"
               autoComplete="username"
               autoFocus
@@ -160,7 +199,7 @@ function SignInSide(props) {
               required
               fullWidth
               name="password"
-              label="Password"
+              label="비밀번호"
               type="password"
               id="password"
               autoComplete="current-password"
@@ -178,7 +217,7 @@ function SignInSide(props) {
               className={classes.submit}
               onClick = {onSubmitHandler}
             >
-              Sign In
+              로그인
             </Button>
             <Button fullWidth  variant="contained" color="primary"  className={classes.submit} onClick={handleClickOpen}>
               계정을 연동할 수 있나요?
@@ -191,15 +230,20 @@ function SignInSide(props) {
               </Grid>
               <Grid item>
                 <Link href="/signup" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                  {"아직 계정이 없으신가요?"}
                 </Link>
               </Grid>
             </Grid>
             <Box mt={5}>
               <Copyright />
             </Box>
+            
           </form>
         </div>
+        </Box>
+        
+
+       
         <Dialog
         open={open}
         onClose={handleClose}
@@ -226,11 +270,21 @@ function SignInSide(props) {
           </Button>
         </DialogContent>
         </Dialog>
-      </Grid>
-    </Grid>
-
-
+      </Box>
   );
 }  
 
 export default withRouter(SignInSide)
+
+const WaveHome = () => (
+  <Wave fill='#ff8346'
+        paused={false}
+        options={{
+          height: 20,
+          amplitude: 20,
+          speed: 0.20,
+          points: 3
+        }}
+        
+  />
+)

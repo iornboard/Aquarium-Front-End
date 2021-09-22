@@ -8,7 +8,7 @@ const theme = createMuiTheme({
   palette: {
     primary: {
       main: '#ff8346',
-      light: '#ff9b6b',
+      light: '#f5c8b3',
       dark: '#b25b31'
     },
     secondary: {
@@ -39,8 +39,9 @@ function App() {
             <Route path="/collaboManage" component={Auth(AppBar(CollaboManage), true)}/>
             <Route path="/collabo" component={Auth(AppBar(Collabo), false)}/>
 
-            <Route path="/sun" component={Auth(AppBar(Sun), false)}/>
+            <Route path="/sun" component={Auth((Sun), false)}/>
             <Route path="/nam" component={Auth(AppBar(Nam), true)}/>
+
             <Route path="/:username" component={Auth(AppBar(MyPage), false)}/>
             
 
