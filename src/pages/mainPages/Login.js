@@ -10,7 +10,7 @@ import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
-import Paper from '@material-ui/core/Paper';
+
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 
@@ -119,7 +119,8 @@ const useStyles = makeStyles((theme) => ({
   },
   naver: { 
      background: 'linear-gradient(45deg, #ffffff 90%, #8bc34a 90%)', 
-     color: 'black',
+     color: '#8bc34a',
+     fontsize: '15px',
      margin: theme.spacing(1, 0, 1)
   },
   oauths: { 
@@ -222,12 +223,12 @@ function SignInSide(props) {
               로그인
             </Button>
             <Button fullWidth  variant="contained" color="primary"  className={classes.submit} onClick={handleClickOpen}>
-              계정을 연동할 수 있나요?
+              소셜 로그인
             </Button>
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
-                  비밀번호를 잊으셨나요?
+                  {/* 비밀번호를 잊으셨나요? */}
                 </Link>
               </Grid>
               <Grid item>
@@ -244,18 +245,16 @@ function SignInSide(props) {
         </div>
         </Box>
         
-
-       
         <Dialog
         open={open}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         >
-        <DialogTitle id="alert-dialog-title">{"did you have any account?"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{"사용 가능한 계정을 선택해 보세요"}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            사용 가능한 계정을 선택해 보세요
+            
           </DialogContentText>
           
           {/* 구버전 */}
