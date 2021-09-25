@@ -4,8 +4,8 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
-import TaskBarViewer  from '../../components/tasks/TaskBarViewer'
-import TaskScheduleViewer  from '../../components/tasks/TaskScheduleViewer'
+import TaskBarViewer  from '../../components/old/tasks/TaskBarViewer'
+import TaskScheduleViewer  from '../../components/old/tasks/TaskScheduleViewer'
 import PropTypes from 'prop-types';
 import SwipeableViews from 'react-swipeable-views';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
@@ -26,8 +26,7 @@ import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Avatar from '@material-ui/core/Avatar';
-import UserJoinList from '../../components/UserJoinList'
-import { getTasks , createTask } from '../../_actions/actionTask'
+import UserJoinList from '../../components/common/UserJoinList'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -142,8 +141,8 @@ export default function FullWidthTabs() {
     const taskDefault = { taskName : "이름없는 작업" , taskDescription : "내용 없음" ,  userIdList : [userId , ...taskUsersId] }
     const taskBody = {...taskDefault , ...values }
 
-    dispatch(createTask(taskBody))
-      .then(res => console.log(res))
+    // dispatch(createTask(taskBody))
+    //   .then(res => console.log(res))
       
     setOpen(false);
   };

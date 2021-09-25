@@ -6,7 +6,6 @@ import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
 import GridList from '@material-ui/core/GridList';
 import TasktBar from './TasktBar'
-import { getTasks , createTask } from '../../_actions/actionTask'
 
 
 
@@ -83,7 +82,7 @@ export default function StickyFooter(props) {
   useEffect(() => {
     const {userId} = {...userInfo}
 
-    dispatch(getTasks(userId)).then(res =>  setTasks(res.payload));
+    // dispatch(getTasks(userId)).then(res =>  setTasks(res.payload));
   }, [userInfo] );
 
   // hardcoding ->   'useEffect(() => [userInfo]' 잠재적 에러 발생 가능 ///
@@ -92,7 +91,7 @@ export default function StickyFooter(props) {
     const { scrollTop, clientHeight, scrollHeight } = event.currentTarget;
 
     if (scrollHeight - scrollTop === clientHeight) {
-      dispatch(getTasks(userId)).then(res => setTasks(res.payload));
+      // dispatch(getTasks(userId)).then(res => setTasks(res.payload));
     }
   };
 

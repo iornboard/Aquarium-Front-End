@@ -14,7 +14,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import { setTask } from '../../_actions/actionTask'
 
 import Task from './Task'
 
@@ -79,12 +78,12 @@ export default function TaskBarComp(props) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
-    dispatch(setTask(props.task))
+    // dispatch(setTask(props.task))
     setOpen(true);
   };
 
   const handleClose = () => {
-    dispatch(setTask())
+    // dispatch(setTask())
     setOpen(false);
   };
 

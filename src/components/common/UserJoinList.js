@@ -10,7 +10,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 import Avatar from '@material-ui/core/Avatar';
-import { setJoinUsers } from '../_actions/actionUser'
+import { setJoinUsers } from '../../_actions/actionUser'
 
 const useStyles = makeStyles((theme) => ({
   root: {

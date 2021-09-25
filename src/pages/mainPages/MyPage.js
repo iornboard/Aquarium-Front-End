@@ -13,7 +13,7 @@ import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
 
 import { withRouter } from 'react-router-dom';
-import WorkCard from '../../components/works/WorkCard';
+import WorkCard from '../../components/informations/WorkCard';
 import InfoBarChart from '../../components/informations/InfoBarChart';
 import InfoRadarChart from '../../components/informations/InfoRadarChart';
 import SimpleMainInfoCard from '../../components/informations/simpleMainInfoCard';

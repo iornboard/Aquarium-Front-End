@@ -23,5 +23,7 @@ export const CHAT_HISTORY = 'CHAT_HISTORY';
 
 export const ABOUT_AQUARIUM = 'ABOUT_AQUARIUM';  // 임시의 아쿠아리움 관련 액션 전용 리덕스 타입
 export const ABOUT_MENTION = 'ABOUT_MENTION ';  // 임시의 멘션 관련 액션 전용 리덕스 타입
-export const ABOUT_COMMNET = 'ABOUT_COMMNET ';  // 임시의 멘션 관련 액션 전용 리덕스 타입
+export const ABOUT_COMMNET = 'ABOUT_COMMNET ';  // 임시의 댓글 관련 액션 전용 리덕스 타입
 
+export const ABOUT_PROJECT = 'ABOUT_PROJECT ';  // 임시의 댓글 관련 액션 전용 리덕스 타입
+export const ABOUT_TASK = 'ABOUT_TASK ';  // 임시의 댓글 관련 액션 전용 리덕스 타입
