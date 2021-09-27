@@ -1,307 +1,477 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch , useSelector } from 'react-redux';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
-import Link from '@material-ui/core/Link';
-import TaskBarViewer  from '../../components/old/tasks/TaskBarViewer'
-import TaskScheduleViewer  from '../../components/old/tasks/TaskScheduleViewer'
-import PropTypes from 'prop-types';
-import SwipeableViews from 'react-swipeable-views';
+import React, { useState, useEffect, useCallback } from "react"
+import { useDispatch, useSelector } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
+import AvatarGroup from '@material-ui/lab/AvatarGroup';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import Button from '@material-ui/core/Button';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import Typography from '@material-ui/core/Typography';
+import Avatar from '@material-ui/core/Avatar';
 import Box from '@material-ui/core/Box';
+import Divider from '@material-ui/core/Divider';
+import Grid from '@material-ui/core/Grid';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
-import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import Grid from '@material-ui/core/Grid';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Avatar from '@material-ui/core/Avatar';
-import UserJoinList from '../../components/common/UserJoinList'
+import DialogTitle from '@material-ui/core/DialogTitle';
+
+import Uploader from "../../components/common/Uploader";
+import UserJoinList from "../../components/common/UserJoinList";
+
+import { ViewState} from '@devexpress/dx-react-scheduler';
+import {
+  MonthView,
+  Scheduler,
+  DateNavigator,
+  TodayButton,
+  Appointments,
+  Toolbar,
+  AppointmentTooltip,
+  Resources,
+} from '@devexpress/dx-react-scheduler-material-ui';
+
+import { createProject, readProject, readAllProject } from '../../_actions/actionProject'
+import { createTask, readTask, readAllUserTask, readAllProjectTask } from '../../_actions/actionTask'
+
+import {statusInfo} from "../../conf/projectConfig"
+
+
+
+const sampleCurrentDate = '2018-11-01';
+const sampleProjectinfo = {projectId : 1}
+
+
+const sampleTaskInfo = [
+  { startDate: '2018-11-01T09:45', endDate: '2018-11-05T11:00', title: 'Meeting', taskStatus: "safe", teamsInfo:[1,2,3] },
+  { startDate: '2018-11-02T12:00', endDate: '2018-11-08T13:30', title: 'Go to a gym', taskStatus: "processing", teamsInfo:[1] },
+  { startDate: '2018-11-09T12:00', endDate: '2018-11-10T13:30', title: 'Go to a gym', taskStatus: "safe", teamsInfo:[1,2,3] },
+  { startDate: '2018-11-01T12:00', endDate: '2018-11-12T13:30', title: 'Go to a gym', taskStatus: "deadlock", teamsInfo:[1,2] },
+];
+
+
+const resource = [
+        {
+          fieldName: 'taskStatus',
+          title: 'taskStatus',
+          instances: [
+            { id: statusInfo.defult.text,     text: statusInfo.defult.korean,     color: statusInfo.defult.color },
+            { id: statusInfo.safe.text,       text: statusInfo.safe.korean,       color: statusInfo.safe.color },
+            { id: statusInfo.processing.text, text: statusInfo.processing.korean, color: statusInfo.processing.color },
+            { id: statusInfo.deadlock.text,   text: statusInfo.deadlock.korean,   color: statusInfo.deadlock.color },
+            { id: statusInfo.warning.text,    text: statusInfo.warning.korean,    color: statusInfo.warning.color },
+            { id: statusInfo.overterm.text,   text: statusInfo.overterm.korean,   color: statusInfo.overterm.color },
+            { id: statusInfo.end.text,        text: statusInfo.end.korean,        color: statusInfo.end.color },
+          ],
+        }
+      ]
+    
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    padding: theme.spacing(3),
     display: 'flex',
     flexDirection: 'column',
-    minHeight: '100vh',
-    backgroundColor: theme.palette.background.paper,
+    minHeight: '10vh',
+  },
+  content: {
+    background: theme.palette.primary.light,
+    flexGrow: 0.5,
+    height: '85vh',
+    borderRadius : 10,
+    overflow: 'auto',
+  },
+  rootList:{
+    paddingLeft : 15,
+    paddingRight : 15, 
+    borderRadius : 10,
+    minWidth : "20vw"
+  },
+  listForm: {
+    marginTop: 5,
     width: '100%',
   },
-  main: {
-    marginTop: theme.spacing(8),
-    marginBottom: theme.spacing(2),
+  taskList: {
+    margin: "5% 0% 5%",
+    width: '100%',
+    overflow: 'auto',
+    maxHeight: '60vh',
   },
-  tab: {
-    flexGrow: 1,
+  daybar: {
+    height: 10,
+    borderRadius: 5,
   },
+  taskBar: {
+    width: "95%",
+    padding: "5px",
+    background: "#EAE9E9",
+    margin: "5px"
+  },
+  taskBarList: {
+    width: "100%",
+    marginLeft: '7px'
+  },
+  fab: {
+    position: 'absolute',
+    bottom: theme.spacing(6),
+    right: theme.spacing(7),
+  },
+
 }));
 
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+function TaskManager(props) {
 
-const taskOne = {
-  taskName : "기말고사",
-  taskStatus : "진행중",
-  taskImgUrl : "",
-  taskVideoUrl : "",
-  taskMemo : "",
-  taskType : "기말고사",
-  taskStartDate : '2021-05-15T09:45',
-  taskEndDate: '2021-06-15T11:00',
-  taskProperties : "" ,
-  taskIsWorking : false,
-  taskIsEnd : false,
-  taskIsAccept : false,
-  userName : "남현수",
-}
-
-// 수정
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`full-width-tabpanel-${index}`}
-      aria-labelledby={`full-width-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired,
-};
-
-function a11yProps(index) {
-  return {
-    id: `full-width-tab-${index}`,
-    'aria-controls': `full-width-tabpanel-${index}`,
-  };
-}
-
-export default function FullWidthTabs() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const theme = useTheme();
 
-  const userInfo = useSelector( store => store.auth.userData , []);
-  const {userId, userNickname, userImgUrl} = {...userInfo}
+  const userInfo = useSelector( store => store.auth.userData , []);  // 현재 유저 정보 받아오기
+  const {userId, userNickname, userImgUrl} = {...userInfo} 
 
   const joinUsersInfos = useSelector( store => store.user.joinUsers , []);
 
+  const [tasks, setTasks] = useState([])
+  const [project, setProject] = useState(sampleProjectinfo)
 
-  const [value, setValue] = React.useState(0);
   const [open, setOpen] = React.useState(false);
-  const [today, setToday] = React.useState();
   const [values, setValues] = useState([]);
 
-  // useEffect(() => {
-  //   var now = new Date();
-  //   setToday(now)
-  // }, 1);
+
+  useEffect(() => {
+  
+  setProject(sampleProjectinfo)
+
+  dispatch(readAllUserTask(userId))
+    .then( res =>  setTasks(res.payload))
+
+  },[userId])
+
+  
+
+  const handleSubmit = () => {
+
+    const taskUsersIds = joinUsersInfos.map( userinfo => userinfo.userId )
+
+    const taskDefault = { title:"이름없는 작업", taskDescription:"내용 없음", teamsId:[userId , ...taskUsersIds], taskStatus:"defult", masterId:userId, projectId: project.projectId }
+    const taskBody = { ...taskDefault , ...values }
+
+    dispatch(createTask(taskBody))
+      .then(res => setTasks(prev => [...prev, res.payload]))
+      
+    setValues(null);
+    setOpen(false);
+  };
+
+
+
+
+
+
+
+
+
+
 
   const handleClickOpen = () => {
     setOpen(true);
   };
 
-  const handleClose = () => {
-
-    const taskUsersId = joinUsersInfos.map( userinfo => userinfo.userId )
-
-    const taskDefault = { taskName : "이름없는 작업" , taskDescription : "내용 없음" ,  userIdList : [userId , ...taskUsersId] }
-    const taskBody = {...taskDefault , ...values }
-
-    // dispatch(createTask(taskBody))
-    //   .then(res => console.log(res))
-      
-    setOpen(false);
-  };
-
-  const handleCloseCancel = () => {
-    
-    setOpen(false);
-  };
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
-  const handleChangeIndex = (index) => {
-    setValue(index);
-  };
 
   const handleFormChange = (event) => {
     const { name, value } = event.target
-    setValues({ ...values, [name]: value })
+    setValues({ ...values, [name]:  name=="endDate" || name=="startDate" ? new Date(value) : value })
   }
 
-  const handleDateFormChange = (event) => {
-    const { name, value } = event.target
-    setValues({ ...values, [name]:  new Date(value) })
-  }
+
+
 
   return (
+
     <div className={classes.root}>
 
-      <CssBaseline />      
-      <Container component="main" className={classes.main} maxWidth="lg">
-        <Fab color="primary" aria-label="add" onClick={handleClickOpen}>
+      <Box width={"100%"} height={"12vh"}/>
+
+      <Grid container spacing={3} className={classes.content}>
+        <Grid item xs={12} sm={3}>
+          <Box display="flex" height="100%" bgcolor="white" className={classes.rootList}>
+            <List className={classes.listForm}>
+              <ListItem alignItems="flex-start">
+                  <ListItemAvatar>
+                    <Avatar variant="rounded" alt="수정" src={userImgUrl} />
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={
+                      <React.Fragment>
+                        <Typography
+                          component="span"
+                          variant="h5"
+                          color="textPrimary"
+                        >
+                          {"dsd"}
+                        </Typography>
+                      </React.Fragment>
+                    }
+                    secondary={userNickname}
+                    />
+              </ListItem>
+              <Divider/>  
+              <List className={classes.taskList}>
+                {tasks.map(ta=> ( <TaskBar taskInfo={ta} props={props}/> ))}
+              </List>
+              <Divider/>
+            </List>
+          </Box>
+        </Grid>
+
+
+        <Grid item xs={12} sm={9}>    
+          <Box display="flex" height="100%" bgcolor="white" className={classes.rootList}>
+            <ScheduleViewer data={tasks}/>
+          </Box>
+        </Grid>
+
+
+        <Fab aria-label={'Add'} className={classes.fab} color={"primary"} onClick={handleClickOpen}>
           <AddIcon />
         </Fab>
 
-        <AppBar position="static" color="default">
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            indicatorColor="primary"
-            textColor="primary"
-            variant="fullWidth"
-            aria-label="full width tabs example"
-          >
-            <Tab label="Management" {...a11yProps(0)} />
-            <Tab label="schedule" {...a11yProps(1)} />
-          </Tabs>
-        </AppBar>
+      </Grid>
 
 
-        <SwipeableViews
-          axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-          index={value}
-          onChangeIndex={handleChangeIndex}
-        >
 
-          <TabPanel value={value} index={0} dir={theme.direction}>
-              <TaskBarViewer />  {/* 작업 모음 리스트 뷰어 */}
-          </TabPanel>
-          <TabPanel value={value} index={1} dir={theme.direction}>
-              <TaskScheduleViewer/> {/* 작업 스케쥴 리스트 뷰어 */}
-          </TabPanel>
-          
-        </SwipeableViews>
-       
-       </Container>
-
-       <Dialog
+      <Dialog
         open={open}
-        onClose={handleCloseCancel}
+        onClose={e => setOpen(false)}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{"작업 내역을 생성하시겠습니까?"}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-          <Typography variant="h6" gutterBottom>
-            사용자 작업 생성
-          </Typography>
-        <Grid container spacing={3}>
-            <Grid item xs={12} md={12}>
-              <TextField required name="taskName" id="taskName" label="사용자 작업 이름" fullWidth autoComplete="cc-name" onChange = {handleFormChange} />
-            </Grid>
-            <Grid item xs={12} md={6}>
-            <TextField
-              required
-              fullWidth
-              name="taskStartDate"
-              id="taskStartDate"
-              label="시작일자"
-              type="date"
-              className={classes.textField}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange = {handleDateFormChange}
-            />
-            </Grid>
-            <Grid item xs={12} md={6}>
-            <TextField
-              required
-              fullWidth
-              name="taskEndDate"
-              id="taskEndDate"
-              label="종료일자"
-              type="date"
-              className={classes.textField}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              onChange = {handleDateFormChange}
-            />
-            </Grid>
-            <Grid item xs={12} md={12}>
-              <TextField required name="taskType" id="taskType" label="작업 형식" fullWidth autoComplete="cc-name"  onChange = {handleFormChange} />
-              
-            </Grid>
-            <Grid item xs={12} md={12}>
-            <Typography variant="h6" gutterBottom>
-              참가 인원
-            </Typography>
-              <UserJoinList/>
-            </Grid>
-            <Grid item xs={12} md={12}>
-              <TextField required name="taskDescription" id="taskDescription" label="작업 설명" multiline rows={4} rowsMax={8} fullWidth variant="outlined"  onChange = {handleFormChange}/>
-            </Grid>
-            <Grid item xs={12}>
-              Let Google help apps determine location. This means sending anonymous location data to
-              Google, even when no apps are running.
-              <FormControlLabel
-                control={<Checkbox color="secondary" name="saveCard" value="yes" />}
-                label="위 내용을 이해하였고, 약관의 대해 동의 합니다."
+        <Box>
+          <DialogTitle id="alert-dialog-title"><h2>작업 내역 생성</h2></DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+          <Grid container spacing={3}>
+              <Grid item xs={12} md={12}>
+                <TextField required name="title" id="title" label="사용자 작업 이름" fullWidth autoComplete="cc-name" onChange = {handleFormChange} />
+              </Grid>
+              <Grid item xs={12} md={6}>
+              <TextField
+                required
+                fullWidth
+                name="startDate"
+                id="startDate"
+                label="시작일자"
+                type="date"
+                className={classes.textField}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                onChange = {handleFormChange}
               />
+              </Grid>
+              <Grid item xs={12} md={6}>
+              <TextField
+                required
+                fullWidth
+                name="endDate"
+                id="endDate"
+                label="종료일자"
+                type="date"
+                className={classes.textField}
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                onChange = {handleFormChange}
+              />
+              </Grid>
+              <Grid item xs={12} md={12}>
+              <Typography variant="h6" gutterBottom>
+                참가 인원
+              </Typography>
+                <UserJoinList/>
+              </Grid>
+              <Grid item xs={12} md={12}>
+                <TextField required name="taskDescription" id="taskDescription" label="작업 설명" multiline rows={4} rowsMax={8} fullWidth variant="outlined"  onChange = {handleFormChange}/>
+              </Grid>
+              <Grid item xs={12}>
+                <FormControlLabel
+                  control={<Checkbox color="secondary" name="saveCard" value="yes" />}
+                  label="위 내용을 이해하였고, 약관의 대해 동의 합니다."
+                />
+              </Grid>
             </Grid>
-          </Grid>
           
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button href="/collabomain" onClick={handleClose} color="primary" autoFocus>
-            동의
-          </Button>
-        
-        </DialogActions>
-        
-
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button variant="contained"  onClick={handleSubmit} color="primary" autoFocus >
+              동의
+            </Button>
+          </DialogActions>
+        </Box>
       </Dialog>
 
-
     </div>
-    
-  );
-  
-}
-  
-  const currentDate = '2018-11-01';
-  const schedulerData = [
-    { startDate: '2018-11-01T09:45', endDate: '2018-11-01T11:00', title: 'Meeting' },
-    { startDate: '2018-11-01T12:00', endDate: '2018-11-01T13:30', title: 'Go to a gym' },
-  ];
 
+  
+  );
+}
+
+
+
+
+
+
+
+
+
+
+
+
+function TaskBar({ taskInfo, props }) {
+
+  const classes = useStyles();
+
+  const [dDay, setdDay] = React.useState(0);
+  const [progress, setProgress] = React.useState(0);
+
+
+  useEffect(() => {
+    putLeftDay()
+  });
+
+
+  const putLeftDay = () => {
+
+    var start = new Date(taskInfo.startDate);
+    var end = new Date(taskInfo.endDate);
+    var now = new Date();
+
+    var leftDay = Math.floor((end - now)/86400000)
+    var allDay = Math.floor((end - start)/86400000)
+
+    setdDay(leftDay)
+    setProgress(((allDay-leftDay)/allDay)*100)
+
+  }
+  
+
+  return (
+        <Button className={classes.taskBar} onClick={ e=>{ props.history.push( "/nam/" + taskInfo.taskId ) } }>
+          <List className={classes.taskBarList}> 
+            <ListItem alignItems="flex-start">
+              <ListItemText
+                primary={
+                  <React.Fragment>
+                    <Typography
+                      component="span"
+                      variant="h6"
+                      color="textPrimary"
+                      >
+                      {<EllipsisText children={taskInfo.title}/>}
+                    </Typography>
+                  </React.Fragment>
+                }
+                secondary={ dDay >= 0 ? "D-"+dDay : "초과됨"}
+              />
+              <ListItemAvatar>
+                <AvatarGroup max={4}>
+                  { taskInfo.teamsInfo ? taskInfo.teamsInfo.map( us => <Avatar src={us.userImgUrl}/> ) : "로딩 중.."}
+                </AvatarGroup> 
+              </ListItemAvatar>
+            </ListItem>
+
+              <LinearProgressWithLabel value={progress} status={taskInfo.taskStatus} className={classes.daybar} />
+            
+          </List>
+        </Button>
+  );
+}
+
+
+const EllipsisText = (props) => {
+  const { children } = props
+
+  return (
+    <div style={{
+      whiteSpace: "nowrap",
+      overflow: "hidden",
+      textOverflow: "ellipsis",
+      maxWidth: 150
+      }}>
+      {children}
+    </div>
+  )
+}
+
+
+const LinearProgressWithLabel = ({value, status = "defult" , className}) => {
+
+    const {color="#673ab7", barColor="#4527a0"} = { ...statusInfo[status] }
+ 
+    const thisStyles = makeStyles((theme) => ({
+      colorPrimary: {
+        backgroundColor: color 
+      },
+      barColorPrimary: {
+        backgroundColor: barColor 
+      }
+    }));
+
+  const classes = thisStyles();
+
+  return (
+    <div>
+      <Box display="flex" alignItems="center">
+        <Box  width="100%" mr={1}>
+          <LinearProgress variant="determinate" className={className} value={value} classes={{colorPrimary: classes.colorPrimary, barColorPrimary: classes.barColorPrimary}}  />
+        </Box>
+      </Box>
+      <Box textAlign="right" m={1} color={color}>
+        { statusInfo[status] ? status : "defult" }
+      </Box>
+    </div>
+  );
+}
+
+
+
+
+
+
+const  ScheduleViewer = ({data}) => {
+
+  return (
+    <Box>
+      <Scheduler
+        data={data}
+      >
+        <ViewState
+          defaultCurrentDate={sampleCurrentDate}
+        />
+        <Toolbar />
+        <DateNavigator />
+        <TodayButton />
+        <MonthView />
+        <Appointments/>
+        <Resources
+          data={resource}
+          mainResourceName={data.taskStatus}
+        />
+      </Scheduler>
+    </Box>
+  );
+};
+
+
+
+export default withRouter(TaskManager)

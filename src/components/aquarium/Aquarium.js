@@ -135,7 +135,7 @@ const aqrmId = 5 // 임시
 
 
 
-const Aquarium = ( {width=1280, height=720, scr='http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4', aqrm} ) => {
+const Aquarium = ( {width=1280, height=720, scr='http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4', className ,aqrm} ) => {
   const theme = useTheme();
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -238,7 +238,7 @@ const Aquarium = ( {width=1280, height=720, scr='http://commondatastorage.google
 
 
   return (
-    <Box position='absolute' zIndex={1}>
+    <Box position='absolute' zIndex={1}  className={className}>
       
       <canvas 
         ref={canvasRef}
@@ -561,6 +561,7 @@ const CustomMarker = ({mentInfo, userId }) => {
 };
 
 
+
 function Comment({commentInfo}) {
   const classes = useStyles();
 
@@ -586,6 +587,8 @@ function Comment({commentInfo}) {
         </ListItem>
   );
 }
+
+
 
 const EllipsisText = (props) => {
   const { children } = props

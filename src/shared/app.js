@@ -12,7 +12,9 @@ const theme = createMuiTheme({
       dark: '#b25b31'
     },
     secondary: {
-      main: '#3c2822'
+      main: '#3c2822',
+      light: '#63534e',
+      dark: '#2a1c17'
     },
     error: {
       main: '#ff1744'
@@ -40,7 +42,7 @@ function App() {
             <Route path="/collabo" component={Auth(AppBar(Collabo), false)}/>
 
             <Route path="/sun" component={Auth((Sun), false)}/>
-            <Route path="/nam" component={Auth(AppBar(Nam), true)}/>
+            <Route path="/nam/:task" component={Auth(AppBar(Nam), true)}/>
 
             <Route path="/:username" component={Auth(AppBar(MyPage), false)}/>
             

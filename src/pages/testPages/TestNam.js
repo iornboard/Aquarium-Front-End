@@ -1,13 +1,22 @@
-import React, { useState } from "react"
-import { useDispatch , useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { withRouter } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
+import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
-
-
-
 import Box from '@material-ui/core/Box';
-import TextField from '@material-ui/core/TextField';
-import Uploader from "../../components/common/Uploader";
+import Grid from '@material-ui/core/Grid';
+import Card from '@material-ui/core/Card';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import Avatar from '@material-ui/core/Avatar';
+import Typography from '@material-ui/core/Typography';
+import Divider from '@material-ui/core/Divider';
+
+import Aquarium from '../../components/aquarium/Aquarium';
+import ChatViewer from '../../components/chat/ChatViewer';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -16,59 +25,118 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     minHeight: '10vh',
   },
-  main: {
-    marginTop: theme.spacing(8),
-    marginBottom: theme.spacing(2),
+  content: {
+    background: theme.palette.primary.light,
+    flexGrow: 0.5,
+    height: '90vh',
+    borderRadius : 10,
+    overflow: 'auto',
+    padding: theme.spacing(3),
+    paddingBottom: 0,
   },
-  footer: {
-    padding: theme.spacing(3, 2),
-    marginTop: 'auto',
-    backgroundColor:
-      theme.palette.type === 'light' ? theme.palette.grey[200] : theme.palette.grey[800],
+  contentOption: {
+    background: theme.palette.primary.light,
+    outline: "solid",
+    outlineWidth: "10px",
+    outlineColor: theme.palette.primary.light,
+    position:"relative",
+    zIndex:2,
+    minWidth: 1290,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
   },
-  loot: {
-    '& > *': {
-      margin: theme.spacing(1),
-      width: '25ch',
-    },
+  background:{
+    position: 'absolute',
+    zIndex: '-4',
+    backgroundColor: theme.palette.primary.light,
+    height: '100%',
+    width: '100%',
   },
-  
+  projectOption: {
+    borderRadius : 15,
+    minWidth: "20vw",
+    marginRight: theme.spacing(2),
+    paddingLeft : 15,
+    paddingRight : 15, 
+  },
+  rootAquarium: {
+    position: "relative",  
+  },
+  listForm: {
+    marginTop: 5,
+    width: '100%',
+  },
 }));
 
-export default function StickyFooter() {
-
+function TestTask({match}) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const userInfo = useSelector( store => store.auth.userData , []);  // 현재 유저 정보 받아오기
-  const {userId, userNickname, userImgUrl} = {...userInfo} 
-  
-  
+  useEffect(() => {
+   console.log(match.params.task)
+  }, 1);
+
 
   return (
-
     <div className={classes.root}>
-      <Box height={100}/>
+        <CssBaseline />
+
+        <Box className={classes.background}/>
+        <Box width={"100%"} height={"8vh"}/>
+
+        <Grid container spacing={3} className={classes.content}>
+          <Grid item xs={12} sm={9} justify = "center" >
+            <Box display="flex" height="100%" bgcolor="white" className={classes.contentOption}>
+              
+
+              <Aquarium className={classes.rootAquarium}/>
+  
+
+            </Box>
+          </Grid>
 
 
-
-          <Button variant="contained" color="primary" >
-            프로젝트 생성
-          </Button>
-          <Button variant="contained" color="primary" >
-            프로젝트 불러오기
-          </Button>
-          <Button variant="contained" color="primary"  >
-            프로젝트 검색
-          </Button>
-          <TextField id="standard-basic" label="Standard" />
+          <Grid item xs={12} sm={3} justify = "center">    
+            <Box display="flex" height="100%" bgcolor="white" className={classes.projectOption}>
           
-          <Uploader/>
+                <List className={classes.listForm}>
+                  <ListItem alignItems="flex-start">
+                      <ListItemAvatar>
+                        <Avatar variant="rounded" alt="수정" src={""} />
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={
+                          <React.Fragment>
+                            <Typography
+                              component="span"
+                              variant="h5"
+                              color="textPrimary"
+                            >
+                              {"dsd"}
+                            </Typography>
+                          </React.Fragment>
+                        }
+                        secondary={"userNickname"}
+                        />
+                  </ListItem>
+                  <Divider/>  
+                        sdsd
+                  <Divider/>
+                </List>
 
+              </Box>
+          </Grid>
+        </Grid>
+
+          
     </div>
-
-    
-
-
   );
 }
+
+
+
+
+
+
+export default withRouter(TestTask)
