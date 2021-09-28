@@ -114,7 +114,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Mypage({match}) {
+function Mypage({match, userInfo}) {
   const classes = useStyles();
   const dispatch = useDispatch();
   

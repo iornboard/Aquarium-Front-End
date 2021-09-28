@@ -36,6 +36,8 @@ import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
 import ThumbUpRoundedIcon from '@material-ui/icons/ThumbUpRounded';
 import HelpRoundedIcon from '@material-ui/icons/HelpRounded';
 import FaceRoundedIcon from '@material-ui/icons/FaceRounded';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Box from '@material-ui/core/Box';
 
 
 const drawerWidth = 240;
@@ -160,6 +162,13 @@ const useStyles = makeStyles((theme) => ({
   loginButton: {
     marginLeft : theme.spacing(2),
   },
+  loadingForm: {
+    height: "100vh",
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center"
+  }
 }));
 
 export default function (SpecificComponent) {
@@ -170,7 +179,8 @@ export default function (SpecificComponent) {
       const classes = useStyles();
       const theme = useTheme();
 
-      const userInfo = useSelector( store => store.auth.userData , []);
+      // const userInfo = useSelector( store => store.auth.userData, []);
+      const userInfo = useSelector( store => store.auth.userData ? store.auth.userData : setTimeout(store.auth.userData, 1000) , []);
       const {userId, userEmail, userFullname, userNickname, userImgUrl} = {...userInfo}
 
       const [open, setOpen] = React.useState(false);
@@ -281,6 +291,15 @@ export default function (SpecificComponent) {
           </MenuItem>
         </Menu>
       );
+
+      const LoadingPage = () => {
+  
+        return(
+          <Box className={classes.loadingForm} >
+            <CircularProgress color="secondary" size={70} />
+          </Box>
+        )
+      };
 
       return (
         <div className={classes.root}>
@@ -478,7 +497,12 @@ export default function (SpecificComponent) {
               [classes.contentShift]: open,
             })}
           >
-            <SpecificComponent />
+
+
+          {/* 때에 따라 수정할 것  */}
+           {userInfo ? <LoadingPage/> : <SpecificComponent userInfo={userInfo}/> }  
+
+
           </main>
           { renderMenu }
         </div>
@@ -489,3 +513,6 @@ export default function (SpecificComponent) {
     
     return AppBarDrawerLeft
     }
+
+
+

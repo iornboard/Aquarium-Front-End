@@ -130,12 +130,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function TaskManager(props) {
+function TaskManager({history, userInfo}) {
 
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const userInfo = useSelector( store => store.auth.userData , []);  // 현재 유저 정보 받아오기
   const {userId, userNickname, userImgUrl} = {...userInfo} 
 
   const joinUsersInfos = useSelector( store => store.user.joinUsers , []);
@@ -149,10 +148,12 @@ function TaskManager(props) {
 
   useEffect(() => {
   
-  setProject(sampleProjectinfo)
+    setProject(sampleProjectinfo)
 
-  dispatch(readAllUserTask(userId))
-    .then( res =>  setTasks(res.payload))
+    if(userId){
+      dispatch(readAllUserTask(userId))
+        .then( res =>  setTasks(res.payload))
+    }
 
   },[userId])
 
@@ -226,7 +227,7 @@ function TaskManager(props) {
               </ListItem>
               <Divider/>  
               <List className={classes.taskList}>
-                {tasks.map(ta=> ( <TaskBar taskInfo={ta} props={props}/> ))}
+                {tasks.map(ta=> ( <TaskBar taskInfo={ta} history={history}/> ))}
               </List>
               <Divider/>
             </List>
@@ -337,7 +338,7 @@ function TaskManager(props) {
 
 
 
-function TaskBar({ taskInfo, props }) {
+function TaskBar({ taskInfo, history }) {
 
   const classes = useStyles();
 
@@ -366,7 +367,7 @@ function TaskBar({ taskInfo, props }) {
   
 
   return (
-        <Button className={classes.taskBar} onClick={ e=>{ props.history.push( "/nam/" + taskInfo.taskId ) } }>
+        <Button className={classes.taskBar} onClick={ e=>{ history.push( "/nam/" + taskInfo.taskId ) } }>
           <List className={classes.taskBarList}> 
             <ListItem alignItems="flex-start">
               <ListItemText

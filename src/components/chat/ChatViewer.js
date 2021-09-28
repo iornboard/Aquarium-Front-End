@@ -18,24 +18,27 @@ import Grid from '@material-ui/core/Grid';
 import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 import Online from '../common/Online'
+import Box from '@material-ui/core/Box';
 
 
 import './ChatBox.css';
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    marginTop: 20,
     width: '100%',
     backgroundColor: theme.palette.background.paper,
+    alignItems: "center"
   },
   onlineForm : {
     position: 'relative',
     top: -50,
     left: 10,
-    zIndex: 10,
+    zIndex: 1,
   }
 }));
 
-export default  function ChatViewer( {chatRoomId} ) {
+export default function ChatViewer( {chatRoomId, height} ) {
 
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -96,19 +99,24 @@ export default  function ChatViewer( {chatRoomId} ) {
 
 
   return (
-          <div>
+          <Box display="flex">
             {chatRoomId ? 
+            <Box className={classes.root}>
               <ChatBox
+              height={height}
               onSendMessage={send}
               userId={userId}
               messages={attr}
               showTypingIndicator={false}
-            /> :
+              /> 
+              <Online status={true} className={classes.onlineForm} />
+            </Box>
+            :
             <Grid container justify="center" className={classes.root}>
               "채팅을 사용할 수 없습니다."
             </Grid>
             }
-            <Online status={true} className={classes.onlineForm} />
-          </div>
+          </Box>
   );
 }
+

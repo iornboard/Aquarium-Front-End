@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TestTask() {
+export default function TestTask({userInfo}) {
   const classes = useStyles();
   const dispatch = useDispatch();
 

@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -14,6 +14,10 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
+import AppBar from '@material-ui/core/AppBar';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import SwipeableViews from 'react-swipeable-views';
 
 import Aquarium from '../../components/aquarium/Aquarium';
 import ChatViewer from '../../components/chat/ChatViewer';
@@ -67,9 +71,17 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 5,
     width: '100%',
   },
+  chatForm:{
+    height: '35vh',
+  },
+  tapRoot: {
+    backgroundColor: theme.palette.background.paper,
+    
+  },
+  
 }));
 
-function TestTask({match}) {
+function Task({match, userInfo}) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -120,9 +132,16 @@ function TestTask({match}) {
                         secondary={"userNickname"}
                         />
                   </ListItem>
-                  <Divider/>  
-                        sdsd
+                  <Divider/> 
+
+                    <ChatViewer chatRoomId={1} height={'35vh'} className={classes.chatForm}/>
+                    
                   <Divider/>
+
+                  <Box bgcolor="red" height='35vh'>
+                    <TaskProps/>
+                  </Box>
+
                 </List>
 
               </Box>
@@ -135,8 +154,87 @@ function TestTask({match}) {
 }
 
 
+function a11yProps(index) {
+  return {
+    id: `full-width-tab-${index}`,
+    'aria-controls': `full-width-tabpanel-${index}`,
+  };
+}
+
+
+
+const TaskProps = () => {
+  const classes = useStyles();
+  const theme = useTheme();
+  const [value, setValue] = React.useState(0);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  const handleChangeIndex = (index) => {
+    setValue(index);
+  };
+
+  return (
+    <div className={classes.tapRoot}>
+      <AppBar position="static" color="default">
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          indicatorColor="primary"
+          textColor="primary"
+          variant="fullWidth"
+          aria-label="full width tabs example"
+        >
+          <Tab label="Item One" {...a11yProps(0)} />
+          <Tab label="Item Two" {...a11yProps(1)} />
+          <Tab label="Item Three" {...a11yProps(2)} />
+        </Tabs>
+      </AppBar>
+      <SwipeableViews
+        axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+        index={value}
+        onChangeIndex={handleChangeIndex}
+      >
+        <TabPanel value={value} index={0} dir={theme.direction}>
+          Item One
+        </TabPanel>
+        <TabPanel value={value} index={1} dir={theme.direction} >
+          Item Two
+        </TabPanel>
+        <TabPanel value={value} index={2} dir={theme.direction}>
+          Item Three
+        </TabPanel>
+      </SwipeableViews>
+    </div>
+  );
+}
+
+const TabPanel = (props) => {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`full-width-tabpanel-${index}`}
+      aria-labelledby={`full-width-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box p={3}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
+}
 
 
 
 
-export default withRouter(TestTask)
+
+
+
+export default withRouter(Task)

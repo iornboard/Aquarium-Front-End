@@ -368,7 +368,7 @@ const VideoPlayer = ({className, width, height, scr}) => {
 
 
 
-const CustomMarker = ({mentInfo, userId }) => {
+const CustomMarker = ({ mentInfo, userId }) => {
   const theme = useTheme();
   const classes = useStyles();
   const dispatch = useDispatch();

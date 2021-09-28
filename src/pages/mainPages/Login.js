@@ -129,7 +129,7 @@ const useStyles = makeStyles((theme) => ({
  },
 }));
 
-function SignInSide(props) {
+function SignInSide({history}) {
 
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -150,7 +150,7 @@ function SignInSide(props) {
 
         console.log(res)
         localStorage.setItem('jwt', res.payload.authorization); //jwt형태로 만들어서  localStorage저장
-        props.history.push(res.payload.redirecturl)//화면이동
+        history.push(res.payload.redirecturl)//화면이동
       } else {
         alert("this is enable account!")
       }

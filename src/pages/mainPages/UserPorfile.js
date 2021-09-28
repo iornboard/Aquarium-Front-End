@@ -118,11 +118,10 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function StickyFooter() {//컨테이너로 감싸고 그리드로해서 만들기
+export default function StickyFooter({userInfo}) {//컨테이너로 감싸고 그리드로해서 만들기
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const userInfo = useSelector( store => store.auth.userData , []);
   const {userId, userEmail, userFullname, userNickname, userImgUrl} = {...userInfo}
 
   const fileInfo = useSelector( store => store.file.ImgFileInfo , []);

@@ -93,7 +93,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function SignUp(props) {
+function SignUp({history}) {
 
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -111,7 +111,7 @@ function SignUp(props) {
 
     dispatch(join(values)) 
     setValues({  password: ""  , userEmail: "", userFullname: "" , userNickname: ""  })
-    props.history.push("/")
+    history.push("/")
   }
 
   
