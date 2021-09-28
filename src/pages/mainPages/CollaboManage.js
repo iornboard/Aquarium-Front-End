@@ -200,7 +200,7 @@ function TaskManager({history, userInfo}) {
 
     <div className={classes.root}>
 
-      <Box width={"100%"} height={"12vh"}/>
+      <Box width={"100%"} height={"10vh"}/>
 
       <Grid container spacing={3} className={classes.content}>
         <Grid item xs={12} sm={3}>
