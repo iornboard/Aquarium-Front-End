@@ -124,7 +124,7 @@ export default function StickyFooter({userInfo}) {//컨테이너로 감싸고 �
 
   const {userId, userEmail, userFullname, userNickname, userImgUrl} = {...userInfo}
 
-  const fileInfo = useSelector( store => store.file.ImgFileInfo , []);
+  const fileInfo = useSelector( store => store.file.ImgFileInfo );
   const {fileDownloadUri} = {...fileInfo}
 
 

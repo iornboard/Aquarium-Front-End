@@ -143,10 +143,10 @@ const Aquarium = ( {width=1280, height=720, scr='http://commondatastorage.google
   const canvasRef = useRef(null);
   const contextRef = useRef(null);
 
-  const userInfo = useSelector( store => store.auth.userData , []);  // 현재 유저 정보 받아오기
+  const userInfo = useSelector( store => store.auth.userData);  // 현재 유저 정보 받아오기
   const {userId, userNickname, userImgUrl} = {...userInfo} 
 
-  const fileInfo = useSelector( store => store.file.ImgFileInfo , []);  // 현재 유저 정보 받아오기
+  const fileInfo = useSelector( store => store.file.ImgFileInfo);  // 현재 유저 정보 받아오기
   const {fileDownloadUri} = {...fileInfo} 
 
   const [mentions, SetMentions] = React.useState();
@@ -239,14 +239,8 @@ const Aquarium = ( {width=1280, height=720, scr='http://commondatastorage.google
 
   return (
     <Box position='absolute' zIndex={1}  className={className}>
-      
-      <canvas 
-        ref={canvasRef}
-        onMouseDown={addMention}
-      > 
-      </canvas> 
 
-      <Zoom in={open}>
+    
         <Box
                 p={2}
                 position="absolute"
@@ -254,9 +248,18 @@ const Aquarium = ( {width=1280, height=720, scr='http://commondatastorage.google
                 left={positionX}
                 zIndex="tooltip"
                 >
-                <Chip avatar={ <Avatar>M</Avatar> } label={"여기에 새 맨션 추가"} color="primary" className={classes.basicShadow} />
+            <Zoom in={open} >
+              <Chip avatar={ <Avatar>M</Avatar> } label={"여기에 새 맨션 추가"} color="primary" className={classes.basicShadow} />
+            </Zoom>
         </Box>
-      </Zoom>
+      
+      
+      <canvas 
+        ref={canvasRef}
+        onMouseDown={addMention}
+      > 
+      </canvas> 
+
 
       <VideoPlayer  className={classes.canvasForm} scr={scr} /> {/* <- 비디오 컴포넌트 부분  ->*/}
 

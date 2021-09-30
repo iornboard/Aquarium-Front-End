@@ -72,7 +72,7 @@ export default function StickyFooter(props) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const userInfo = useSelector( store => store.auth.userData , [])
+  const userInfo = useSelector( store => store.auth.userData )
   const {userId, userNickname, userImgUrl} = {...userInfo}
 
   const [tasks, setTasks] = React.useState([]);

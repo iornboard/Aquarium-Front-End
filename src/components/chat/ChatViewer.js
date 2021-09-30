@@ -44,7 +44,7 @@ export default function ChatViewer( {chatRoomId, height} ) {
   const dispatch = useDispatch();
   const stompClient = useRef({});
 
-  const userInfo = useSelector( store => store.auth.userData , []);  // 현재 유저 정보 받아오기
+  const userInfo = useSelector( store => store.auth.userData );  // 현재 유저 정보 받아오기
   const {userId, userNickname, userImgUrl} = {...userInfo} 
 
   const [attr, setAttr] = useState([]);

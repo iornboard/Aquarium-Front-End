@@ -45,7 +45,7 @@ function StickyFooter() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const userInfo = useSelector( store => store.auth.userData , []);  // 현재 유저 정보 받아오기
+  const userInfo = useSelector( store => store.auth.userData );  // 현재 유저 정보 받아오기
   const {userId, userNickname, userImgUrl} = {...userInfo} 
 
   const [value, setValue] = useState("")
@@ -116,10 +116,10 @@ const Task = ({projectInfo}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const userInfo = useSelector( store => store.auth.userData , []);  // 현재 유저 정보 받아오기
+  const userInfo = useSelector( store => store.auth.userData );  // 현재 유저 정보 받아오기
   const {userId, userNickname, userImgUrl} = {...userInfo} 
 
-  const joinUsersInfos = useSelector( store => store.user.joinUsers , []);
+  const joinUsersInfos = useSelector( store => store.user.joinUsers );
 
   const [value, setValue] = useState("")
   const [tasks, setTasks] = useState([])

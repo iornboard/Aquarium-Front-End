@@ -44,7 +44,7 @@ export default function StickyFooter() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const userInfo = useSelector( store => store.auth.userData , []);  // 현재 유저 정보 받아오기
+  const userInfo = useSelector( store => store.auth.userData);  // 현재 유저 정보 받아오기
   const {userId, userNickname, userImgUrl} = {...userInfo} 
   
   const [ aqrmInfo, setAqrmInfo ] = useState()

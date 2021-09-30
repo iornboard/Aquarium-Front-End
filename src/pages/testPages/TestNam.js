@@ -11,6 +11,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListSubheader from '@material-ui/core/ListSubheader';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
@@ -18,6 +19,11 @@ import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import SwipeableViews from 'react-swipeable-views';
+
+import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
+import BallotIcon from '@material-ui/icons/Ballot';
+import AssignmentIcon from '@material-ui/icons/Assignment';
+import AssignmentLateIcon from '@material-ui/icons/AssignmentLate';
 
 import Aquarium from '../../components/aquarium/Aquarium';
 import ChatViewer from '../../components/chat/ChatViewer';
@@ -60,6 +66,7 @@ const useStyles = makeStyles((theme) => ({
   projectOption: {
     borderRadius : 15,
     minWidth: "20vw",
+    marginLeft: theme.spacing(2),
     marginRight: theme.spacing(2),
     paddingLeft : 15,
     paddingRight : 15, 
@@ -75,8 +82,28 @@ const useStyles = makeStyles((theme) => ({
     height: '35vh',
   },
   tapRoot: {
+    flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
-    
+    display: 'flex',
+    height: "100%"
+  },
+  tabs: {
+    borderRight: `0px solid ${theme.palette.divider}`,
+  },
+  propsViews: {
+    padding:10,
+    backgroundColor : theme.palette.divider,
+    width:"90%", 
+    margin:10,
+    marginRight:0,
+    borderRadius : 10 ,
+  },
+  teamInfoFrom: {
+    width: '100%',
+    maxWidth: 360,
+    position: 'relative',
+    overflow: 'auto',
+    maxHeight: 300,
   },
   
 }));
@@ -97,7 +124,7 @@ function Task({match, userInfo}) {
         <Box className={classes.background}/>
         <Box width={"100%"} height={"8vh"}/>
 
-        <Grid container spacing={3} className={classes.content}>
+        <Grid container className={classes.content}>
           <Grid item xs={12} sm={9} justify = "center" >
             <Box display="flex" height="100%" bgcolor="white" className={classes.contentOption}>
               
@@ -138,9 +165,11 @@ function Task({match, userInfo}) {
                     
                   <Divider/>
 
-                  <Box bgcolor="red" height='35vh'>
+                  <Box bgcolor="red" height='35vh' >
                     <TaskProps/>
                   </Box>
+                  
+                  <Divider/>
 
                 </List>
 
@@ -154,84 +183,98 @@ function Task({match, userInfo}) {
 }
 
 
-function a11yProps(index) {
-  return {
-    id: `full-width-tab-${index}`,
-    'aria-controls': `full-width-tabpanel-${index}`,
-  };
-}
-
-
 
 const TaskProps = () => {
-  const classes = useStyles();
   const theme = useTheme();
+  const classes = useStyles();
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  const handleChangeIndex = (index) => {
-    setValue(index);
-  };
-
   return (
     <div className={classes.tapRoot}>
-      <AppBar position="static" color="default">
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          indicatorColor="primary"
-          textColor="primary"
-          variant="fullWidth"
-          aria-label="full width tabs example"
-        >
-          <Tab label="Item One" {...a11yProps(0)} />
-          <Tab label="Item Two" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
-        </Tabs>
-      </AppBar>
-      <SwipeableViews
-        axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-        index={value}
-        onChangeIndex={handleChangeIndex}
+      <Tabs
+        orientation="vertical"
+        variant="scrollable"
+        value={value}
+        onChange={handleChange}
+        aria-label="Vertical tabs example"
+        className={classes.tabs}
+        style={{
+          background: theme.palette.primary.main,
+          color: "black",
+          width:"25%",
+          justifyContent: "center",
+          alignItems: "center",
+          borderRadius : 10 ,
+          marginTop : 10,
+          marginBottom : 10
+        }}
+        TabIndicatorProps={{style: {width:"100%",  opacity: 0.3}}}
       >
-        <TabPanel value={value} index={0} dir={theme.direction}>
-          Item One
+        <Tab icon={<AssignmentIndIcon />} label="인원" aria-label="인원" />
+        <Tab icon={<BallotIcon />} label="상태" aria-label="상태" />
+        <Tab icon={<AssignmentIcon />} label="메모" aria-label="메모" />
+        <Tab icon={<AssignmentLateIcon />} label="관리" aria-label="관리" />
+      </Tabs>
+      <Box className={classes.propsViews} > 
+        <TabPanel value={value} index={0}>
+          <TeamInfoList/>
         </TabPanel>
-        <TabPanel value={value} index={1} dir={theme.direction} >
+        <TabPanel value={value} index={1}>
           Item Two
         </TabPanel>
-        <TabPanel value={value} index={2} dir={theme.direction}>
+        <TabPanel value={value} index={2}>
           Item Three
         </TabPanel>
-      </SwipeableViews>
+        <TabPanel value={value} index={3}>
+          Item Four
+        </TabPanel>
+      </Box>
+      
     </div>
   );
 }
 
-const TabPanel = (props) => {
+
+function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
   return (
     <div
       role="tabpanel"
       hidden={value !== index}
-      id={`full-width-tabpanel-${index}`}
-      aria-labelledby={`full-width-tab-${index}`}
+      id={`vertical-tabpanel-${index}`}
+      aria-labelledby={`vertical-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box p={3}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+     
+      <Box> 
+        {children}
+      </Box>
+      
     </div>
   );
 }
 
 
+const TeamInfoList = () => {
+  const classes = useStyles();
+
+  return (
+    <Box> 
+      <List  className={classes.teamInfoFrom} subheader={<li />}>
+     
+      <ListItem>
+        <ListItemText primary={`df`} />
+      </ListItem>
+     
+      </List>
+    </Box>
+  );
+}
 
 
 

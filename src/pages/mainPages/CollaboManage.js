@@ -137,7 +137,7 @@ function TaskManager({history, userInfo}) {
 
   const {userId, userNickname, userImgUrl} = {...userInfo} 
 
-  const joinUsersInfos = useSelector( store => store.user.joinUsers , []);
+  const joinUsersInfos = useSelector( store => store.user.joinUsers );
 
   const [tasks, setTasks] = useState([])
   const [project, setProject] = useState(sampleProjectinfo)

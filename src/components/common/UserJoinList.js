@@ -46,7 +46,7 @@ export default function TransferList() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const userInfo = useSelector( store => store.auth.userData , [])
+  const userInfo = useSelector( store => store.auth.userData )
   const {userId} = {...userInfo}
 
   const [checked, setChecked] = React.useState([]);
