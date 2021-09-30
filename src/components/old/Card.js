@@ -26,7 +26,6 @@ import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import AvatarComp from '../common/AvatarComp';
 import { useDispatch , useSelector } from 'react-redux';
-import { createComment , getPostComments } from '../../_actions/actionComment'
 
 
 const useStyles = makeStyles((theme) => ({
@@ -84,10 +83,6 @@ export default function NomalCard(props) {
     setOpen(true);
 
     // 사실상 useEffect를 대신하는 것
-    if(!comments){
-      dispatch(getPostComments(postId))
-      .then(res => setComments(res.payload))
-    }
 
   };
 
@@ -99,12 +94,7 @@ export default function NomalCard(props) {
     event.preventDefault(); //페이지가 리프레시 되는 것을 막는다.
 
     const body = {...values, postId, userId }
-    
-    dispatch(createComment(body))
 
-    // !!! hardCoding !!! 
-    setTimeout( dispatch(getPostComments(postId)).then(res => setComments(res.payload)),5000);
-    // !!! hardCoding !!! 
 
   }
 
