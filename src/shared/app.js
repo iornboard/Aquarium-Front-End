@@ -41,7 +41,7 @@ function App() {
             <Route path="/collaboManage" component={Auth(AppBar(CollaboManage), true)}/>
             <Route path="/collabo" component={Auth(AppBar(Collabo), false)}/>
 
-            <Route path="/sun" component={Auth((Sun), false)}/>
+            <Route path="/sun" component={Auth(AppBar(Sun), false)}/>
             <Route path="/nam/:task" component={Auth(AppBar(Nam), true)}/>
 
             <Route path="/:username" component={Auth(AppBar(MyPage), false)}/>

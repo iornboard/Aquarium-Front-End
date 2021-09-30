@@ -180,7 +180,7 @@ export default function (SpecificComponent) {
       const theme = useTheme();
 
       // const userInfo = useSelector( store => store.auth.userData, []);
-      const userInfo = useSelector( store => store.auth.userData ? store.auth.userData : setTimeout(store.auth.userData, 1000) , []);
+      const userInfo = useSelector( store => store.auth.userData ? store.auth.userData : setTimeout(store.auth.userData, 1000) );
       const {userId, userEmail, userFullname, userNickname, userImgUrl} = {...userInfo}
 
       const [open, setOpen] = React.useState(false);
