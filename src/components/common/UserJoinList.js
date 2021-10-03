@@ -42,7 +42,7 @@ function intersection(a, b) {
   return a.filter((value) => b.indexOf(value) !== -1);
 }
 
-export default function TransferList() {
+export default function TransferList({teamList}) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -60,6 +60,8 @@ export default function TransferList() {
     dispatch(setJoinUsers(left));
   }, [left]);
 
+
+
   const handleToggle = (value) => () => {
     const currentIndex = checked.indexOf(value);
     const newChecked = [...checked];
@@ -73,10 +75,14 @@ export default function TransferList() {
     setChecked(newChecked);
   };
 
+
+
   const handleAllRight = () => {
     setRight(right.concat(left));
     setLeft([]);
   };
+
+
 
   const handleCheckedRight = () => {
     setRight(right.concat(leftChecked));
@@ -84,28 +90,40 @@ export default function TransferList() {
     setChecked(not(checked, leftChecked));
   };
 
+
+
   const handleCheckedLeft = () => {
     setLeft(left.concat(rightChecked));
     setRight(not(right, rightChecked));
     setChecked(not(checked, rightChecked));
   };
 
+
+
   const handleAllLeft = () => {
     setLeft(left.concat(right));
     setRight([]);
   };
+
 
 // -----------------------------------------------------------------------
 
   const callApiAllUser = async () => {
     const response = await fetch('/api/user-info-all?userId='+userId);
     const userSet = await response.json();
-    console.log(userSet)
     return userSet
   }
 
   useEffect(() => {
-    callApiAllUser().then(res =>  setRight(res));
+    
+    if(teamList){
+      callApiAllUser()
+        .then(res =>  setRight(res.filter(us => !teamList.map(it=>it.userId).includes(us.userId))))
+        .then(res =>  setLeft(teamList.filter(team => team.userId != userId)))
+    } else {
+      callApiAllUser().then(res =>  setRight(res));
+    }
+
   }, 1);
 
 // -----------------------------------------------------------------------

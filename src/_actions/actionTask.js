@@ -1,7 +1,8 @@
 import Axios from 'axios'
 
 import {
-    ABOUT_TASK
+    ABOUT_TASK,
+    SET_TASK
 } from './types';
 
 
@@ -23,7 +24,7 @@ export function readTask(taskId) {
         .then(response => response.data) 
 
     return {
-        type: ABOUT_TASK,
+        type: SET_TASK,
         payload : request
     };
 }
@@ -51,4 +52,30 @@ export function readAllProjectTask(projectId) {
         payload : request
     };
 }
+
+
+export function updateTask(value) {
+
+    const request = Axios.put('/api/update-task', value ) 
+    .then(response => response.data )
+
+    return {
+        type: SET_TASK,
+        payload : request
+    };
+}
+
+
+export function updateTaskInfo(value) {
+
+    const request = Axios.put('/api/update-task-info' , value ) 
+    .then(response => response.data)
+
+    return {
+        type: SET_TASK,
+        payload : request
+    };
+}
+
+
 

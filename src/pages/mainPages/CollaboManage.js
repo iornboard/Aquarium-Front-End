@@ -47,16 +47,18 @@ import {statusInfo} from "../../conf/projectConfig"
 
 
 
-const sampleCurrentDate = '2018-11-01';
+
 const sampleProjectinfo = {projectId : 1}
 
+var now = new Date();
 
-const sampleTaskInfo = [
-  { startDate: '2018-11-01T09:45', endDate: '2018-11-05T11:00', title: 'Meeting', taskStatus: "safe", teamsInfo:[1,2,3] },
-  { startDate: '2018-11-02T12:00', endDate: '2018-11-08T13:30', title: 'Go to a gym', taskStatus: "processing", teamsInfo:[1] },
-  { startDate: '2018-11-09T12:00', endDate: '2018-11-10T13:30', title: 'Go to a gym', taskStatus: "safe", teamsInfo:[1,2,3] },
-  { startDate: '2018-11-01T12:00', endDate: '2018-11-12T13:30', title: 'Go to a gym', taskStatus: "deadlock", teamsInfo:[1,2] },
-];
+
+// const sampleTaskInfo = [
+//   { startDate: '2018-11-01T09:45', endDate: '2018-11-05T11:00', title: 'Meeting', taskStatus: "safe", teamsInfo:[1,2,3] },
+//   { startDate: '2018-11-02T12:00', endDate: '2018-11-08T13:30', title: 'Go to a gym', taskStatus: "processing", teamsInfo:[1] },
+//   { startDate: '2018-11-09T12:00', endDate: '2018-11-10T13:30', title: 'Go to a gym', taskStatus: "safe", teamsInfo:[1,2,3] },
+//   { startDate: '2018-11-01T12:00', endDate: '2018-11-12T13:30', title: 'Go to a gym', taskStatus: "deadlock", teamsInfo:[1,2] },
+// ];
 
 
 const resource = [
@@ -348,7 +350,7 @@ function TaskBar({ taskInfo, history }) {
 
   useEffect(() => {
     putLeftDay()
-  });
+  },[]);
 
 
   const putLeftDay = () => {
@@ -457,7 +459,7 @@ const  ScheduleViewer = ({data}) => {
         data={data}
       >
         <ViewState
-          defaultCurrentDate={sampleCurrentDate}
+          defaultCurrentDate={now}
         />
         <Toolbar />
         <DateNavigator />
