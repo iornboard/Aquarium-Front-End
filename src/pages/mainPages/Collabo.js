@@ -772,7 +772,6 @@ const ChatRoomPublisher = ({taskInfo}) => {
 }
 
 
-
 const EllipsisText = (props) => {
   const { children } = props
 
@@ -787,6 +786,7 @@ const EllipsisText = (props) => {
     </div>
   )
 }
+
 
 
 export default withRouter(Task)
