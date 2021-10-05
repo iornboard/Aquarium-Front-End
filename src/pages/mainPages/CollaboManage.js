@@ -369,7 +369,7 @@ function TaskBar({ taskInfo, history }) {
   
 
   return (
-        <Button className={classes.taskBar} onClick={ e=>{ history.push( "/nam/" + taskInfo.taskId ) } }>
+        <Button className={classes.taskBar} onClick={ e=>{ history.push( "/collabo/" + taskInfo.taskId ) } }>
           <List className={classes.taskBarList}> 
             <ListItem alignItems="flex-start">
               <ListItemText

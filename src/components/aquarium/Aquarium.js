@@ -122,17 +122,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
+
+
+// const sampleMentionInfos = [ 
+//   { x:150 , y:150 , mentText:"여기에 내용 그리고 여기에 내용", mentId : 1 , start:0 , end:5},
+//   { x:300 , y:300 , mentText:"여기에 내용2", mentId : 2 , start:10 , end:15},
+//   { x:70 , y:300 , mentText:"여기에 내용3", mentId : 3 , start:5 , end:15},
+//   { x:500 , y:500 , mentText:"여기에 내용4", mentId : 4 , start:0 , end:15},
+//   { x:280 , y:600 , mentText:"여기에 내용5", mentId : 5 , start:10 , end:20},
+
+// ]
+
+
 var globalVideoTime = 0  // const 와 var의 차이 알아서 이 부분은 효울적으로 수정하기 !!
-const sampleMentionInfos = [ 
-  { x:150 , y:150 , mentText:"여기에 내용 그리고 여기에 내용", mentId : 1 , start:0 , end:5},
-  { x:300 , y:300 , mentText:"여기에 내용2", mentId : 2 , start:10 , end:15},
-  { x:70 , y:300 , mentText:"여기에 내용3", mentId : 3 , start:5 , end:15},
-  { x:500 , y:500 , mentText:"여기에 내용4", mentId : 4 , start:0 , end:15},
-  { x:280 , y:600 , mentText:"여기에 내용5", mentId : 5 , start:10 , end:20},
-
-]
-const aqrmId = 5 // 임시
-
 
 
 const Aquarium = ( {width=1280, height=720, scr='http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4', className ,aqrm} ) => {
@@ -190,7 +192,7 @@ const Aquarium = ( {width=1280, height=720, scr='http://commondatastorage.google
     setCtx(contextRef.current);
 
 
-    dispatch(readAllMentMark(aqrmId))
+    dispatch(readAllMentMark(aqrm.aqrmId))
       .then(res => SetMentions(res.payload))
 
   },[])
@@ -226,7 +228,7 @@ const Aquarium = ( {width=1280, height=720, scr='http://commondatastorage.google
 
   const onSubmitHandler = (event) => {
 
-    const newMention = { x: positionX, y: positionY, mentText: values, mentImgUrl : fileDownloadUri, start:selectedTime, end:selectedTime+5, userId:userId, aqrmId:aqrmId }
+    const newMention = { x: positionX, y: positionY, mentText: values, mentImgUrl : fileDownloadUri, start:selectedTime, end:selectedTime+5, userId:userId, aqrmId:aqrm.aqrmId }
     
     dispatch(createMention(newMention))
       .then(res => {SetMentions( prev => [...prev, res.payload] ) })
@@ -238,93 +240,99 @@ const Aquarium = ( {width=1280, height=720, scr='http://commondatastorage.google
 
 
   return (
+    <div>
+      
+    { aqrm ? 
     <Box position='absolute' zIndex={1}  className={className}>
-
-    
-        <Box
-                p={2}
-                position="absolute"
-                top={positionY}
-                left={positionX}
-                zIndex="tooltip"
-                >
-            <Zoom in={open} >
-              <Chip avatar={ <Avatar>M</Avatar> } label={"여기에 새 맨션 추가"} color="primary" className={classes.basicShadow} />
-            </Zoom>
-        </Box>
-      
-      
-      <canvas 
-        ref={canvasRef}
-        onMouseDown={addMention}
-      > 
-      </canvas> 
-
-
-      <VideoPlayer  className={classes.canvasForm} scr={scr} /> {/* <- 비디오 컴포넌트 부분  ->*/}
-
-
-      { mentions ?  mentions.map( men => <CustomMarker mentInfo={men} userId={userId} />) : " " }   {/* 마커의 생성*/}
-
-      <Drawer
-            variant="temporary"
-            anchor={'right'}
-            open={open}
-            onClose={handleClose}
-            classes={{
-              paper: classes.drawerPaper,
-            }}
-            ModalProps={{
-              keepMounted: true, // Better open performance on mobile.
-            }}
-          >
-          
-          
-          <Box width="auto" height="6%" display="inline-block"  bgcolor={theme.palette.primary.dark}>
-            <img src={logo} height="100%" alignItems = "center" />
-          </Box> 
-
-          <Box bgcolor={theme.palette.primary.main} height="100%" >
-            
-            <Box margin="5%" display="flex" flexWrap="wrap" justifyContent="flex-end" >
-
-              <TextField
-                name='mentText'
-                className={classes.mentionField}
-                fullWidth
-                id="filled-multi=ine-flexible"
-                multiline
-                rows={10}
-                maxRows={8}
-                onChange={e => setValues(e.target.value)}
-                variant="outlined" 
-                value={values}
-              />
-
-              <Uploader className={classes.basic}/>
+          <Box
+                  p={2}
+                  position="absolute"
+                  top={positionY}
+                  left={positionX}
+                  zIndex="tooltip"
+                  >
+              <Zoom in={open} >
+                <Chip avatar={ <Avatar>M</Avatar> } label={"여기에 새 맨션 추가"} color="primary" className={classes.basicShadow} />
+              </Zoom>
+          </Box>
         
-              <Button variant="contained" color="secondary" onClick={onSubmitHandler}>
-                댓글 버튼
-              </Button>
+        
+        <canvas 
+          ref={canvasRef}
+          onMouseDown={addMention}
+        > 
+        </canvas> 
 
-              <Slider
-                className={classes.timeSlideOption}
-                color='secondary'
-                fullWidth
-                value={timeValue}
-                step={5}
-                min={0}
-                max={110}
-                onChange={handleTimeValueChange}
-                valueLabelDisplay="auto"
-                aria-labelledby="range-slider"
-              />
-            </Box>
-          </Box>    
-      </Drawer>
+
+        <VideoPlayer  className={classes.canvasForm} scr={scr} /> {/* <- 비디오 컴포넌트 부분  ->*/}
+
+
+        { mentions ?  mentions.map( men => <CustomMarker mentInfo={men} userId={userId} />) : " " }   {/* 마커의 생성*/}
+
+        <Drawer
+              variant="temporary"
+              anchor={'right'}
+              open={open}
+              onClose={handleClose}
+              classes={{
+                paper: classes.drawerPaper,
+              }}
+              ModalProps={{
+                keepMounted: true, // Better open performance on mobile.
+              }}
+            >
+            
+            
+            <Box width="auto" height="6%" display="inline-block"  bgcolor={theme.palette.primary.dark}>
+              <img src={logo} height="100%" alignItems = "center" />
+            </Box> 
+
+            <Box bgcolor={theme.palette.primary.main} height="100%" >
+              
+              <Box margin="5%" display="flex" flexWrap="wrap" justifyContent="flex-end" >
+
+                <TextField
+                  name='mentText'
+                  className={classes.mentionField}
+                  fullWidth
+                  id="filled-multi=ine-flexible"
+                  multiline
+                  rows={10}
+                  maxRows={8}
+                  onChange={e => setValues(e.target.value)}
+                  variant="outlined" 
+                  value={values}
+                />
+
+                <Uploader className={classes.basic}/>
           
-      <Box height={height} width={width} position="absolute" top={0} zIndex={-5} bgcolor="rgb(0, 0, 0)" />  {/*  영상을 못 찾았을때 표시하기 위한 박스  */}
+                <Button variant="contained" color="secondary" onClick={onSubmitHandler}>
+                  댓글 버튼
+                </Button>
+
+                <Slider
+                  className={classes.timeSlideOption}
+                  color='secondary'
+                  fullWidth
+                  value={timeValue}
+                  step={5}
+                  min={0}
+                  max={110}
+                  onChange={handleTimeValueChange}
+                  valueLabelDisplay="auto"
+                  aria-labelledby="range-slider"
+                />
+              </Box>
+            </Box>    
+        </Drawer>
+            
+        <Box height={height} width={width} position="absolute" top={0} zIndex={-5} bgcolor="rgb(0, 0, 0)" />  {/*  영상을 못 찾았을때 표시하기 위한 박스  */}  
     </Box>
+     : 
+     "정보를 불러오지 못했습니다. "
+     }
+
+     </div>
   );
 }
 

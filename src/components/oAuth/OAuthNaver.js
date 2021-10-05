@@ -22,7 +22,7 @@ const config = {
       if (jwtToken.status === 200) {
         console.log(2, jwtToken.data);
         localStorage.setItem("jwt", jwtToken.data.authorization);
-        props.history.push(jwtToken.data.redirectUrl)
+        props.history.push("/user/"+jwtToken.data.redirectUrl)
       }
     };
 

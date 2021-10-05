@@ -39,12 +39,12 @@ function App() {
             <Route path="/signup" component={Auth(SignUp, false)}/>
             <Route path="/userInfo" component={Auth(AppBar(UserPorfile), true)}/>
             <Route path="/collaboManage" component={Auth(AppBar(CollaboManage), true)}/>
-            <Route path="/collabo" component={Auth(AppBar(Collabo), false)}/>
+            <Route path="/collabo/:task" component={Auth(AppBar(Collabo), true)}/>
 
             <Route path="/sun" component={Auth(AppBar(Sun), false)}/>
             <Route path="/nam/:task" component={Auth(AppBar(Nam), true)}/>
 
-            <Route path="/:username" component={Auth(AppBar(MyPage), false)}/>
+            <Route path="/user/:username" component={Auth(AppBar(MyPage), false)}/>
             
 
           </Switch>

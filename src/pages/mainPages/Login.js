@@ -150,7 +150,7 @@ function SignInSide({history}) {
 
         console.log(res)
         localStorage.setItem('jwt', res.payload.authorization); //jwt형태로 만들어서  localStorage저장
-        history.push(res.payload.redirecturl)//화면이동
+        history.push("/user/"+res.payload.redirecturl)//화면이동
       } else {
         alert("this is enable account!")
       }

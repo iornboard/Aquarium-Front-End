@@ -28,7 +28,7 @@ export default function (SpecificComponent, option, adminRoute = null){
                 //로그인 한 상태
 
                     if(!option){
-                        props.history.push( res.payload.userNickname )
+                        props.history.push( "/user/"+res.payload.userNickname )
                     }
                 }   
             })
