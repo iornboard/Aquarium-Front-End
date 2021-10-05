@@ -419,11 +419,7 @@ export default function (SpecificComponent) {
               ))}
               </Link>
               <Link href="userinfo">
-<<<<<<< HEAD
                 {['회원정보 수정'].map((text1, index1) => (
-=======
-                {['회원정보'].map((text1, index1) => (
->>>>>>> 0df96a626119e24f42596b381c56129fbb389be2
                 <ListItem button key={text1}>
                   <ListItemIcon><CreateRoundedIcon/></ListItemIcon>
                   <ListItemText primary={text1} />
@@ -431,11 +427,7 @@ export default function (SpecificComponent) {
               ))}
               </Link>
 
-<<<<<<< HEAD
                   {/* 
-=======
-
->>>>>>> 0df96a626119e24f42596b381c56129fbb389be2
             <Link href="">
               {['프로젝트 편집'].map((text, index) => (
                 <ListItem button key={text}>
@@ -444,11 +436,7 @@ export default function (SpecificComponent) {
                 </ListItem>
               ))}
               </Link>
-<<<<<<< HEAD
                  
-=======
-                 {/* 0621 */}
->>>>>>> 0df96a626119e24f42596b381c56129fbb389be2
               
                 {['인기글'].map((text2, index2) => (
                   <ListItem button key={text2}>
@@ -463,12 +451,6 @@ export default function (SpecificComponent) {
             <Divider />
                 {/* 
             <List> 
-<<<<<<< HEAD
-=======
-
-            
-
->>>>>>> 0df96a626119e24f42596b381c56129fbb389be2
               <Link href="collabomain">
                 {['프로젝트 일정'].map((text1, index1) => (
                 <ListItem button key={text1}>
@@ -510,13 +492,8 @@ export default function (SpecificComponent) {
                 </ListItem>
               ))}
               </Link>
-<<<<<<< HEAD
             
             */}
-=======
-
-              
->>>>>>> 0df96a626119e24f42596b381c56129fbb389be2
 
             </List>
            
