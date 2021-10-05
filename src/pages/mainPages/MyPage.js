@@ -20,6 +20,8 @@ import SimpleMainInfoCard from '../../components/informations/simpleMainInfoCard
 import SimpleInfoCard from '../../components/informations/simpleInfoCard';
 import SimpleInfoList from '../../components/informations/SimpleInfoList'
 
+import Avatar from '@material-ui/core/Avatar';
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -38,6 +40,10 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
+    // 변경
+    '& > *': {
+      margin: theme.spacing(1),
+    },
   },
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
@@ -108,10 +114,27 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
+    float: 'left',
   },
   fixedHeight: {
     height: 240,
   },
+  // 변경
+  large: {
+    width: theme.spacing(28),
+    height: theme.spacing(28),
+    marginTop: 50,
+ 
+  },
+  boxx:{
+    display :"listitem",
+    justifyContent : "center",
+    padding : 25,
+    borderRadius: "10px",
+    borderStyle: "solid",
+    borderWidth: "12px",
+    borderColor: theme.palette.primary.main,
+  }
 }));
 
 function Mypage({match, userInfo, history}) {
@@ -139,18 +162,34 @@ function Mypage({match, userInfo, history}) {
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
   return (
+    
     <div className={classes.root}>
       <CssBaseline />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={8} lg={9}>
+        
+          <Grid container>
+            <Grid spacing={3} className={classes.root} item xs={4}>
+              <Box className={classes.boxx}>
+              <Avatar alt="userimg" src="" className={classes.large} />
+                <br/>
+              <Box> {match.params.username}</Box>
+
+              </Box>
+            </Grid>
+           
+            <Grid item xs={8}>
+              <Paper className={classes.paper}>
+                <WorkCard />
+              </Paper>
+            </Grid>
+            {/* <Grid item xs={12} md={8} lg={9}>
               <Grid container>
                   <SimpleInfoCard/>
                   <SimpleInfoCard/>
                   <SimpleInfoCard/>
-              </Grid>
+              </Grid> 
             </Grid>
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
@@ -166,17 +205,14 @@ function Mypage({match, userInfo, history}) {
               <Paper className={classes.paper}>
                 <SimpleInfoList />
               </Paper>
-            </Grid>
-            <Grid item xs={9}>
-              <Paper className={classes.paper}>
-                <WorkCard />
-              </Paper>
-            </Grid>
-            <Grid item xs={3}>
+            </Grid> */}
+
+            {/* <Grid item xs={3}>
               <Paper className={classes.paper}  >
                 <InfoRadarChart height="100%" />
               </Paper>
-            </Grid>
+            </Grid> */}
+          
           </Grid>
           <Box pt={4}>
             <Copyright />
@@ -186,6 +222,5 @@ function Mypage({match, userInfo, history}) {
     </div>
   );
 }
-
 
 export default withRouter(Mypage)
