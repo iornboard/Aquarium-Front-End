@@ -500,7 +500,7 @@ export default function (SpecificComponent) {
 
 
           {/* 때에 따라 수정할 것  */}
-           {/* {userInfo ? <SpecificComponent userInfo={userInfo}/> : <LoadingPage/> }   */} 검증 후의 코드
+           {/* {userInfo ? <SpecificComponent userInfo={userInfo}/> : <LoadingPage/> }   검증 후의 코드 */} 
            <SpecificComponent userInfo={userInfo}/>
 
 
