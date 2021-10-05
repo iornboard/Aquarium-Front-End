@@ -1,4 +1,5 @@
 import React from "react";
+import Box from '@material-ui/core/Box';
 import { GoogleLogin } from "react-google-login";
 import {GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_SCOPE} from "../../conf/oAuthConfig"
 import Axios from "axios";
@@ -34,6 +35,7 @@ const Login = (props) => {
       onSuccess={responseGoogle}
       onFailure={responseGoogle}
       cookiePolicy={"single_host_origin"}
+      render={ renderProps => ( <Box onClick={renderProps.onClick} fontWeight="fontWeightBold" color="red" fontSize={16} style={{width:"100%", height:"5vh"}} >  google </Box>)}
     />
   );
 };

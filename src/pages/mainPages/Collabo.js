@@ -163,7 +163,8 @@ function Task({match, userInfo}) {
   const {aqrmId, chatRoomId} = {...task}
  
   useEffect(() => {
-    dispatch(readTask(match.params.task))
+    dispatch(updateTaskStore(null))
+    dispatch(readTask(match.params.task));
   },1 );
 
 
