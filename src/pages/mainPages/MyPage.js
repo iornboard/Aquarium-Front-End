@@ -137,7 +137,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function Mypage({match, userInfo}) {
+function Mypage({match, userInfo, history}) {
   const classes = useStyles();
   const dispatch = useDispatch();
   
@@ -149,10 +149,15 @@ function Mypage({match, userInfo}) {
     setOpen(false);
   };
 
+
+  //!!!하드코딩!!!
+  
   useEffect(() => {
     dispatch(authUserPage(match.params.username))
+      .then(res => {if(res.payload.data == "/")  history.push("/")   })
   }, 1);
 
+  //!!!하드코딩!!!
 
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
