@@ -78,4 +78,15 @@ export function updateTaskInfo(value) {
 }
 
 
+export function updateTaskStore(value) {
+
+    return {
+        type: SET_TASK,
+        payload : value
+    };
+}
+
+
+
+
 

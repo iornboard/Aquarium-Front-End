@@ -1,7 +1,7 @@
 import Axios from 'axios'
 
 import {
-    CHAT_HISTORY,
+    ABOUT_CHAT ,
 } from './types';
 
 
@@ -11,8 +11,21 @@ export function chatHistory(roomId) {
         .then(response => response.data) 
 
     return {
-        type: CHAT_HISTORY,
+        type: ABOUT_CHAT,
         payload : request
     };
 }
+
+
+export function createRoom(teamsId) {
+
+    const request = Axios.post('/api/create-room' , teamsId ) 
+        .then(response => response.data) 
+
+    return {
+        type: ABOUT_CHAT,
+        payload : request
+    };
+}
+
 

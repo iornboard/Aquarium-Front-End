@@ -41,9 +41,14 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 
-import { readTask, updateTask, updateTaskInfo } from '../../_actions/actionTask'
+
+import { readTask, updateTask, updateTaskInfo, updateTaskStore } from '../../_actions/actionTask'
+import { createAquarium} from '../../_actions/actionAquarium'
+import { createRoom } from '../../_actions/actionChat'
+
 
 import Aquarium from '../../components/aquarium/Aquarium';
+import AquariumYT from '../../components/aquarium/AquariumYoutube';
 import ChatViewer from '../../components/chat/ChatViewer';
 import UserJoinList from "../../components/common/UserJoinList";
 import SimpleProgress from '../../components/common/SimpleProgress'
@@ -146,9 +151,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const sampleAqrm = null//{aqrmId : 1}
-
-
 var now = new Date();
 
 function Task({match, userInfo}) {
@@ -158,6 +160,7 @@ function Task({match, userInfo}) {
   const {userId, userNickname, userImgUrl} = {...userInfo} 
   
   const task = useSelector( store => store.task.usingTask );
+  const {aqrmId, chatRoomId} = {...task}
  
   useEffect(() => {
     dispatch(readTask(match.params.task))
@@ -175,13 +178,19 @@ function Task({match, userInfo}) {
           <Grid item xs={12} sm={9} justify = "center" >
             <Box display="flex" height="100%" bgcolor="white" className={classes.contentOption}>
               
-
-              { sampleAqrm ? 
-                <Aquarium className={classes.rootAquarium} aqrm={sampleAqrm}/>
-              :
-                <AquariumPublisher/>                
-              }  
-
+            {
+               task ? 
+                <dic>
+                  { aqrmId ? 
+                    // <Aquarium className={classes.rootAquarium} aqrmId={aqrmId}/> 
+                    <AquariumYT  className={classes.rootAquarium}  aqrmId={aqrmId}/> 
+                  :
+                    <AquariumPublisher taskInfo={task} userId={userId} />                
+                  }  
+                </dic>
+                :
+                <SimpleProgress/>
+            }
 
             </Box>
           </Grid>
@@ -212,7 +221,18 @@ function Task({match, userInfo}) {
                   </ListItem>
                   <Divider/> 
 
-                    <ChatViewer chatRoomId={1} height={'35vh'} className={classes.chatForm}/>
+                  { task ? 
+                    <div>
+                      { chatRoomId ?
+                        <ChatViewer chatRoomId={chatRoomId} height={'35vh'} className={classes.chatForm}/>
+                      :
+                        <ChatRoomPublisher taskInfo={task}/>
+                      }
+                    </div>
+                    :
+                    <SimpleProgress/>
+                  }
+
                     
                   <Divider/>
 
@@ -687,16 +707,23 @@ const TaskMaster = ({taskInfo}) => {
   );
 }
 
-
-const AquariumPublisher = () => {
+const AquariumPublisher = ({userId, taskInfo}) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const [values, setValues] = useState();
-  
-  
+
   const handleFormChange = (event) => {
     const { name, value } = event.target
     setValues({ ...values, [name]: value })
+  }
+
+  const putAqrm = () => {
+
+    const data = {...values , userId : userId}
+    dispatch( createAquarium(data) )
+      .then( res => dispatch( updateTaskInfo({ ...taskInfo , aqrmId : res.payload.aqrmId } )) )
+
   }
 
 
@@ -705,7 +732,7 @@ const AquariumPublisher = () => {
       
       <Grid container spacing={3}>
         <Grid item xs={12} md={3}>
-          <Fab size="medium" color="secondary" aria-label="add">
+          <Fab size="medium" color="secondary" aria-label="add" onClick={putAqrm}>
             <AddIcon />
           </Fab>  
         </Grid>
@@ -715,12 +742,31 @@ const AquariumPublisher = () => {
       </Grid>
 
       <TextField
-      fullWidth
-      id="src"
-      name="src"
-      onChange={handleFormChange}
+        fullWidth
+        id="aqrmVideoUrl"
+        name="aqrmVideoUrl"
+        label="유튜브 URL을 입력해 주세요"
+        onChange={handleFormChange}
       />
 
+    </Box>
+  )
+}
+
+
+const ChatRoomPublisher = ({taskInfo}) => {
+
+  const dispatch = useDispatch();
+  
+
+  useEffect(() => {
+    dispatch(createRoom(taskInfo.teamsInfo.map(it => it.userId)))
+      .then(res =>  dispatch(updateTaskInfo({ ...taskInfo , chatRoomId : res.payload.roomId })))
+  },[])
+
+
+  return (
+    <Box  height={'35vh'}>
     </Box>
   )
 }

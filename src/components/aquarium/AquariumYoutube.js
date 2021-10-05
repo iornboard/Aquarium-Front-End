@@ -9,6 +9,8 @@
 import React, {useRef, useState, useEffect} from "react";
 import { useDispatch , useSelector } from 'react-redux';
 import { makeStyles, useTheme , withStyles } from '@material-ui/core/styles';
+
+import { createAquarium, readAquarium } from '../../_actions/actionAquarium';
 import { createMention, readMention, readAllMentMark } from '../../_actions/actionMention'
 import { createCommnet, readAllMentCommnet } from '../../_actions/actionComment'
 import Box from '@material-ui/core/Box';
@@ -43,7 +45,7 @@ import Uploader from "../common/Uploader"
 import SimpleProgress from "../common/SimpleProgress"
 
 
-import videojs from 'video.js';
+import ReactPlayer from 'react-player'
 import VREPlayer from 'videojs-react-enhanced';
 import 'video.js/dist/video-js.css';
 
@@ -130,13 +132,14 @@ const useStyles = makeStyles((theme) => ({
 //   { x:70 , y:300 , mentText:"여기에 내용3", mentId : 3 , start:5 , end:15},
 //   { x:500 , y:500 , mentText:"여기에 내용4", mentId : 4 , start:0 , end:15},
 //   { x:280 , y:600 , mentText:"여기에 내용5", mentId : 5 , start:10 , end:20},
+
 // ]
 
 
 var globalVideoTime = 0  // const 와 var의 차이 알아서 이 부분은 효울적으로 수정하기 !!
 
 
-const Aquarium = ( {width=1280, height=720, scr='http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4', className , aqrmId} ) => {
+const Aquarium = ( {width=1280, height=720 , className , aqrmId} ) => {
   const theme = useTheme();
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -149,6 +152,9 @@ const Aquarium = ( {width=1280, height=720, scr='http://commondatastorage.google
 
   const fileInfo = useSelector( store => store.file.ImgFileInfo);  // 현재 유저 정보 받아오기
   const {fileDownloadUri} = {...fileInfo} 
+
+
+  const [aquariumInfo, SetAquariumInfo] = React.useState();
 
   const [mentions, SetMentions] = React.useState();
   const [values, setValues] = React.useState("");
@@ -169,7 +175,7 @@ const Aquarium = ( {width=1280, height=720, scr='http://commondatastorage.google
     const canvas = canvasRef.current;
 
     canvas.width = width;
-    canvas.height = height*0.95; 
+    canvas.height = height*0.90; 
 
     // flex로 구현할 때
     // const rect = canvas.parentNode.getBoundingClientRect()
@@ -189,6 +195,9 @@ const Aquarium = ( {width=1280, height=720, scr='http://commondatastorage.google
     context.fillRect(0,0,canvas.width,canvas.height);
 
     setCtx(contextRef.current);
+
+    dispatch(readAquarium(aqrmId))
+      .then(res => SetAquariumInfo(res.payload))
 
 
     dispatch(readAllMentMark(aqrmId))
@@ -242,7 +251,7 @@ const Aquarium = ( {width=1280, height=720, scr='http://commondatastorage.google
     <div>
       
     { aqrmId ? 
-    <Box position='absolute' zIndex={1}  className={className}>
+    <Box position='absolute' zIndex={1} marginTop={-10} className={className}>
           <Box
                   p={2}
                   position="absolute"
@@ -263,7 +272,7 @@ const Aquarium = ( {width=1280, height=720, scr='http://commondatastorage.google
         </canvas> 
 
 
-        <VideoPlayer  className={classes.canvasForm} scr={scr} /> {/* <- 비디오 컴포넌트 부분  ->*/}
+       {aquariumInfo ?  <VideoPlayer className={classes.canvasForm} height={height} width={width} url={aquariumInfo.aqrmVideoUrl} /> : "" } {/* <- 비디오 컴포넌트 부분  ->*/}
 
 
         { mentions ?  mentions.map( men => <CustomMarker mentInfo={men} userId={userId} />) : " " }   {/* 마커의 생성*/}
@@ -337,22 +346,10 @@ const Aquarium = ( {width=1280, height=720, scr='http://commondatastorage.google
 
 
 
-const VideoPlayer = ({className, width, height, scr}) => {
+const VideoPlayer = ({className, width, height, url}) => {
 
-  const playerOptions = {
-    width: width,
-    height: height,
-    src: scr,
-    controls: true, 
-    autoplay: "any",
-  };
-  const videojsOptions = {
-    fluid: false,
-  };
-
-  const timeUpdater = (e,player,currentTimeSecond) => {
-    const currentSecond = Math.floor(currentTimeSecond);
-    
+  const timeUpdater = (pg) => {
+    const currentSecond = Math.floor(pg.playedSeconds);
     globalVideoTime = currentSecond
     //console.log(globalVideoTime)
   };
@@ -364,11 +361,13 @@ const VideoPlayer = ({className, width, height, scr}) => {
 
   return (
     <Box className={className}>
-      <VREPlayer
-          playerOptions={playerOptions}
-          videojsOptions={videojsOptions}
+      <ReactPlayer
+          width={width+"px"}
+          height={height+"px"}
+          url={url}
+          controls="true"
           onReady={(player) => console.log(player)}
-          onTimeUpdate={timeUpdater}
+          onProgress={ timeUpdater} 
           onSeeking={reRander}
         />
     </Box>
