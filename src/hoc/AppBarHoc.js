@@ -234,7 +234,7 @@ export default function (SpecificComponent) {
         >
           
           <Link color="inherit" href="/UserInfo">
-            <MenuItem onClick={handleMenuClose}>Mypage</MenuItem>
+            <MenuItem onClick={handleMenuClose}>회원정보</MenuItem>
           </Link>
 
             <MenuItem onClick={handleMenuClose}>활동내역</MenuItem>
@@ -398,38 +398,19 @@ export default function (SpecificComponent) {
               </IconButton>
             </div>
             <Divider />
-            {/* 0621 */}
+        
             <List>
-            <Link href="/">
-              {['커뮤니티'].map((text, index) => (
-                <ListItem button key={text}>
-                  <ListItemIcon><AssignmentRoundedIcon/></ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItem>
-              ))}
-              </Link>
-                 {/* 0621 */}
-              <Link href="post">
-                {['글쓰기'].map((text1, index1) => (
-                <ListItem button key={text1}>
-                  <ListItemIcon><CreateRoundedIcon/></ListItemIcon>
-                  <ListItemText primary={text1} />
-                </ListItem>
-              ))}
-              </Link>
-                {['인기글'].map((text2, index2) => (
-                  <ListItem button key={text2}>
-                    <ListItemIcon><ThumbUpRoundedIcon/></ListItemIcon>
-                    <ListItemText primary={text2} />
-                  </ListItem>
-                ))}
-            </List>
-            
-            
-            <Divider />
-            <List> 
 
-            <Link href="collabomain">
+            <Link href="/">
+                {['Mypage'].map((text2, index2) => (
+                <ListItem button key={text2}>
+                  <ListItemIcon><FaceRoundedIcon/></ListItemIcon>
+                  <ListItemText primary={text2} />
+                </ListItem>
+              ))}
+              </Link>
+
+              <Link href="/collaboManage">
                 {['프로젝트 관리'].map((text, index) => (
                 <ListItem button key={text}>
                   <ListItemIcon><WorkRoundedIcon/></ListItemIcon>
@@ -437,7 +418,39 @@ export default function (SpecificComponent) {
                 </ListItem>
               ))}
               </Link>
+              <Link href="userinfo">
+                {['회원정보 수정'].map((text1, index1) => (
+                <ListItem button key={text1}>
+                  <ListItemIcon><CreateRoundedIcon/></ListItemIcon>
+                  <ListItemText primary={text1} />
+                </ListItem>
+              ))}
+              </Link>
 
+                  {/* 
+            <Link href="">
+              {['프로젝트 편집'].map((text, index) => (
+                <ListItem button key={text}>
+                  <ListItemIcon><AssignmentRoundedIcon/></ListItemIcon>
+                  <ListItemText primary={text} />
+                </ListItem>
+              ))}
+              </Link>
+                 
+              
+                {['인기글'].map((text2, index2) => (
+                  <ListItem button key={text2}>
+                    <ListItemIcon><ThumbUpRoundedIcon/></ListItemIcon>
+                    <ListItemText primary={text2} />
+                  </ListItem>
+                ))}
+                */}
+            </List>
+             
+            
+            <Divider />
+                {/* 
+            <List> 
               <Link href="collabomain">
                 {['프로젝트 일정'].map((text1, index1) => (
                 <ListItem button key={text1}>
@@ -461,6 +474,7 @@ export default function (SpecificComponent) {
              
 
             <Divider/>
+            */}
             <List>
               {/* {['아쿠아리움이란', '만든이' ].map((text, index) => (
                 <ListItem button key={text}>
@@ -469,6 +483,7 @@ export default function (SpecificComponent) {
                 </ListItem>
               ))} */}
 
+{/* 
               <Link href="">
                 {['아쿠아리움이란'].map((text1, index1) => (
                 <ListItem button key={text1}>
@@ -477,15 +492,8 @@ export default function (SpecificComponent) {
                 </ListItem>
               ))}
               </Link>
-
-              <Link href="">
-                {['만든이'].map((text2, index2) => (
-                <ListItem button key={text2}>
-                  <ListItemIcon><FaceRoundedIcon/></ListItemIcon>
-                  <ListItemText primary={text2} />
-                </ListItem>
-              ))}
-              </Link>
+            
+            */}
 
             </List>
            
@@ -500,7 +508,7 @@ export default function (SpecificComponent) {
 
 
           {/* 때에 따라 수정할 것  */}
-           {/* {userInfo ? <SpecificComponent userInfo={userInfo}/> : <LoadingPage/> }   */} 검증 후의 코드
+           {/* {userInfo ? <SpecificComponent userInfo={userInfo}/> : <LoadingPage/> }   검증 후의 코드 */} 
            <SpecificComponent userInfo={userInfo}/>
 
 
