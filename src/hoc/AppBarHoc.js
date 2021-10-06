@@ -234,10 +234,10 @@ export default function (SpecificComponent) {
         >
           
           <Link color="inherit" href="/UserInfo">
-            <MenuItem onClick={handleMenuClose}>회원정보</MenuItem>
+            <MenuItem onClick={handleMenuClose}>회원정보 수정</MenuItem>
           </Link>
 
-            <MenuItem onClick={handleMenuClose}>활동내역</MenuItem>
+            <MenuItem onClick={handleMenuClose}>Mypage</MenuItem>
 
           <Link color="inherit" href="/post">
             <MenuItem onClick={handleMenuClose}>글쓰기</MenuItem>
@@ -418,7 +418,7 @@ export default function (SpecificComponent) {
                 </ListItem>
               ))}
               </Link>
-              <Link href="userinfo">
+              <Link href="/UserInfo">
                 {['회원정보 수정'].map((text1, index1) => (
                 <ListItem button key={text1}>
                   <ListItemIcon><CreateRoundedIcon/></ListItemIcon>

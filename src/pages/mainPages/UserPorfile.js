@@ -113,6 +113,9 @@ const useStyles = makeStyles((theme) => ({
   //수정및 저장버튼
   button: {
     margin: theme.spacing(1),
+    variant: "contained",
+    color: "theme.palette.primary.main",
+    size: "large"
   },
   
 
@@ -168,16 +171,15 @@ export default function StickyFooter({userInfo}) {//컨테이너로 감싸고 �
         {/* https://material-ui.com/components/text-fields/#text-field */}
         {/* classes.root수정하기 */}
         <form  noValidate autoComplete="off">
-          <TextField id="outlined-basic" margin="normal" fullWidth label="Email Address" />
-          <TextField id="outlined-basic" fullWidth label="Password" />
-          <TextField id="outlined-basic" margin="normal" label="userFullname" />
-          <TextField id="outlined-basic" label="userNickname" />
+          <TextField id="outlined-basic" fullWidth margin="normal" label="사용자 이름" />
+          <TextField id="outlined-basic" fullWidth label="닉네임" />
+          <TextField id="outlined-basic" fullWidth margin="normal" label="이메일 주소" />
+          <TextField id="outlined-basic" fullWidth label="비밀번호" />
           {/* 팔로워,팔로잉, 프로필사진(없으면 기본사진), 관리자,공지동의,최근 접속일, 비밀번호(보안성있게 만들기),토큰(권한설정즉 비번확인), 만든거,올린거 */}
         </form>
         {/* ERD랑 다른 커뮤니티 확인 */}
-        <Button href="/" variant="contained"  color="primary"size="large"className={classes.button}startIcon={<SaveIcon />}>
-          
-          수정 및 저장
+        <Button href="/" className={classes.button}startIcon={<SaveIcon/>}>
+          수정 및 저장!
         </Button>
         
       </Container>
