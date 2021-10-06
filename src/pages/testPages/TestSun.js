@@ -177,7 +177,7 @@ function Mypage({match, userInfo, history}) {
 
   //!!!하드코딩!!!
 
-  
+
   return (
     
     <div className={classes.root}>

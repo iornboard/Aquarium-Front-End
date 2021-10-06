@@ -744,6 +744,13 @@ const AquariumPublisher = ({userId, taskInfo}) => {
 
       <TextField
         fullWidth
+        id="aqrmTitle"
+        name="aqrmTitle"
+        label="제목을 입력해주세요"
+        onChange={handleFormChange}
+      />
+       <TextField
+        fullWidth
         id="aqrmVideoUrl"
         name="aqrmVideoUrl"
         label="유튜브 URL을 입력해 주세요"
