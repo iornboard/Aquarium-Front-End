@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from '@material-ui/core/Button';
 import NaverLogin from 'react-naver-login';
 import {NAVER_CLIENT_ID, NAVER_CLIENT_SECRET, NAVER_SCOPE} from "../../conf/oAuthConfig"
 import Axios from "axios";
@@ -30,7 +31,7 @@ const config = {
         <NaverLogin 
         clientId={NAVER_CLIENT_ID}
         callbackUrl="http://127.0.0.1:3000"
-        render={(props) => <div onClick={props.onClick}>Naver Login</div>}
+        render={ renderProps => ( <Button fullWidth onClick={renderProps.onClick} style={{ color:"white",backgroundColor:"#8bc34a", borderRadius:15, margin:"0px 0px 10px 0px" }}> <strong> <h2> NAVER </h2> </strong> </Button>)}
         onSuccess={responseNaver}
         />
     );

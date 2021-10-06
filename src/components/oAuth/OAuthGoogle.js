@@ -1,5 +1,5 @@
 import React from "react";
-import Box from '@material-ui/core/Box';
+import Button from '@material-ui/core/Button';
 import { GoogleLogin } from "react-google-login";
 import {GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_SCOPE} from "../../conf/oAuthConfig"
 import Axios from "axios";
@@ -35,9 +35,9 @@ const Login = (props) => {
       onSuccess={responseGoogle}
       onFailure={responseGoogle}
       cookiePolicy={"single_host_origin"}
-      render={ renderProps => ( <Box onClick={renderProps.onClick} fontWeight="fontWeightBold" color="red" fontSize={16} style={{width:"100%", height:"5vh"}} >  google </Box>)}
+      render={ renderProps => ( <Button fullWidth onClick={renderProps.onClick} style={{ color:"white" ,backgroundColor:"#ff1744", borderRadius:15, margin:"0px 0px 10px 0px"}}> <strong> <h2> GOOGLE </h2> </strong> </Button>)}
     />
   );
 };
 
-export default withRouter(Login);
+export default withRouter(Login);         

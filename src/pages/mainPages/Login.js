@@ -107,22 +107,6 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(1, 0, 1),
   },
-  google: { 
-     background: 'linear-gradient(45deg, #ffffff 90%, #ff1744 90%)',
-     color: 'black',
-     margin: theme.spacing(1, 0, 1) 
-  },
-  facebook: { 
-     background: 'linear-gradient(45deg, #ffffff 90%, #3f51b5 90%)', 
-     color: 'black' ,
-     margin: theme.spacing(1, 0, 1)
-  },
-  naver: { 
-     background: 'linear-gradient(45deg, #ffffff 90%, #8bc34a 90%)', 
-     color: '#8bc34a',
-     fontsize: '15px',
-     margin: theme.spacing(1, 0, 1)
-  },
   oauths: { 
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
@@ -250,7 +234,7 @@ function SignInSide({history}) {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         >
-        <DialogTitle id="alert-dialog-title">{"사용 가능한 계정을 선택해 보세요"}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{ <h2> 사용 가능한 계정을 선택해 보세요 </h2>}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             
@@ -259,15 +243,12 @@ function SignInSide({history}) {
           {/* 구버전 */}
           {/* href="http://localhost:8080/oauth2/authorization/google" href="http://localhost:8080/oauth2/authorization/facebook" href="http://localhost:8080/oauth2/authorization/naver" */}
           
-          <Button fullWidth  variant="contained" color="primary" className={classes.google}>
             <OAuthGoogle />
-          </Button>
-          <Button fullWidth  variant="contained" color="primary" className={classes.facebook}>
+
             <OAuthFacebook />
-          </Button>
-          <Button fullWidth  variant="contained" color="primary" className={classes.naver}>
+
             <OAuthNaver />
-          </Button>
+
         </DialogContent>
         </Dialog>
       </Box>

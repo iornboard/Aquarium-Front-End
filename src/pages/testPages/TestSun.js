@@ -11,9 +11,12 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
+import Dialog from '@material-ui/core/Dialog';
+import Card from '@material-ui/core/Card';
 
 import { withRouter } from 'react-router-dom';
-import WorkCard from '../../components/informations/WorkCard';
 import InfoBarChart from '../../components/informations/InfoBarChart';
 import InfoRadarChart from '../../components/informations/InfoRadarChart';
 import SimpleMainInfoCard from '../../components/informations/simpleMainInfoCard';
@@ -22,6 +25,8 @@ import SimpleInfoList from '../../components/informations/SimpleInfoList'
 
 import Avatar from '@material-ui/core/Avatar';
 import Divider from '@material-ui/core/Divider';
+
+import AquariumYT from '../../components/aquarium/AquariumYoutube';
 
 function Copyright() {
   return (
@@ -135,7 +140,18 @@ const useStyles = makeStyles((theme) => ({
     borderStyle: "solid",
     borderWidth: "12px",
     borderColor: theme.palette.primary.main,
-  }
+  },
+  rootAquarium: {
+    position: "relative",  
+    margin: "10px 10px 75px 10px"
+  },
+  cardGrid: {
+    paddingTop: theme.spacing(8),
+    paddingBottom: theme.spacing(8),
+  },
+  cardMedia: {
+    paddingTop: '56.25%', // 16:9
+  },
 }));
 
 function Mypage({match, userInfo}) {
@@ -239,5 +255,61 @@ function Mypage({match, userInfo}) {
     </div>
   );
 }
+
+const cards = [1, 2, 3, 4, 5, 6];
+
+const WorkCard = () => {
+  const classes = useStyles();
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  return (
+    <div>
+    <Container className={classes.cardGrid}>
+          {/* End hero unit */}
+          <Grid container spacing={4}>
+            {cards.map((card) => (
+              <Grid item key={card} xs={12} sm={6} md={4}>
+                <Card onClick={handleClickOpen}>
+                  <CardMedia
+                    className={classes.cardMedia}
+                    image="../logo512.png"
+                    title="Image title"
+                  />
+                  <CardContent className={classes.cardContent}>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      Heading
+                    </Typography>
+                    <Typography>
+                      This is a media card. You can use this section to describe the content.
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+    </Container>
+
+    <Dialog onClose={handleClose}  maxWidth={"xl"} open={open} >
+
+        <AquariumYT aqrmId={1}  className={classes.rootAquarium} />
+
+    </Dialog>
+
+
+
+
+    </div>
+  );
+}
+
 
 export default withRouter(Mypage)
