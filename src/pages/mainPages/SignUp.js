@@ -185,12 +185,12 @@ function SignUp({history}) {
                 autoComplete="userNickname"
               />
             </Grid>
-            <Grid item xs={12}className={classes.formsub}>
+            {/*<Grid item xs={12}className={classes.formsub}>
               <FormControlLabel
                 control={<Checkbox value="allowExtraEmails" color="primary" />}
                 label="이메일을 통해 다양한 소식 받기"
               />
-            </Grid>
+             </Grid>*/}
           
           <Button
             type="submit"

@@ -236,9 +236,9 @@ export default function (SpecificComponent) {
           <Link color="inherit" href="/UserInfo">
             <MenuItem onClick={handleMenuClose}>회원정보 수정</MenuItem>
           </Link>
-
+          <Link color="inherit" href="/">
             <MenuItem onClick={handleMenuClose}>Mypage</MenuItem>
-
+          </Link>
           <Link color="inherit" href="/post">
             <MenuItem onClick={handleMenuClose}>글쓰기</MenuItem>
           </Link>

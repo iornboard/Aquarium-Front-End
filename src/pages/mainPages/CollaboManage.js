@@ -220,7 +220,7 @@ function TaskManager({history, userInfo}) {
                           variant="h5"
                           color="textPrimary"
                         >
-                          {"dsd"}
+                          {""}
                         </Typography>
                       </React.Fragment>
                     }
