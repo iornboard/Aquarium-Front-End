@@ -27,7 +27,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Divider from '@material-ui/core/Divider';
 
 import AquariumYT from '../../components/aquarium/AquariumYoutube';
-import { readAllAquarium } from '../../_actions/actionAquarium'
+import { readAllAquarium } from '../../_actions/actionAquarium'//*
 
 function Copyright() {
   return (
@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     // 변경
     '& > *': {
-      margin: theme.spacing(1),
+      // margin: theme.spacing(1),
     },
   },
   toolbar: {
@@ -61,21 +61,6 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'flex-end',
     padding: '0 8px',
     ...theme.mixins.toolbar,
-  },
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  },
-  appBarShift: {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
   },
   menuButton: {
     marginRight: 36,
@@ -117,8 +102,11 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(4),
   },
   paper: {
-    padding: theme.spacing(2),
     display: 'flex',
+    minWidth: '60vw',
+    minHeight: '100%',
+
+    padding: theme.spacing(2),
     overflow: 'auto',
     flexDirection: 'column',
     float: 'left',
@@ -155,12 +143,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
 function Mypage({match, userInfo, history}) {
+
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
 
-  const [ aquariums, setAquariums ] = React.useState();   
+  const [aquariums, setAquariums ] = React.useState([]);   
 
   const [pageUserInfo, setPageUserInfo] = React.useState();
 
@@ -170,16 +160,15 @@ function Mypage({match, userInfo, history}) {
   
    //!!!하드코딩!!!
   useEffect(() => {
+    // url의 사용자 이름을 서버한테 물어봐서 있으면 정보를 가져오고, 없으면 로그인 페이지로 보내버림
     dispatch(authUserPage(match.params.username))
       .then(res => { res ? setPageUserInfo(res.payload.data) : history.push("/") })
-
-    dispatch(readAllAquarium(userId))
-      .then(res => res.payload)
 
   }, 1);
 
 
   useEffect(() => {
+    // 페이지의 유저 아이디를 서버한테 보내서, 모든 아쿠아리움 정보를 받아로는 로직
     if(userId != null){
       dispatch(readAllAquarium(userId))
       .then(res => setAquariums(res.payload))
@@ -188,7 +177,6 @@ function Mypage({match, userInfo, history}) {
 
 
   //!!!하드코딩!!!
-
 
   return (
     
@@ -229,7 +217,7 @@ function Mypage({match, userInfo, history}) {
            
             <Grid item xs={8}>
               <Paper className={classes.paper}>
-                { aquariums ? <WorkCard aqrms={aquariums}/> : "" }
+                { aquariums.length > 0 ? <WorkCard aqrms={aquariums}/> : <NoCard/> }
               </Paper>
             </Grid>
             {/* <Grid item xs={12} md={8} lg={9}>
@@ -275,13 +263,12 @@ function Mypage({match, userInfo, history}) {
 const WorkCard = ({aqrms}) => {
   const classes = useStyles();
 
-
   return (
     <div>
     <Container className={classes.cardGrid}>
           {/* End hero unit */}
           <Grid container spacing={4}>
-            {aqrms.map( Aq => (
+            {aqrms.map( Aq => (//키+값을 묶어서 하나씩 매핑시켜 넣어주는 코드
                <AqrmCard aqrms={Aq}/>
             ))}
           </Grid>
@@ -330,6 +317,17 @@ const AqrmCard = ({aqrms}) => {
 
   );
 }
+
+const NoCard = () => {
+  const classes = useStyles();
+  return (
+      <Box display = "flex" justifyContent = "center" alignItems="center">
+          <img src = "../logo512.png" height = "40%"/>
+          <h1>No Contents</h1>
+      </Box>
+  );
+}
+
 
 
 export default withRouter(Mypage)

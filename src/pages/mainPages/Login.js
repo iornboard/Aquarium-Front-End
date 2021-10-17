@@ -131,9 +131,9 @@ function SignInSide({history}) {
     dispatch(login(values))
      .then(res => {
       if(res){
+        console.log(res)
         localStorage.setItem('jwt', res.payload.authorization); //jwt형태로 만들어서  localStorage저장
-        history.push("/user/"+res.payload.redirecturl)//화면이동
-        console.log("res")
+        history.push("/user/" + decodeURIComponent(escape(atob(res.payload.redirecturl))))//화면이동  + 헤데에 정보를 담기 때문에 base64로 인코딩해서 가져옴 
       } else {
         alert("this is enable account!")
       }
