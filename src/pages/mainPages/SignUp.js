@@ -18,6 +18,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { withRouter } from 'react-router-dom';
 
+import {modal} from '../../_actions/index'
+
 import Wave from 'react-wavify'
 
 
@@ -109,9 +111,15 @@ function SignUp({history}) {
   const onSubmitHandler = (event) => {
     event.preventDefault(); //페이지가 리프레시 되는 것을 막는다.
 
-    dispatch(join(values)) 
-    setValues({  password: ""  , userEmail: "", userFullname: "" , userNickname: ""  })
-    history.push("/")
+    dispatch(join(values))
+      .then( res => {
+        if(res.payload.status < 300){
+          setValues({  password: ""  , userEmail: "", userFullname: "" , userNickname: ""  })
+          history.push("/")
+        }else{
+          dispatch(modal({...res.payload, code: "error"}))
+        }
+      }) 
   }
 
   

@@ -1,7 +1,9 @@
 import Axios from 'axios'
 
 import {
-    IMAGE , AUTHUSERPAGE
+    IMAGE, 
+    AUTHUSERPAGE,
+    ABOUT_MODAL,
 } from './types';
 
 const mtConfig = {
@@ -28,5 +30,14 @@ export function authUserPage( userNickname ) {
     return {
         type: AUTHUSERPAGE,
         payload : request
+    };
+}
+
+
+export function modal( value ) {
+
+    return {
+        type: ABOUT_MODAL,
+        payload : value
     };
 }

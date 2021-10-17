@@ -1,8 +1,15 @@
 
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch ,useSelector} from 'react-redux';
 import { auth } from '../_actions/actionUser';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
+import {modal} from '../_actions/index'
+
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
 
 export default function (SpecificComponent, option, adminRoute = null){
 
@@ -12,9 +19,17 @@ export default function (SpecificComponent, option, adminRoute = null){
 
 
     function AuthenticationCheck(props) {
-        
         const dispatch = useDispatch();
 
+        const madal = useSelector( store => store.modal.madal );
+
+        const { code , data } =  {...madal};
+
+        const handleClose = (event, reason) => {
+            dispatch(modal(null))
+          };
+        
+          
         useEffect(() => {
             
             dispatch(auth()).then(res => {
@@ -36,7 +51,15 @@ export default function (SpecificComponent, option, adminRoute = null){
         }, [])
 
         return (
-            <SpecificComponent />
+            <div>
+                <Snackbar open={madal} autoHideDuration={6000}  onClose={handleClose}>
+                    <Alert  severity={ code }>
+                        {data}
+                    </Alert>
+                </Snackbar>
+
+                <SpecificComponent />
+            </div>
         )
     }
     return AuthenticationCheck

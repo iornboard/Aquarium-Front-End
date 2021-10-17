@@ -2,7 +2,7 @@ import Axios from 'axios'
 
 import {
     CREATE_POST,
-    POST,
+    POST
 } from './types';
 
 

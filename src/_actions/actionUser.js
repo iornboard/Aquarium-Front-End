@@ -25,7 +25,8 @@ export function auth() {
 export function join(value) {
 
     const request = Axios.post('/api/join', value) 
-        .then(response => response.data) 
+        .then(response => response) 
+        .catch(error => error.response)       
 
     return {
         type: JOIN,

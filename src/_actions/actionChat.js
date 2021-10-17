@@ -1,7 +1,7 @@
 import Axios from 'axios'
 
 import {
-    ABOUT_CHAT ,
+    ABOUT_CHAT
 } from './types';
 
 
