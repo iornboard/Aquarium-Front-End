@@ -29,7 +29,7 @@ import OAuthFacebook from '../../components/oAuth/OAuthFacebook'
 import OAuthNaver from '../../components/oAuth/OAuthNaver'
 
 import Wave from 'react-wavify'
-
+import {modal} from '../../_actions/index'
 
 
 function Copyright() {
@@ -130,17 +130,14 @@ function SignInSide({history}) {
 
     dispatch(login(values))
      .then(res => {
-      if(res){
-        console.log(res)
-        localStorage.setItem('jwt', res.payload.authorization); //jwt형태로 만들어서  localStorage저장
-        history.push("/user/" + decodeURIComponent(escape(atob(res.payload.redirecturl))))//화면이동  + 헤데에 정보를 담기 때문에 base64로 인코딩해서 가져옴 
+      if(res.payload.status < 300){
+        localStorage.setItem('jwt', res.payload.headers.authorization); //jwt형태로 만들어서  localStorage저장
+        history.push("/user/" + decodeURIComponent(escape(atob(res.payload.headers.redirecturl))))//화면이동  + 헤데에 정보를 담기 때문에 base64로 인코딩해서 가져옴 
+        setValues({ password: "" , username: "" });
       } else {
-        alert("this is enable account!")
+        dispatch(modal({...res.payload, data: "유효하지 않는 정보입니다.", code: "error"}))
       }
-     })
-    
-    setValues({});
-
+     }) 
   }
 
   const handleClickOpen = () => {
@@ -178,6 +175,7 @@ function SignInSide({history}) {
               autoComplete="username"
               autoFocus
               onChange = {handleChange}
+              value={values.username}
             />
             <TextField
               variant="outlined"
@@ -190,6 +188,7 @@ function SignInSide({history}) {
               id="password"
               autoComplete="current-password"
               onChange = {handleChange}
+              value={values.password}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}

@@ -28,6 +28,7 @@ import Divider from '@material-ui/core/Divider';
 
 import AquariumYT from '../../components/aquarium/AquariumYoutube';
 import { readAllAquarium } from '../../_actions/actionAquarium'//*
+import {modal} from '../../_actions/index'
 
 function Copyright() {
   return (
@@ -157,13 +158,19 @@ function Mypage({match, userInfo, history}) {
   const {userNickname, userId, userImgUrl, userEmail, createdAt} = {...pageUserInfo} 
 
 
-  
    //!!!하드코딩!!!
   useEffect(() => {
     // url의 사용자 이름을 서버한테 물어봐서 있으면 정보를 가져오고, 없으면 로그인 페이지로 보내버림
     dispatch(authUserPage(match.params.username))
-      .then(res => { res ? setPageUserInfo(res.payload.data) : history.push("/") })
-
+      .then(res => {
+        if(res.payload.status < 300){
+          setPageUserInfo(res.payload.data)
+        } else {
+          userInfo ? history.push("/user/"+ userInfo.userNickname) : history.push("/")
+          dispatch(modal({...res.payload, data: "존재하지 않는 사용자 입니다.", code: "error"}))
+        }
+      }) 
+    
   }, 1);
 
 

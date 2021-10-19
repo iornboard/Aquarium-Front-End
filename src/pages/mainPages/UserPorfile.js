@@ -121,7 +121,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function StickyFooter({userInfo}) {//컨테이너로 감싸고 그리드로해서 만들기
+function UserPorfile({userInfo}) {//컨테이너로 감싸고 그리드로해서 만들기
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -211,6 +211,7 @@ export default function StickyFooter({userInfo}) {//컨테이너로 감싸고 �
 
     </div>
 
-  
   );
 }
+
+export default UserPorfile

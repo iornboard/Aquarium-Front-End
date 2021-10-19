@@ -1,5 +1,5 @@
 import { Route, Switch } from 'react-router-dom';
-import { Login, SignUp , UserPorfile , CollaboManage, Collabo , MyPage , Sun , Nam} from '../pages/index';
+import { Login, SignUp, UserPorfile, CollaboManage, Collabo, MyPage, Main, UserFollowProfile, Sun, Nam} from '../pages/index';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import Auth from '../hoc/auth'  // HOC 컴포넌트, 토큰값을 확인해서 
 import AppBar from '../hoc/AppBarHoc'
@@ -34,10 +34,14 @@ function App() {
   return (
     <div>
        <ThemeProvider theme={theme} style={{ padding: '20px' }}>
-            <Route exact path="/" component={Auth(Login, false)}/>
+            <Route exact path="/" component={Auth(AppBar(Main), null)}/>
           <Switch>
+            <Route path="/signin" component={Auth(Login, false)}/>
             <Route path="/signup" component={Auth(SignUp, false)}/>
+
             <Route path="/userInfo" component={Auth(AppBar(UserPorfile), true)}/>
+            <Route path="/follow" component={Auth(AppBar(UserFollowProfile), true)}/>
+
             <Route path="/collaboManage" component={Auth(AppBar(CollaboManage), true)}/>
             <Route path="/collabo/:task" component={Auth(AppBar(Collabo), true)}/>
 

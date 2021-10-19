@@ -32,31 +32,38 @@ export default function (SpecificComponent, option, adminRoute = null){
           
         useEffect(() => {
             
-            dispatch(auth()).then(res => {
-        
-                //로그인 하지 않은 상태
-                if(!res.payload){
-                    if(option) {
-                         props.history.push('/')
-                    }
-                } else {
-                //로그인 한 상태
-
-                    if(!option){
-                        props.history.push( "/user/"+ res.payload.userNickname )
-                    }
-                }   
+            dispatch(auth()).then( res => {
+                    //로그인 하지 않은 상태
+                    if(res.payload.status > 300){
+                        if(option) {
+                            dispatch(modal({...res.payload, data:"로그인 후 사용할 수 있는 서비스 입니다." , code: "error"}))
+                            props.history.push( "/" )
+                        }
+                    } else {
+                    //로그인 한 상태
+                        if(option == null){
+                    
+                        }   
+                        else if(!option){
+                            props.history.push( "/user/"+ res.payload.data.userNickname )
+                        }
+                    }   
             })
 
         }, [])
 
         return (
             <div>
-                <Snackbar open={madal} autoHideDuration={6000}  onClose={handleClose}>
-                    <Alert  severity={ code }>
-                        {data}
-                    </Alert>
-                </Snackbar>
+                { madal ?
+                    <Snackbar open={madal} autoHideDuration={6000}  onClose={handleClose}>
+                        <Alert  severity={ code }>
+                            {data}
+                        </Alert>
+                    </Snackbar> 
+                    : 
+                    ""
+                }
+            
 
                 <SpecificComponent />
             </div>

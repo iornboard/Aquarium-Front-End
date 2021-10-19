@@ -25,7 +25,9 @@ export function image(value) {
 
 export function authUserPage( userNickname ) {
 
-    const request = Axios.get('/api/auth-userpage', { params: { userNickname : userNickname } }) 
+    const request = Axios.get('/api/auth-userpage', { params: { userNickname : userNickname } })
+        .then(response => { return {data: response.data, status: response.status}}) 
+        .catch(error => { return {data: error.response.data, status: error.response.status}})   
 
     return {
         type: AUTHUSERPAGE,

@@ -14,7 +14,8 @@ export function auth() {
     let token = localStorage.getItem('jwt') || '';
 
     const request = Axios.get('/api/auth',{ headers : { authorization : token }}) 
-        .then(response => response.data) 
+        .then(response => { return {data: response.data, status: response.status}}) 
+        .catch(error => { return {data: null, status: error.response.status}})
 
     return {
         type: AUTH,
@@ -25,8 +26,8 @@ export function auth() {
 export function join(value) {
 
     const request = Axios.post('/api/join', value) 
-        .then(response => response) 
-        .catch(error => error.response)       
+        .then(response => { return {data: response.data, status: response.status}}) 
+        .catch(error => { return {data: error.response.data, status: error.response.status}})   
 
     return {
         type: JOIN,
@@ -37,7 +38,8 @@ export function join(value) {
 export function login(value) {
 
     const request = Axios.post('/api/login', value)
-        .then(res => res.headers) 
+        .then(response => { return {data: response.data, headers: response.headers, status: response.status}}) 
+        .catch(error => { return {data: error.response.data, headers: error.response.headers, status: error.response.status}})
 
     return {
         type: LOGIN,

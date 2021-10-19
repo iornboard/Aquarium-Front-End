@@ -180,8 +180,8 @@ export default function (SpecificComponent) {
       const theme = useTheme();
 
       // const userInfo = useSelector( store => store.auth.userData, []);
-      const userInfo = useSelector( store => store.auth.userData ? store.auth.userData : setTimeout(store.auth.userData, 1000) );
-      const {userId, userEmail, userFullname, userNickname, userImgUrl} = {...userInfo}
+      const {data} = useSelector( store => store.auth.userData ? store.auth.userData : setTimeout(store.auth.userData, 1000) );
+      const {userId, userEmail, userFullname, userNickname, userImgUrl} = {...data}
 
       const [open, setOpen] = React.useState(false);
       const [anchorEl, setAnchorEl] = React.useState(null);
@@ -244,9 +244,9 @@ export default function (SpecificComponent) {
           </Link>
 
             <MenuItem onClick={userLogout}>
-            <Link color="inherit" href="/">
+            <Link color="inherit" href="/signin">
               로그아웃
-              </Link>
+            </Link>
               </MenuItem>
         </Menu>
       );
@@ -353,7 +353,7 @@ export default function (SpecificComponent) {
                     <NotificationsIcon />
                   </Badge>
                 </IconButton>
-                { userInfo ? 
+                { data ? 
                   <IconButton
                     edge="end"
                     aria-label="account of current user"
@@ -364,7 +364,7 @@ export default function (SpecificComponent) {
                   >
                     <Avatar src = {userImgUrl} />
                   </IconButton> :     
-                    <Button variant="contained" color="secondary" size="small" href="/" className={classes.loginButton}>
+                    <Button variant="contained" color="secondary" size="small" href="/signin" className={classes.loginButton}>
                       Login
                     </Button>
                   }
@@ -401,7 +401,7 @@ export default function (SpecificComponent) {
         
             <List>
 
-            <Link href="/">
+            <Link href={"/user/"+userNickname}>
                 {['Mypage'].map((text2, index2) => (
                 <ListItem button key={text2}>
                   <ListItemIcon><FaceRoundedIcon/></ListItemIcon>
@@ -509,7 +509,7 @@ export default function (SpecificComponent) {
 
           {/* 때에 따라 수정할 것  */}
            {/* {userInfo ? <SpecificComponent userInfo={userInfo}/> : <LoadingPage/> }   검증 후의 코드 */} 
-           <SpecificComponent userInfo={userInfo}/>
+           <SpecificComponent userInfo={data}/>
 
 
           </main>
