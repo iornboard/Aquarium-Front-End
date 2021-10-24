@@ -1,286 +1,165 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch , useSelector } from 'react-redux';
-import { authUserPage } from '../../_actions/index'
+import React from "react";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+import Container from "@material-ui/core/Container";
+import Link from "@material-ui/core/Link";
+import Avatar from "@material-ui/core/Avatar";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+import SaveIcon from "@material-ui/icons/Save";
+import Dialog from "@material-ui/core/Dialog";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import Slide from "@material-ui/core/Slide";
+import IconButton from "@material-ui/core/IconButton";
+import Uploader from "../../components/common/Uploader";
+import { userImage } from "../../_actions/actionUser";
+import { useDispatch, useSelector } from "react-redux";
 
-import clsx from 'clsx';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import Wave from "react-wavify";
 import Box from '@material-ui/core/Box';
-import Typography from '@material-ui/core/Typography';
-import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import Link from '@material-ui/core/Link';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Dialog from '@material-ui/core/Dialog';
-import Card from '@material-ui/core/Card';
 
-import { withRouter } from 'react-router-dom';
-import InfoBarChart from '../../components/informations/InfoBarChart';
-import InfoRadarChart from '../../components/informations/InfoRadarChart';
-import SimpleMainInfoCard from '../../components/informations/simpleMainInfoCard';
-import SimpleInfoCard from '../../components/informations/simpleInfoCard';
-import SimpleInfoList from '../../components/informations/SimpleInfoList'
-
-import Avatar from '@material-ui/core/Avatar';
-import Divider from '@material-ui/core/Divider';
-
-import AquariumYT from '../../components/aquarium/AquariumYoutube';
-import { readAllAquarium } from '../../_actions/actionAquarium'//*
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
-const drawerWidth = 240;
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
-    // 변경
-    '& > *': {
-      // margin: theme.spacing(1),
-    },
+    height: "100vh", //네모칸
+    // position: "absolute",
+    screenLeft : "50%",
+    screenTop : "50%",
+    
+    // flexDirection: 'column',
+    // minHeight: '60vh',
+    // minHeight: '150vh'
+    
   },
-  toolbar: {
-    paddingRight: 24, // keep right padding when drawer closed
+  //211024 ~49L
+  background: {
+    position: "absolute",
+    zIndex: "-4",
+    backgroundColor: theme.palette.primary.light,
+    height: "100%",
+    width: "100%",
   },
-  toolbarIcon: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
-    ...theme.mixins.toolbar,
+  waveform: {
+    display: "flex",
+    position: "absolute",
+    zIndex: "-2",
+    width: "100%",
+    height: "100%",
+    bottom: 0,
   },
-  menuButton: {
-    marginRight: 36,
+  boxer: {
+    display: "flex",
+    justifyContent: "center",
+    Width : "100%",
+    height: "100%",
   },
-  menuButtonHidden: {
-    display: 'none',
-  },
-  title: {
-    flexGrow: 1,
-  },
-  drawerPaper: {
-    position: 'relative',
-    whiteSpace: 'nowrap',
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  },
-  drawerPaperClose: {
-    overflowX: 'hidden',
-    transition: theme.transitions.create('width', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    width: theme.spacing(7),
-    [theme.breakpoints.up('sm')]: {
-      width: theme.spacing(9),
-    },
-  },
-  appBarSpacer: theme.mixins.toolbar,
-  content: {
-    flexGrow: 0.5,
-    height: '100vh',
-    // overflow: 'auto',
-  },
-  container: {
-    paddingTop: theme.spacing(4),
-    paddingBottom: theme.spacing(4),
-  },
-  paper: {
-    display: 'flex',
-    minWidth: '60vw',
-    minHeight: '100%',
-
-    padding: theme.spacing(2),
-    overflow: 'auto',
-    flexDirection: 'column',
-    float: 'left',
-  },
-  fixedHeight: {
-    height: 240,
-  },
-  // 변경
-  large: {
-    width: theme.spacing(28),
-    height: theme.spacing(28),
-    marginTop: 50,
- 
-  },
-  boxx:{
-    display :"listitem",
-    justifyContent : "center",
-    padding : 25,
-    borderRadius: "10px",
+  paper: {//주황선으로감싼 상자
+    height: "100%",
+    width: "30%",
+    margin: theme.spacing(8, 4),
+    padding: "60px 30px 60px 30px",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
     borderStyle: "solid",
-    borderWidth: "12px",
+    borderWidth: 5,
+    borderRadius: 20,
     borderColor: theme.palette.primary.main,
+    minWidth: "50vh",
+    maxWidth: "50vh",
+    backgroundColor: "white",
   },
-  rootAquarium: {
-    position: "relative",  
-    margin: "10px 10px 75px 10px"
+  main: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    marginTop: theme.spacing(10),
+    marginBottom: theme.spacing(2),
+  },
+  footer: {
+    padding: theme.spacing(3, 2),
+    marginTop: "auto",
+    backgroundColor:
+      theme.palette.type === "light"
+        ? theme.palette.grey[200]
+        : theme.palette.grey[800],
+  },
+  icon: {
+    marginRight: theme.spacing(2),
+  },
+  heroContent: {
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(8, 0, 6),
+  },
+  heroButtons: {
+    marginTop: theme.spacing(4),
   },
   cardGrid: {
     paddingTop: theme.spacing(8),
     paddingBottom: theme.spacing(8),
   },
+  card: {
+    height: "100%",
+    display: "flex",
+    flexDirection: "column",
+  },
   cardMedia: {
-    paddingTop: '56.25%', // 16:9
+    paddingTop: "56.25%", // 16:9
+  },
+  cardContent: {
+    flexGrow: 1,
+  },
+  //Website 2021부분
+  footer: {
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(6),
+  },
+
+  //--아바타
+  // root: {
+  //   display: 'flex',
+  //   '& > *': {
+  //     margin: theme.spacing(5), // 컨테이너테두리에서 안쪽 사이에 공간의 크기
+  //   },
+  // },
+  large: {
+    width: theme.spacing(10),
+    height: theme.spacing(10),
+  },
+  //--아바타
+  //텍스트필드
+  // root: {
+  //   '& > *': {
+  //     margin: theme.spacing(5),
+  //     width: '25ch',
+  //   },
+  // },
+  //수정및 저장버튼
+  button: {
+    margin: theme.spacing(1),
+    variant: "contained",
+    color: "primary",//"theme.palette.primary.main",
+    size: "large",
   },
 }));
 
-
-function Mypage({match, userInfo, history}) {
-
+function UserPorfile({ userInfo }) {
+  //컨테이너로 감싸고 그리드로해서 만들기
   const classes = useStyles();
   const dispatch = useDispatch();
-  const theme = useTheme();
 
-  const [aquariums, setAquariums ] = React.useState();   
+  const { userId, userEmail, userFullname, userNickname, userImgUrl } = {
+    ...userInfo,
+  };
 
-  const [pageUserInfo, setPageUserInfo] = React.useState();
-
-  const {userNickname, userId, userImgUrl, userEmail, createdAt} = {...pageUserInfo} 
-
-
-  
-   //!!!하드코딩!!!
-  useEffect(() => {
-    // url의 사용자 이름을 서버한테 물어봐서 있으면 정보를 가져오고, 없으면 로그인 페이지로 보내버림
-    dispatch(authUserPage(match.params.username))
-      .then(res => { res ? setPageUserInfo(res.payload.data) : history.push("/") })
-
-  }, 1);
-
-
-  useEffect(() => {
-    // 페이지의 유저 아이디를 서버한테 보내서, 모든 아쿠아리움 정보를 받아로는 로직
-    if(userId != null){
-      dispatch(readAllAquarium(userId))
-      .then(res => setAquariums(res.payload))
-    }
-  }, [userId]);
-
-
-  //!!!하드코딩!!!
-
-
-  return (
-    
-    <div className={classes.root}>
-      <CssBaseline />
-      <main className={classes.content}>
-        <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
-        
-          <Grid container>
-            <Grid spacing={3} className={classes.root} item xs={4}>
-              <Box className={classes.boxx}>
-              <Avatar alt="userimg" src={userImgUrl} className={classes.large} />
-                <br/>
-                <Divider style={{margin : "10px 0px 10px 0px" , height: 3, backgroundColor: theme.palette.primary.main}}/>
-
-              <Box textAlign="center" m={1}>
-                <Typography variant="h4" gutterBottom>
-                  {userNickname}
-                </Typography>
-              </Box>
-
-              <Box textAlign="left" m={1}>
-                <Typography variant="subtitle1" gutterBottom>
-                  <strong>{"이메일: " + userEmail}</strong>
-                </Typography>
-                
-                <Typography variant="subtitle1" gutterBottom>
-                  <strong>{new Date(createdAt).toLocaleDateString('ko-KR', { year: 'numeric',month: 'long', day: 'numeric',}) + "일 가입됨"}</strong>
-                </Typography>
-              </Box>
-              
-             
-
-
-              </Box>
-            </Grid>
-           
-            <Grid item xs={8}>
-              <Paper className={classes.paper}>
-                { aquariums ? <WorkCard aqrms={aquariums}/> : <NoCard/> }
-              </Paper>
-            </Grid>
-            {/* <Grid item xs={12} md={8} lg={9}>
-              <Grid container>
-                  <SimpleInfoCard/>
-                  <SimpleInfoCard/>
-                  <SimpleInfoCard/>
-              </Grid> 
-            </Grid>
-            <Grid item xs={12} md={8} lg={9}>
-              <Paper className={fixedHeightPaper}>
-                <InfoBarChart />
-              </Paper>
-            </Grid>
-            <Grid item xs={12} md={4} lg={3}>
-              <Paper className={fixedHeightPaper}>
-                <SimpleMainInfoCard/>
-              </Paper>
-            </Grid>
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                <SimpleInfoList />
-              </Paper>
-            </Grid> */}
-
-            {/* <Grid item xs={3}>
-              <Paper className={classes.paper}  >
-                <InfoRadarChart height="100%" />
-              </Paper>
-            </Grid> */}
-          
-          </Grid>
-          <Box pt={4}>
-            <Copyright />
-          </Box>
-        </Container>
-      </main>
-    </div>
-  );
-}
-
-
-const WorkCard = ({aqrms}) => {
-  const classes = useStyles();
-
-  return (
-    <div>
-    <Container className={classes.cardGrid}>
-          {/* End hero unit */}
-          <Grid container spacing={4}>
-            {aqrms.map( Aq => (//키+값을 묶어서 하나씩 매핑시켜 넣어주는 코드
-               <AqrmCard aqrms={Aq}/>
-            ))}
-          </Grid>
-    </Container>
-    </div>
-  );
-}
-
-
-const AqrmCard = ({aqrms}) => {
-  const classes = useStyles();
+  const fileInfo = useSelector((store) => store.file.ImgFileInfo);
+  const { fileDownloadUri } = { ...fileInfo };
 
   const [open, setOpen] = React.useState(false);
 
@@ -292,43 +171,114 @@ const AqrmCard = ({aqrms}) => {
     setOpen(false);
   };
 
+  const onSubmitHandler = (event) => {
+    event.preventDefault(); //페이지가 리프레시 되는 것을 막는다.
+
+    const userImgUrl = fileDownloadUri;
+
+    const body = { userId, userImgUrl };
+
+    dispatch(userImage(body));
+    // setOpen(false); 211024
+  };
+
   return (
-
-    <Grid item xs={12} sm={6} md={4}>
-      <Card onClick={handleClickOpen}>
-         <CardMedia
-          className={classes.cardMedia}
-          image="../logo512.png"
-          title="Image title"
-          />
-        <CardContent className={classes.cardContent}>
-           <Typography gutterBottom variant="h5" component="h2">
-            {aqrms.aqrmTitle}
-          </Typography>
-          {/* <Typography>
-             {aqrms.aqrmLikeCount}
-           </Typography> */}
-         </CardContent>
-      </Card>
-
-      <Dialog onClose={handleClose}  maxWidth={"xl"} open={open} >
-        <AquariumYT aqrmId={aqrms.aqrmId}  className={classes.rootAquarium} />
-      </Dialog>
-    </Grid>
-
-  );
-}
-
-const NoCard = () => {
-  const classes = useStyles();
-  return (
-      <Box display = "flex" justifyContent = "center" alignItems="center">
-          <img src = "../logo512.png" width = "40%"/>
-          <h1>No Contents</h1>
+    <Box className={classes.root}>
+      <Box className={classes.background} />
+      <Box className={classes.waveform}>
+        <WaveHome />
       </Box>
+
+      <CssBaseline />
+      <Box className={classes.boxer}>
+        <div className={classes.paper}>
+          {/* <Container component="main" className={classes.main} maxWidth="sm"> */}
+          {/* 해당경로에 사진추가 및 위치변경하기 */}
+
+          <IconButton component="span" onClick={handleClickOpen}>
+            <Avatar alt="Aquarium" src={userImgUrl} className={classes.large} />
+          </IconButton>
+
+          <Typography variant="h5" component="h6" gutterBottom>
+            내 정보 수정
+          </Typography>
+          {/* https://material-ui.com/components/text-fields/#text-field 텍스트 부분수정 */}
+          {/* classes.root수정하기 */}
+          <form noValidate autoComplete="off">
+            <TextField
+              id="outlined-basic"
+              fullWidth
+              margin="normal"
+              label="사용자 이름"
+            />
+            <TextField id="outlined-basic" fullWidth label="닉네임" />
+            <TextField
+              id="outlined-basic"
+              fullWidth
+              margin="normal"
+              label="이메일 주소"
+            />
+            <TextField id="outlined-basic" fullWidth label="비밀번호" />
+            {/* 팔로워,팔로잉, 프로필사진(없으면 기본사진), 관리자,공지동의,최근 접속일, 비밀번호(보안성있게 만들기),토큰(권한설정즉 비번확인), 만든거,올린거 */}
+          </form>
+          {/* ERD랑 다른 커뮤니티 확인 */}
+          <Box marginTop="50px">
+            <Button
+              href="/"
+              variant="contained"
+              color="primary"
+              size="large"
+              className={classes.button}
+              startIcon={<SaveIcon />}
+            >
+              수정 및 저장!
+            </Button>
+          </Box>
+          {/* </Container> */}
+        </div>
+      </Box>
+
+      <Dialog
+        fullWidth
+        open={open}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleClose}
+      >
+        <DialogTitle id="alert-dialog-slide-title">
+          {" "}
+          프로필 사진을 넣어주세요{" "}
+        </DialogTitle>
+        <DialogContent>
+          <Container>
+            <Uploader />
+            <Button
+              fullWidth
+              variant="contained"
+              color="theme.palette.primary.main"
+              startIcon={<SaveIcon />}
+              onClick={onSubmitHandler}
+            >
+              Save
+            </Button>
+          </Container>
+        </DialogContent>
+      </Dialog>
+    </Box>
   );
 }
 
+export default UserPorfile;
 
-
-export default withRouter(Mypage)
+const WaveHome = () => (
+  <Wave
+    fill="#ff8346"
+    paused={false}
+    options={{
+      height: 600,
+      amplitude: 20,
+      speed: 0.2,
+      points: 3,
+    }}
+  />
+);

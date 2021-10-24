@@ -47,7 +47,7 @@ function Copyright() {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: '100vh',
+    height: '100vh',//네모칸
   },
   image: {
     backgroundImage: 'url(https://source.unsplash.com/random)',

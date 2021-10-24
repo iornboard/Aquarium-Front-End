@@ -35,6 +35,7 @@ import EventAvailableRoundedIcon from '@material-ui/icons/EventAvailableRounded'
 import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
 import ThumbUpRoundedIcon from '@material-ui/icons/ThumbUpRounded';
 import HelpRoundedIcon from '@material-ui/icons/HelpRounded';
+import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 import FaceRoundedIcon from '@material-ui/icons/FaceRounded';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Box from '@material-ui/core/Box';
@@ -236,7 +237,8 @@ export default function (SpecificComponent) {
           <Link color="inherit" href="/UserInfo">
             <MenuItem onClick={handleMenuClose}>회원정보 수정</MenuItem>
           </Link>
-          <Link color="inherit" href="/">
+        
+          <Link color="inherit" href={"/user/"+userNickname}>
             <MenuItem onClick={handleMenuClose}>Mypage</MenuItem>
           </Link>
           <Link color="inherit" href="/post">
@@ -398,9 +400,17 @@ export default function (SpecificComponent) {
               </IconButton>
             </div>
             <Divider />
-        
+            
             <List>
-
+            <Link href={"/"}>
+                {['커뮤니티'].map((text3, index3) => (
+                <ListItem button key={text3}>
+                  <ListItemIcon><QuestionAnswerIcon/></ListItemIcon>
+                  <ListItemText primary={text3} />
+                </ListItem>
+              ))}
+              </Link>
+            
             <Link href={"/user/"+userNickname}>
                 {['Mypage'].map((text2, index2) => (
                 <ListItem button key={text2}>
