@@ -7,19 +7,19 @@ const auth = (state = {}, action) => {
         case AUTH:
           return {
             ...state,
-            userData: action.payload
+            userData: action.payload.data
           };  
           break;
         case JOIN:
           return {
             ...state,
-            SignUpSuccess: action.payload
+            SignUpSuccess: action.payload.data
           };  
           break;
         case LOGIN:
           return {
             ...state,
-            SignInSuccess: action.payload
+            SignInSuccess: action.payload.data
           }; 
           break;
         default:

@@ -181,8 +181,8 @@ export default function (SpecificComponent) {
       const theme = useTheme();
 
       // const userInfo = useSelector( store => store.auth.userData, []);
-      const {data} = useSelector( store => store.auth.userData ? store.auth.userData : setTimeout(store.auth.userData, 1000) );
-      const {userId, userEmail, userFullname, userNickname, userImgUrl} = {...data}
+      const userInfo = useSelector( store => store.auth.userData ? store.auth.userData : setTimeout(store.auth.userData, 1000) );
+      const {userId, userEmail, userFullname, userNickname, userImgUrl} = userInfo
 
       const [open, setOpen] = React.useState(false);
       const [anchorEl, setAnchorEl] = React.useState(null);
@@ -355,7 +355,7 @@ export default function (SpecificComponent) {
                     <NotificationsIcon />
                   </Badge>
                 </IconButton>
-                { data ? 
+                { userInfo ? 
                   <IconButton
                     edge="end"
                     aria-label="account of current user"
@@ -519,7 +519,7 @@ export default function (SpecificComponent) {
 
           {/* 때에 따라 수정할 것  */}
            {/* {userInfo ? <SpecificComponent userInfo={userInfo}/> : <LoadingPage/> }   검증 후의 코드 */} 
-           <SpecificComponent userInfo={data}/>
+           <SpecificComponent userInfo={userInfo}/>
 
 
           </main>

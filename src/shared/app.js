@@ -40,7 +40,7 @@ function App() {
             <Route path="/signup" component={Auth(SignUp, false)}/>
 
             <Route path="/userInfo" component={Auth(AppBar(UserPorfile), true)}/>
-            <Route path="/follow" component={Auth(AppBar(UserFollowProfile), true)}/>
+            {/* <Route path="/follow" component={Auth(AppBar(UserFollowProfile), true)}/> */}
 
             <Route path="/collaboManage" component={Auth(AppBar(CollaboManage), true)}/>
             <Route path="/collabo/:task" component={Auth(AppBar(Collabo), true)}/>

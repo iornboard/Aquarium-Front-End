@@ -41,6 +41,7 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 
+import youtubeParser  from 'youtube-metadata-from-url';
 
 import { readTask, updateTask, updateTaskInfo, updateTaskStore } from '../../_actions/actionTask'
 import { createAquarium} from '../../_actions/actionAquarium'
@@ -712,7 +713,7 @@ const AquariumPublisher = ({userId, taskInfo}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const [values, setValues] = useState();
+  const [values, setValues] = useState({aqrmVideoUrl:""});
 
   const handleFormChange = (event) => {
     const { name, value } = event.target
@@ -720,11 +721,15 @@ const AquariumPublisher = ({userId, taskInfo}) => {
   }
 
   const putAqrm = () => {
+  
+    youtubeParser.metadata(values.aqrmVideoUrl)
+    .then( info => {
+        const data = {...values, aqrmThumbnail: info.thumbnail_url, userId: userId }
+        dispatch( createAquarium(data) )
+        .then( res => dispatch( updateTaskInfo({ ...taskInfo , aqrmId : res.payload.aqrmId } )) )
+    }).catch( err => {
 
-    const data = {...values , userId : userId}
-    dispatch( createAquarium(data) )
-      .then( res => dispatch( updateTaskInfo({ ...taskInfo , aqrmId : res.payload.aqrmId } )) )
-
+    });
   }
 
 

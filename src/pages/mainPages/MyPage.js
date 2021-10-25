@@ -304,7 +304,7 @@ const AqrmCard = ({aqrms}) => {
       <Card onClick={handleClickOpen}>
          <CardMedia
           className={classes.cardMedia}
-          image="../logo512.png"
+          image= {aqrms.aqrmThumbnail ? aqrms.aqrmThumbnail : "../logo512.png"}
           title="Image title"
           />
         <CardContent className={classes.cardContent}>
