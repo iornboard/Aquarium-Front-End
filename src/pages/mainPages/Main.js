@@ -1,5 +1,7 @@
 //  커뮤니티 메인 페이지
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import List from '@material-ui/core/List';
@@ -21,16 +23,31 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ListItem from '@material-ui/core/ListItem';
 import Grid from '@material-ui/core/Grid';
+import Dialog from '@material-ui/core/Dialog';
+
+import AquariumYT from '../../components/aquarium/AquariumYoutube';
+
+import {content} from '../../_actions/index'
+
+import { readAllAquarium, readPullAquarium } from '../../_actions/actionAquarium'//*
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    minHeight: '100vh',
+    minHeight: '90vh',
   },
   placeRoot: {
-    height: "100vh",
-    justifyContent: "center"
+    height: "90vh",
+    justifyContent: "flex-end",
+    overflow: 'hidden',
+    width: '95%'
+  },
+  placeList: {
+    height: "100%",
+    borderRight: `1px solid ${theme.palette.divider}`,
+    padding: '10px',
+    overflow: 'auto'
   },
   place: {
     height: "100%",
@@ -41,10 +58,25 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: '100%',
     margin: 10
   },
+  media: {
+    height:"30vh"
+  },
+  rootAquarium: {
+    position: "relative",  
+    margin: "10px 10px 75px 10px"
+  },
 }));
 
-export default function FullWidthGrid() {
+export default function MainPage({userInfo}) {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const [aquariums, setAquariums ] = React.useState([]);
+
+  useEffect(() => {
+    dispatch(readPullAquarium())
+      .then(res => setAquariums(res.payload))
+  },1);
 
   return (
     <div className={classes.root}>
@@ -52,19 +84,12 @@ export default function FullWidthGrid() {
 
       <Grid container spacing={3} className={classes.placeRoot}>
 
-        <Grid item xs={12} sm={2} className={classes.place}>
-     
-
-    
-
+        <Grid item xs={12} sm={1} className={classes.place}>
         </Grid>
-        <Grid item xs={12} sm={6} className={classes.place}>
-   
-            <ContentList/>
-
+        <Grid item xs={12} sm={5} className={classes.placeList}>
+          <ContentList aqrms={aquariums}/>
         </Grid>
         <Grid item xs={12} sm={3} className={classes.place}>
-
             <List>
               <Box height="10vh">  {/*  사용자 정보 */} </Box>
 
@@ -72,36 +97,37 @@ export default function FullWidthGrid() {
 
               <Box height="10vh">  {/*  광고? 또는 트렌트 */} </Box>
             </List>
-
-
         </Grid>
     
       </Grid>
+{/* 
+      <Dialog onClose={handleClose}  maxWidth={"xl"} open={open} >
+        <AquariumYT aqrmId={aqrms.aqrmId}  className={classes.rootAquarium} />
+      </Dialog> */}
     </div>
   );
 }
 
- const data = [1,2,3,4,5,6,7]
 
-function ContentList() {
+
+function ContentList({aqrms}) {
   const classes = useStyles();
   
   return (
     <List className={classes.root}>
-      {data.map((sectionId) => (
+      {aqrms ? aqrms.map((aq) => (
         <li>
-     
-          <ContentCard/>
-           
+          <ContentCard aqrm={aq}/>
         </li>
-      ))}
+      )) : ""}
     </List>
   );
 }
 
 
-function ContentCard() {
+function ContentCard({aqrm}) {
   const classes = useStyles();
+  const dispatch = useDispatch();
   
   const [expanded, setExpanded] = React.useState(false);
 
@@ -109,13 +135,16 @@ function ContentCard() {
     setExpanded(!expanded);
   };
 
+  const onContentHandler = () => {
+    dispatch(content(aqrm))
+  }
 
   return (
     <Box className={classes.cardRoot}>
 
     <CardHeader
       avatar={
-        <Avatar aria-label="recipe" className={classes.avatar}>
+        <Avatar aria-label="recipe" src={aqrm.userInfo.userImgUrl} className={classes.avatar}>
           R
         </Avatar>
       }
@@ -124,20 +153,24 @@ function ContentCard() {
           <MoreVertIcon />
         </IconButton>
       }
-      title="Shrimp and Chorizo Paella"
-      subheader="September 14, 2016"
+      title={aqrm.userInfo.userNickname}
+      subheader={aqrm.userInfo.userEmail}
     />
 
     <CardMedia
+      onClick={onContentHandler}
       className={classes.media}
-      image="/static/images/cards/paella.jpg"
+      image={aqrm.aqrmThumbnail ? aqrm.aqrmThumbnail : "../logo512.png"}
       title="Paella dish"
     />
 
+    <Typography variant="h5" component="p" style={{ margin: '20px 0 20px 0'}}>
+      {aqrm.aqrmTitle}
+    </Typography>
+
     <CardContent>
       <Typography variant="body2" color="textSecondary" component="p">
-        This impressive paella is a perfect party dish and a fun meal to cook together with your
-        guests. Add 1 cup of frozen peas along with the mussels, if you like.
+       {aqrm.aqrmtext}
       </Typography>
     </CardContent>
 

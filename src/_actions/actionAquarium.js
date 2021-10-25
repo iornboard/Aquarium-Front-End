@@ -40,4 +40,16 @@ export function readAllAquarium(userId) {
     };
 }
 
+export function readPullAquarium() {
+
+    const request = Axios.get('/api/pull-aqrm' ) 
+        .then(response => response.data) 
+        
+    return {
+        type: ABOUT_AQUARIUM,
+        payload : request
+    };
+}
+
+
 

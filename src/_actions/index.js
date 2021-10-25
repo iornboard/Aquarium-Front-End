@@ -4,6 +4,7 @@ import {
     IMAGE, 
     AUTHUSERPAGE,
     ABOUT_MODAL,
+    ABOUT_CONTENT,
 } from './types';
 
 const mtConfig = {
@@ -40,6 +41,14 @@ export function modal( value ) {
 
     return {
         type: ABOUT_MODAL,
+        payload : value
+    };
+}
+
+export function content( value ) {
+
+    return {
+        type: ABOUT_CONTENT,
         payload : value
     };
 }

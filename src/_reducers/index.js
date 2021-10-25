@@ -4,6 +4,7 @@ import file from './file'
 import task from './task'
 import user from './user'
 import modal from './modal'
+import content from './content'
 
 
 
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
     file,
     task,
     user,
-    modal
+    modal,
+    content
 });
 
 export default rootReducer;
