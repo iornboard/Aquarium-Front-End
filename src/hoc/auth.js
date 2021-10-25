@@ -65,7 +65,7 @@ export default function (SpecificComponent, option, adminRoute = null){
                 }
             
 
-                <SpecificComponent />
+                <SpecificComponent option={option}/>
             </div>
         )
     }

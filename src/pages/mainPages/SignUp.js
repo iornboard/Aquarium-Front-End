@@ -212,7 +212,7 @@ function SignUp({history}) {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="/" variant="body2">
+              <Link href="/signin" variant="body2">
                 {/* signin */}
                 이미 계정이 있으신가요
               </Link>
