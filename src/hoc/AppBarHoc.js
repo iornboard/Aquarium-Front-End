@@ -239,11 +239,11 @@ export default function (SpecificComponent) {
           </Link>
         
           <Link color="inherit" href={"/user/"+userNickname}>
-            <MenuItem onClick={handleMenuClose}>Mypage</MenuItem>
+            <MenuItem onClick={handleMenuClose}>마이페이지</MenuItem>
           </Link>
-          <Link color="inherit" href="/post">
+          {/* <Link color="inherit" href="/post">
             <MenuItem onClick={handleMenuClose}>글쓰기</MenuItem>
-          </Link>
+          </Link> */}
 
             <MenuItem onClick={userLogout}>
             <Link color="inherit" href="/signin">
@@ -355,7 +355,7 @@ export default function (SpecificComponent) {
                     <NotificationsIcon />
                   </Badge>
                 </IconButton>
-                { userInfo ? 
+                { userId ? 
                   <IconButton
                     edge="end"
                     aria-label="account of current user"

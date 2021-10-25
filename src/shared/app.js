@@ -48,7 +48,7 @@ function App() {
             <Route path="/sun" component={Auth(AppBar(Sun), false)}/>
             <Route path="/nam/:task" component={Auth(AppBar(Nam), true)}/>
 
-            <Route path="/user/:username" component={Auth(AppBar(MyPage), false)}/>
+            <Route path="/user/:username" component={Auth(AppBar(MyPage), null)}/>
             
 
           </Switch>
