@@ -1,6 +1,6 @@
 //  커뮤니티 메인 페이지
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
@@ -67,9 +67,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function MainPage({userInfo}) {
+export default function MainPage() {
   const classes = useStyles();
   const dispatch = useDispatch();
+
+  const userInfo = useSelector( store => store.auth.userData );
 
   const [aquariums, setAquariums ] = React.useState([]);
 

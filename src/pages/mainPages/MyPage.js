@@ -143,14 +143,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function Mypage({match, userInfo, history}) {
+function Mypage({match, history}) {
 
   const classes = useStyles();
   const dispatch = useDispatch();
   const theme = useTheme();
 
-  const [aquariums, setAquariums ] = React.useState([]);   
+  const userInfo = useSelector( store => store.auth.userData );
 
+  const [aquariums, setAquariums ] = React.useState([]);  
   const [pageUserInfo, setPageUserInfo] = React.useState();
 
   const {userNickname, userId, userImgUrl, userEmail, createdAt} = {...pageUserInfo} 
@@ -164,7 +165,7 @@ function Mypage({match, userInfo, history}) {
         if(res.payload.status < 300){
           setPageUserInfo(res.payload.data)
         } else {
-          userInfo.userId ? history.push("/user/"+ userInfo.userNickname) : history.push("/")
+          userInfo? history.push("/user/"+ userInfo.userNickname) : history.push("/")
           dispatch(modal({...res.payload, data: "존재하지 않는 사용자 입니다.", code: "error"}))
         }
       }) 
