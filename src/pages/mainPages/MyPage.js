@@ -30,18 +30,18 @@ import AquariumYT from '../../components/aquarium/AquariumYoutube';
 import { readAllAquarium } from '../../_actions/actionAquarium'//*
 import {modal} from '../../_actions/index'
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+// function Copyright() {
+//   return (
+//     <Typography variant="body2" color="textSecondary" align="center">
+//       {'Copyright © '}
+//       <Link color="inherit" href="https://material-ui.com/">
+//         Your Website
+//       </Link>{' '}
+//       {new Date().getFullYear()}
+//       {'.'}
+//     </Typography>
+//   );
+// }
 
 const drawerWidth = 240;
 
@@ -257,9 +257,9 @@ function Mypage({match, userInfo, history}) {
             </Grid> */}
           
           </Grid>
-          <Box pt={4}>
+          {/* <Box pt={4}>
             <Copyright />
-          </Box>
+          </Box> */}
         </Container>
       </main>
     </div>

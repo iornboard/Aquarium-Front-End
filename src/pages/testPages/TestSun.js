@@ -28,9 +28,10 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const useStyles = makeStyles((theme) => ({
   root: {
     height: "100vh", //네모칸
+    Width: "100vh",
     // position: "absolute",
-    screenLeft : "50%",
-    screenTop : "50%",
+    // screenLeft : "50%",
+    //screenTop : "50%",
     
     // flexDirection: 'column',
     // minHeight: '60vh',
@@ -61,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {//주황선으로감싼 상자
     height: "100%",
-    width: "30%",
+    width: "80%",
     margin: theme.spacing(8, 4),
     padding: "60px 30px 60px 30px",
     display: "flex",
@@ -72,7 +73,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 20,
     borderColor: theme.palette.primary.main,
     minWidth: "50vh",
-    maxWidth: "50vh",
+    maxWidth: "150vh",
     backgroundColor: "white",
   },
   main: {
@@ -129,8 +130,8 @@ const useStyles = makeStyles((theme) => ({
   //   },
   // },
   large: {
-    width: theme.spacing(10),
-    height: theme.spacing(10),
+    width: theme.spacing(20),
+    height: theme.spacing(20),
   },
   //--아바타
   //텍스트필드
