@@ -219,7 +219,7 @@ function UserPorfile({ userInfo }) {
               margin="normal"
               label="이메일 주소"
             />
-            <TextField id="outlined-basic" fullWidth label="비밀번호" />
+            {/* <TextField id="outlined-basic" fullWidth label="비밀번호" /> */}
             {/* 팔로워,팔로잉, 프로필사진(없으면 기본사진), 관리자,공지동의,최근 접속일, 비밀번호(보안성있게 만들기),토큰(권한설정즉 비번확인), 만든거,올린거 */}
           </form>
           {/* ERD랑 다른 커뮤니티 확인 */}
