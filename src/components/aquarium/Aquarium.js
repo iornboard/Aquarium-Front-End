@@ -281,7 +281,6 @@ const Aquarium = ( {width=1280, height=720, scr='http://commondatastorage.google
               }}
             >
             
-            
             <Box width="auto" height="6%" display="inline-block"  bgcolor={theme.palette.primary.dark}>
               <img src={logo} height="100%" alignItems = "center" />
             </Box> 

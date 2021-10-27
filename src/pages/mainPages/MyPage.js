@@ -24,6 +24,8 @@ import SimpleInfoList from '../../components/informations/SimpleInfoList'
 import Avatar from '@material-ui/core/Avatar';
 import Divider from '@material-ui/core/Divider';
 
+import Wave from "react-wavify";
+
 import AquariumYT from '../../components/aquarium/AquariumYoutube';
 import { readAllAquarium } from '../../_actions/actionAquarium'//*
 import {modal} from '../../_actions/index'
@@ -140,6 +142,14 @@ const useStyles = makeStyles((theme) => ({
   cardMedia: {
     paddingTop: '56.25%', // 16:9
   },
+  waveform: {
+    display: "flex",
+    position: "absolute",
+    zIndex: "-2",
+    width: "100%",
+    height: "100%",
+    bottom: 0,
+  },
 }));
 
 
@@ -185,8 +195,12 @@ function Mypage({match, history}) {
   //!!!하드코딩!!!
 
   return (
-    
+    <div>
+      <Box className={classes.waveform}>
+        <WaveHome />
+      </Box>
     <div className={classes.root}>
+
       <CssBaseline />
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
@@ -262,6 +276,7 @@ function Mypage({match, history}) {
         </Container>
       </main>
     </div>
+    </div>
   );
 }
 
@@ -319,6 +334,7 @@ const AqrmCard = ({aqrms}) => {
       <Dialog onClose={handleClose}  maxWidth={"xl"} open={open} >
         <AquariumYT aqrmId={aqrms.aqrmId}  className={classes.rootAquarium} />
       </Dialog>
+
     </Grid>
 
   );
@@ -334,6 +350,18 @@ const NoCard = () => {
   );
 }
 
+const WaveHome = () => (
+  <Wave
+    fill="#ff8346"
+    paused={false}
+    options={{
+      height: 900,
+      amplitude: 20,
+      speed: 0.2,
+      points: 3,
+    }}
+  />
+);
 
 
 export default withRouter(Mypage)

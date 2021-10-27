@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import List from '@material-ui/core/List';
 import Paper from '@material-ui/core/Paper';
@@ -24,12 +24,21 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ListItem from '@material-ui/core/ListItem';
 import Grid from '@material-ui/core/Grid';
 import Dialog from '@material-ui/core/Dialog';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import CheckIcon from '@material-ui/icons/Check';
+import ModeCommentIcon from '@material-ui/icons/ModeComment';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
+import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
+
+import Wave from "react-wavify";
+import youtubeParser  from 'youtube-metadata-from-url';
 
 import AquariumYT from '../../components/aquarium/AquariumYoutube';
 
-import {content} from '../../_actions/index'
-
-import { readAllAquarium, readPullAquarium } from '../../_actions/actionAquarium'//*
+import { readAllAquarium, readPullAquarium, createAquarium } from '../../_actions/actionAquarium'//*
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,19 +48,30 @@ const useStyles = makeStyles((theme) => ({
   },
   placeRoot: {
     height: "90vh",
-    justifyContent: "flex-end",
+    justifyContent: "center",
     overflow: 'hidden',
-    width: '95%'
+    width: '100%',
   },
   placeList: {
-    height: "100%",
-    borderRight: `1px solid ${theme.palette.divider}`,
+    marginTop: 5,
+    height: "95%",
     padding: '10px',
-    overflow: 'auto'
+    overflow: 'auto',
+    background: 'white',
+    border: '15px solid white',
+    borderRadius: 10,
+  },
+  placeBar: {
+    marginTop: 5,
+    marginLeft: 25,
+    height: "95%",
+    padding: '10px',
+    background: 'white',
+    border: '15px solid white',
+    borderRadius: 10,
   },
   place: {
     height: "100%",
-    borderRight: `1px solid ${theme.palette.divider}`,
     padding: '10px',
   },
   cardRoot: {
@@ -65,13 +85,51 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",  
     margin: "10px 10px 75px 10px"
   },
+  waveform: {
+    display: "flex",
+    position: "absolute",
+    zIndex: "-2",
+    width: "100%",
+    height: "100%",
+    bottom: 0,
+  },
+  rootList:{
+    marginLeft : 15,
+    marginRight : 15, 
+  },
+  expandedPanel: {
+    margin: "5% 0 0 0",
+    marginBottom : "5%",
+    padding : "5% 5% 3%;",
+    borderRadius : 5,
+    backgroundColor: theme.palette.primary.main,
+    display :"flex",
+    flexWrap :"wrap", 
+    justifyContent : "flex-end"
+  },
+  commentField: {
+    backgroundColor: "white",
+    borderRadius: "5px",
+    marginBottom: "10%",
+    marginTop: "5%",
+  },
+  header: {
+    backgroundColor: theme.palette.primary.main,
+    borderRadius: "5px",
+    marginBottom: "2%"
+  },
+  comInput: {
+    color: 'white'
+  },
+
 }));
 
-export default function MainPage() {
+export default function MainPage({history}) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
   const userInfo = useSelector( store => store.auth.userData );
+  const {userId, userNickname, userImgUrl} = {...userInfo}
 
   const [aquariums, setAquariums ] = React.useState([]);
 
@@ -84,28 +142,40 @@ export default function MainPage() {
     <div className={classes.root}>
       <Box height="10vh"/>
 
+      <Box className={classes.waveform}>
+        <WaveHome />
+      </Box>
+
       <Grid container spacing={3} className={classes.placeRoot}>
 
-        <Grid item xs={12} sm={1} className={classes.place}>
+        <Grid item xs={false} sm={4} className={classes.place}>
+          <Box textAlign="center" margin='50px -10px 0 0'>
+            <img src={"../potalLogo.png"} height="30%" alignItems = "center" />
+            <Typography variant="h5" component="p" style={{ margin: '20px 0 20px 0'}}>
+            <h2><strong>모두가 모이는 공간</strong></h2>
+            </Typography>
+          </Box>
         </Grid>
-        <Grid item xs={12} sm={5} className={classes.placeList}>
+        <Grid item xs={12} sm={4} className={classes.placeList}>
+          <Box width="auto" height="5%" color='white' textAlign="right" className={classes.header}>
+            <Typography variant="h5" component="p" style={{ padding: '3px 10px 0 0'}}>
+              Aquarium  
+            </Typography>
+          </Box>
           <ContentList aqrms={aquariums}/>
         </Grid>
-        <Grid item xs={12} sm={3} className={classes.place}>
-            <List>
-              <Box height="10vh">  {/*  사용자 정보 */} </Box>
-
-              <Box height="10vh">  {/*  친구들 정보 */} </Box>
-
-              <Box height="10vh">  {/*  광고? 또는 트렌트 */} </Box>
-            </List>
+        <Grid item xs={false} sm={3} className={classes.placeBar}>
+          <Box width="auto" height="5%" color='white' textAlign="right" className={classes.header}>
+            <Typography variant="h5" component="p" style={{ padding: '3px 10px 0 0'}}>
+              MY  
+            </Typography>
+          </Box>
+          <Box>  
+            { userInfo ? <SideBar userInfo={userInfo} history={history}/> : '회원가입 하기' }
+          </Box>
         </Grid>
     
       </Grid>
-{/* 
-      <Dialog onClose={handleClose}  maxWidth={"xl"} open={open} >
-        <AquariumYT aqrmId={aqrms.aqrmId}  className={classes.rootAquarium} />
-      </Dialog> */}
     </div>
   );
 }
@@ -132,14 +202,20 @@ function ContentCard({aqrm}) {
   const dispatch = useDispatch();
   
   const [expanded, setExpanded] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
+  const [ments, setMents] = React.useState([])
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
-  const onContentHandler = () => {
-    dispatch(content(aqrm))
-  }
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <Box className={classes.cardRoot}>
@@ -159,13 +235,16 @@ function ContentCard({aqrm}) {
       subheader={aqrm.userInfo.userEmail}
     />
 
-    <CardMedia
-      onClick={onContentHandler}
-      className={classes.media}
-      image={aqrm.aqrmThumbnail ? aqrm.aqrmThumbnail : "../logo512.png"}
-      title="Paella dish"
-    />
-
+    { aqrm.aqrmVideoUrl ? 
+        <CardMedia
+        onClick={handleClickOpen}
+        className={classes.media}
+        image={aqrm.aqrmThumbnail ? aqrm.aqrmThumbnail : "../logo512.png"}
+        title="Paella dish"
+        /> 
+        : ''
+    }
+    
     <Typography variant="h5" component="p" style={{ margin: '20px 0 20px 0'}}>
       {aqrm.aqrmTitle}
     </Typography>
@@ -176,7 +255,7 @@ function ContentCard({aqrm}) {
       </Typography>
     </CardContent>
 
-    <CardActions disableSpacing>
+    {/* <CardActions disableSpacing>
       <IconButton aria-label="add to favorites">
         <FavoriteIcon />
       </IconButton>
@@ -193,9 +272,9 @@ function ContentCard({aqrm}) {
       >
         <ExpandMoreIcon />
       </IconButton>
-    </CardActions>
+    </CardActions> */}
     
-    <Collapse in={expanded} timeout="auto" unmountOnExit>
+    {/* <Collapse in={expanded} timeout="auto" unmountOnExit>
       <CardContent>
         <Typography paragraph>Method:</Typography>
         <Typography paragraph>
@@ -221,8 +300,162 @@ function ContentCard({aqrm}) {
           Set aside off of the heat to let rest for 10 minutes, and then serve.
         </Typography>
       </CardContent>
-    </Collapse>
+    </Collapse> */}
+    <Divider/>
+
+      <Dialog onClose={handleClose}  maxWidth={"xl"} open={open} >
+        <AquariumYT aqrmId={aqrm.aqrmId}  className={classes.rootAquarium} />
+      </Dialog>
   </Box>
     
   );
 }
+
+function SideBar({userInfo,history}) {
+  const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const [checked, setChecked] = React.useState(false);
+  const [values, setValues] = useState({});
+
+  const handleChange = () => {
+    setChecked((prev) => !prev);
+  };
+
+  const handleFormChange = (event) => {
+    const { name, value } = event.target
+    setValues({ ...values, [name]: value })
+  }
+
+  const onSubmitHandler = (event) => {
+
+    if(values.aqrmVideoUrl){
+
+      youtubeParser.metadata(values.aqrmVideoUrl)
+      .then( info => {
+          const data = {...values, aqrmThumbnail: info.thumbnail_url, userId: userInfo.userId }
+          dispatch( createAquarium(data) )
+      })
+      .catch( err => {
+      });
+
+    }else{
+
+      const data = {...values, userId: userInfo.userId }
+      dispatch( createAquarium(data) )
+
+    }
+  }
+  
+  return (
+    <Box className={classes.rootList}>
+      
+              <List className={classes.root}>
+              <Box textAlign="right">
+                <Typography
+                   component="span"
+                   variant="body1"
+                   color="textPrimary"
+                 >
+                  - 환영합니다 <i>{userInfo.userNickname}</i> 님 -
+                </Typography>
+              </Box>
+
+              <ListItem alignItems="flex-start">
+                <ListItemAvatar>
+                  <Avatar variant="rounded" alt="수정" src={userInfo.userImgUrl} />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={
+                    <React.Fragment>
+                      <Typography
+                        component="span"
+                        variant="h5"
+                        color="textPrimary"
+                      >
+                        {userInfo.userNickname}
+                      </Typography>
+                    </React.Fragment>
+                  }
+                  secondary={userInfo.userEmail}
+                />
+              </ListItem>
+
+              
+              <Divider/>
+                <Box display="flex" flexWrap="wrap" justifyContent="flex-end">
+                    <IconButton onClick={handleChange}>
+                      <Typography style={{ margin: '0 10px 0 0'}} variant="subtitle1"> <i> 아쿠아리움 추가하기 </i> </Typography>
+                      <PlayCircleFilledIcon/>
+                    </IconButton>
+                </Box>
+              <Divider/>
+
+              <Collapse in={checked}>
+                <Box className={classes.expandedPanel}>
+                  <Box color="white">
+                    <Typography style={{ margin: '0 0 10px 0'}} variant="h5"> <PlayCircleFilledIcon style={{  position: 'relative', top: '3px'}}/> <strong> 새 아쿠라리움 추가 </strong> </Typography>
+                  </Box>
+
+                  <TextField
+                    fullWidth
+                    id="aqrmTitle"
+                    name="aqrmTitle"
+                    label="제목을 입력해주세요"
+                    onChange={handleFormChange}
+                    value={values.aqrmTitle}
+                    InputProps={{
+                      className: classes.comInput
+                    }}
+                    style={{ margin: '0 0 10px 0'}}
+                  />
+                  <TextField
+                    fullWidth
+                    id="aqrmVideoUrl"
+                    name="aqrmVideoUrl"
+                    label="유튜브 URL을 입력해 주세요"
+                    onChange={handleFormChange}
+                    value={values.aqrmVideoUrl}
+                    InputProps={{
+                      className: classes.comInput
+                    }}
+                  />
+              
+                  <TextField
+                    className={classes.commentField}
+                    fullWidth
+                    id="aqrmtext"
+                    name="aqrmtext"
+                    multiline
+                    rows={4}
+                    maxRows={4}
+                    onChange={handleFormChange}
+                    variant="outlined" 
+                    value={values.aqrmtext}
+                  />
+
+                  <Button variant="contained" color="secondary" onClick={onSubmitHandler}>
+                    생성
+                  </Button>
+                </Box>
+              </Collapse>
+              
+              <Divider/>    
+      </List>
+    </Box>  
+  );
+}
+
+const WaveHome = () => (
+  <Wave
+    fill="#ff8346"
+    paused={false}
+    options={{
+      height: 870,
+      amplitude: 20,
+      speed: 0.2,
+      points: 3,
+    }}
+  />
+);
+
