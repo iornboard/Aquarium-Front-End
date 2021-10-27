@@ -136,8 +136,9 @@ const useStyles = makeStyles((theme) => ({
     margin: "10px 10px 75px 10px"
   },
   cardGrid: {
-    paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8),
+    paddingBottom: 10,
+    height: '80vh',
+    overflow: 'auto',
   },
   cardMedia: {
     paddingTop: '56.25%', // 16:9
@@ -149,6 +150,11 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     height: "100%",
     bottom: 0,
+  },
+  header: {
+    backgroundColor: theme.palette.primary.main,
+    borderRadius: "5px",
+    marginBottom: "4%"
   },
 }));
 
@@ -287,6 +293,11 @@ const WorkCard = ({aqrms}) => {
   return (
     <div>
     <Container className={classes.cardGrid}>
+          <Box width="auto" height="5%" color='white' textAlign="right" className={classes.header}>
+            <Typography variant="h5" component="p" style={{ padding: '3px 10px 0 0'}}>
+              Aquarium  
+            </Typography>
+         </Box>
           {/* End hero unit */}
           <Grid container spacing={4}>
             {aqrms.map( Aq => (//키+값을 묶어서 하나씩 매핑시켜 넣어주는 코드
