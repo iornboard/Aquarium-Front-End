@@ -39,6 +39,8 @@ import youtubeParser  from 'youtube-metadata-from-url';
 import AquariumYT from '../../components/aquarium/AquariumYoutube';
 
 import { readAllAquarium, readPullAquarium, createAquarium } from '../../_actions/actionAquarium'//*
+import { withRouter } from 'react-router-dom';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -124,7 +126,7 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
-export default function MainPage({history}) {
+ function MainPage({history}) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -335,6 +337,7 @@ function SideBar({userInfo,history}) {
       .then( info => {
           const data = {...values, aqrmThumbnail: info.thumbnail_url, userId: userInfo.userId }
           dispatch( createAquarium(data) )
+          window.location.replace("/")
       })
       .catch( err => {
       });
@@ -343,7 +346,7 @@ function SideBar({userInfo,history}) {
 
       const data = {...values, userId: userInfo.userId }
       dispatch( createAquarium(data) )
-
+      window.location.replace("/")
     }
   }
   
@@ -394,7 +397,7 @@ function SideBar({userInfo,history}) {
               <Collapse in={checked}>
                 <Box className={classes.expandedPanel}>
                   <Box color="white">
-                    <Typography style={{ margin: '0 0 10px 0'}} variant="h5"> <PlayCircleFilledIcon style={{  position: 'relative', top: '3px'}}/> <strong> 새 아쿠라리움 추가 </strong> </Typography>
+                    <Typography style={{ margin: '0 0 10px 0'}} variant="h5"> <PlayCircleFilledIcon style={{  position: 'relative', top: '3px'}}/> <strong> 새 아쿠아리움 추가 </strong> </Typography>
                   </Box>
 
                   <TextField
@@ -459,3 +462,4 @@ const WaveHome = () => (
   />
 );
 
+export default withRouter(MainPage)
