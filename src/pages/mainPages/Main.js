@@ -32,6 +32,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import PlayCircleFilledIcon from '@material-ui/icons/PlayCircleFilled';
+import Link from '@material-ui/core/Link';
 
 import Wave from "react-wavify";
 import youtubeParser  from 'youtube-metadata-from-url';
@@ -173,7 +174,7 @@ const useStyles = makeStyles((theme) => ({
             </Typography>
           </Box>
           <Box>  
-            { userInfo ? <SideBar userInfo={userInfo} history={history}/> : '회원가입 하기' }
+            { userInfo ? <SideBar userInfo={userInfo} history={history}/> : <PleaseLogin/> }
           </Box>
         </Grid>
     
@@ -460,6 +461,17 @@ const WaveHome = () => (
       points: 3,
     }}
   />
+);
+
+const PleaseLogin = () => (
+  <Box textAlign="center" style={{ margin: '100px 0 0 0'}}>
+    <img src={"../logo192.png"} height="30%" alignItems = "center" />
+    <Typography variant="h5" component="p" style={{ margin: '20px 0 20px 0'}}>
+      <strong>커뮤니티를 통해 다양한 사람들과 </strong><br/>
+      <strong>경험을 공유해보세요</strong><br/><br/>
+      <h6><i><Link href="/signin"> -로그인 하러가기- </Link></i></h6> 
+    </Typography>
+  </Box>
 );
 
 export default withRouter(MainPage)

@@ -172,7 +172,8 @@ const useStyles = makeStyles((theme) => ({
   },
   logotext:{
     position: "relative",
-    left: -16
+    left: -12,
+    top: -2
 
   }
 }));
@@ -333,7 +334,7 @@ export default function (SpecificComponent) {
               <img src={logo} width = "60" height="60" alignItems = "center" />
               </Link>
 
-              <img className={classes.logotext} src={"../logotext.png"} width = "160" alignItems = "center" />
+              <img className={classes.logotext} src={"../logotext.png"} width = "140" alignItems = "center" />
               
               {/* <Box color="white">
               <Typography className={classes.title} variant="h6" noWrap>
