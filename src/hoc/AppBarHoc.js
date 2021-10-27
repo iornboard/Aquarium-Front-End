@@ -169,6 +169,11 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center"
+  },
+  logotext:{
+    position: "relative",
+    left: -16
+
   }
 }));
 
@@ -327,10 +332,18 @@ export default function (SpecificComponent) {
               <Link color="inherit" href="/">
               <img src={logo} width = "60" height="60" alignItems = "center" />
               </Link>
+
+              <img className={classes.logotext} src={"../logotext.png"} width = "160" alignItems = "center" />
               
+              {/* <Box color="white">
               <Typography className={classes.title} variant="h6" noWrap>
+                  <i>
                 Aquarium
+                </i>
               </Typography>
+              </Box> */}
+              
+
               <div className={classes.search}>
                 <div className={classes.searchIcon}>
                   <SearchIcon />
