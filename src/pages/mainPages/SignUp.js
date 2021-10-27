@@ -23,18 +23,18 @@ import {modal} from '../../_actions/index'
 import Wave from 'react-wavify'
 
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+// function Copyright() {
+//   return (
+//     <Typography variant="body2" color="textSecondary" align="center">
+//       {'Copyright © '}
+//       <Link color="inherit" href="https://material-ui.com/">
+//         Your Website
+//       </Link>{' '}
+//       {new Date().getFullYear()}
+//       {'.'}
+//     </Typography>
+//   );
+// }
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -220,9 +220,9 @@ function SignUp({history}) {
           </Grid>
           
           </form>
-          <Box mt={5}>
+          {/* <Box mt={5}>
             <Copyright />
-          </Box>
+          </Box> */}
           </div>
           
       </Box>
