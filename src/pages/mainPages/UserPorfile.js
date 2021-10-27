@@ -61,9 +61,10 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
   },
   paper: {//주황선으로감싼 상자
-    height: "100%",
+    height: "90%",
     width: "80%",
-    margin: theme.spacing(8, 4),
+    // margin: theme.spacing(8, 4),
+    marginTop: '4%',
     padding: "60px 30px 60px 30px",
     display: "flex",
     flexDirection: "column",
