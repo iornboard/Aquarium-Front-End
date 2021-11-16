@@ -1,701 +1,126 @@
-import React, { useEffect, useState } from 'react';
+//  커뮤니티 메인 페이지
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { useDispatch ,useSelector} from 'react-redux';
 
-import CssBaseline from '@material-ui/core/CssBaseline';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import Avatar from '@material-ui/core/Avatar';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Button from '@material-ui/core/Button';
-import Tooltip from '@material-ui/core/Tooltip';
-import MobileStepper from '@material-ui/core/MobileStepper';
-import Chip from '@material-ui/core/Chip';
-import TextField from '@material-ui/core/TextField';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
-import DialogTitle from '@material-ui/core/DialogTitle';
 
-import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
-import BallotIcon from '@material-ui/icons/Ballot';
-import AssignmentIcon from '@material-ui/icons/Assignment';
-import AssignmentLateIcon from '@material-ui/icons/AssignmentLate';
-import StarIcon from '@material-ui/icons/Star';
-import FaceIcon from '@material-ui/icons/Face';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
-import AssessmentIcon from '@material-ui/icons/Assessment';
+const sampleTerms = {
+  termId:1,
+  termName: '샘플 약관',
+  termDescription: '샘플 약관입니다.',
+  termOwnerInfo: {userId: 1, userName: '남현수'},
+  termAgreeUsersId: [1,2,5,3,6],
+  createAt: '2021-11-14 19:22:34',
+  termRequired: true,
+  semiTerms: [ 
+    {
+      semiTermId: 1,
+      TermId: 1,
+      semiTermAgreeUsersId: [1,2,5,3,6],
+      semiTermsName: '프로젝트 보안의 관한 조항',
+      semiTermText: '프로젝트를 진행하면서 다음과 같은 조항을 명사한다. 1.~ 하지 않는다. 2. ~하지 않는다. 3.~한다.',
+      termsRequired: true
+    },
+    {
+      semiTermId: 1,
+      TermId: 1,
+      semiTermAgreeUsersId: [1,2,5,3,6],
+      semiTermsName: '프로젝트 보안의 관한 조항',
+      semiTermText: '프로젝트를 진행하면서 다음과 같은 조항을 명사한다. 1.~ 하지 않는다. 2. ~하지 않는다. 3.~한다.',
+      termsRequired: true
+    },
+    {
+      semiTermId: 1,
+      TermId: 1,
+      semiTermAgreeUsersId: [1,2,5,3,6],
+      semiTermsName: '프로젝트 보안의 관한 조항',
+      semiTermText: '프로젝트를 진행하면서 다음과 같은 조항을 명사한다. 1.~ 하지 않는다. 2. ~하지 않는다. 3.~한다.',
+      termsRequired: true
+    }
+  ] 
+}
 
-import { readTask, updateTask, updateTaskInfo } from '../../_actions/actionTask'
 
-import Aquarium from '../../components/aquarium/Aquarium';
-import ChatViewer from '../../components/chat/ChatViewer';
-import UserJoinList from "../../components/common/UserJoinList";
-import SimpleProgress from '../../components/common/SimpleProgress'
-
-import {statusInfo} from "../../conf/projectConfig"
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     flexDirection: 'column',
-    minHeight: '10vh',
+    minHeight: '90vh',
   },
-  content: {
-    background: theme.palette.primary.light,
-    flexGrow: 0.5,
-    height: '90vh',
-    borderRadius : 10,
-    overflow: 'auto',
-    padding: theme.spacing(3),
-    paddingBottom: 0,
-  },
-  contentOption: {
-    background: theme.palette.primary.light,
-    outline: "solid",
-    outlineWidth: "10px",
-    outlineColor: theme.palette.primary.light,
-    position:"relative",
-    zIndex:2,
-    minWidth: 1290,
-    display: "flex",
+  placeRoot: {
+    height: "90vh",
     justifyContent: "center",
-    alignItems: "center"
-  },
-  background:{
-    position: 'absolute',
-    zIndex: '-4',
-    backgroundColor: theme.palette.primary.light,
-    height: '100%',
+    overflow: 'hidden',
     width: '100%',
   },
-  projectOption: {
-    borderRadius : 15,
-    minWidth: "20vw",
-    marginLeft: theme.spacing(2),
-    marginRight: theme.spacing(2),
-    paddingLeft : 15,
-    paddingRight : 15, 
-  },
-  rootAquarium: {
-    position: "relative",  
-  },
-  listForm: {
-    marginTop: 5,
+  rootList: {
     width: '100%',
-  },
-  chatForm:{
-    height: '35vh',
-  },
-  tapRoot: {
-    flexGrow: 1,
     backgroundColor: theme.palette.background.paper,
-    display: 'flex',
-    height: "100%"
-  },
-  tabs: {
-    borderRight: `0px solid ${theme.palette.divider}`,
-  },
-  propsViews: {
-    padding:10,
-    backgroundColor : theme.palette.divider,
-    width:"100%", 
-    margin:10,
-    marginRight:0,
-    borderRadius : 10 ,
-  },
-  teamInfoFrom: {
-    width: '100%',
-    position: 'relative',
     overflow: 'auto',
     maxHeight: 300,
   },
-  expandedPanel: {
-    padding : "5% 5% 3%;",
-    borderRadius : 5,
+  place: {
+    height: "100%",
+    padding: '10px',
+  },
+  waveform: {
+    display: "flex",
+    position: "absolute",
+    zIndex: "-2",
+    width: "100%",
+    height: "100%",
+    bottom: 0,
+  }, 
+  termsViewerForm: {
+    backgroundColor: theme.palette.primary.light,
+    weight: "100%",
+     height: "90%",
+     borderRadius: '10px'
+  },
+  header: {
     backgroundColor: theme.palette.primary.main,
-    display :"flex",
-    flexWrap :"wrap", 
-    justifyContent : "flex-end"
-  },
-  commentField: {
-    backgroundColor: "white",
     borderRadius: "5px",
-    marginBottom: "10px"
+    marginBottom: "2%"
   },
-  large: {
-    width: theme.spacing(6),
-    height: theme.spacing(6),
-  },
-  
 }));
 
 
-var now = new Date();
-
-function Task({match, userInfo}) {
+ function MainPage({history}) {
   const classes = useStyles();
   const dispatch = useDispatch();
-
-  const {userId, userNickname, userImgUrl} = {...userInfo} 
-  
-  const task = useSelector( store => store.task.usingTask );
- 
-  useEffect(() => {
-    dispatch(readTask(match.params.task))
-  },1 );
-
 
   return (
     <div className={classes.root}>
-        <CssBaseline />
+      <Box height="10vh"/>
 
-        <Box className={classes.background}/>
-        <Box width={"100%"} height={"8vh"}/>
-
-        <Grid container className={classes.content}>
-          <Grid item xs={12} sm={9} justify = "center" >
-            <Box display="flex" height="100%" bgcolor="white" className={classes.contentOption}>
-              
-
-              <Aquarium className={classes.rootAquarium}/>
-  
-
-            </Box>
-          </Grid>
-
-
-          <Grid item xs={12} sm={3} justify = "center">    
-            <Box display="flex" height="100%" bgcolor="white" className={classes.projectOption}>
-          
-                <List className={classes.listForm}>
-                  <ListItem alignItems="flex-start">
-                      <ListItemAvatar>
-                        <Avatar variant="rounded" alt="수정" src={userImgUrl} className={classes.large} />
-                      </ListItemAvatar>
-                      <ListItemText
-                        primary={
-                          <React.Fragment>
-                            <Typography
-                              component="span"
-                              variant="h5"
-                              color="textPrimary"
-                            >
-                              {task ? task.title : ""}
-                            </Typography>
-                          </React.Fragment>
-                        }
-                        secondary={userNickname}
-                        />
-                  </ListItem>
-                  <Divider/> 
-
-                    <ChatViewer chatRoomId={1} height={'35vh'} className={classes.chatForm}/>
-                    
-                  <Divider/>
-
-                  <Box height='35vh' >
-                    {task ?  <TaskProps task={task} userId={userId}/> : <SimpleProgress/> } 
-                  </Box>
-                  
-                  <Divider/>
-
-                </List>
-
-              </Box>
-          </Grid>
-        </Grid>
-
-          
-    </div>
-  );
-}
-
-
-
-const TaskProps = ({task,userId}) => {
-
-  const theme = useTheme();
-  const classes = useStyles();
-  const [value, setValue] = React.useState(0);
-
-  const { teamsInfo, masterId } = {...task}
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
-  return (
-    <div className={classes.tapRoot}>
-      <Tabs
-        orientation="vertical"
-        variant="scrollable"
-        value={value}
-        onChange={handleChange}
-        aria-label="Vertical tabs example"
-        className={classes.tabs}
-        style={{
-          background: theme.palette.primary.main,
-          color: "black",
-          width:"25%",
-          justifyContent: "center",
-          alignItems: "center",
-          borderRadius : 10 ,
-          marginTop : 10,
-          marginBottom : 10
-        }}
-        TabIndicatorProps={{style: {width:"100%",  opacity: 0.3}}}
-      >
-        <Tab icon={<AssessmentIcon/> } label="정보" aria-label="정보" />
-        <Tab icon={<AssignmentIndIcon />} label="인원" aria-label="인원" />
-        <Tab icon={<BallotIcon />} label="상태" aria-label="상태" />
-        <Tab icon={<AssignmentIcon />} label="메모" aria-label="메모" />
-        <Tab icon={<AssignmentLateIcon />} label="관리" aria-label="관리" disabled={ userId != masterId }/>
-      </Tabs>
-      <Box className={classes.propsViews} > 
-        <TabPanel value={value} index={0}>
-          <TaskPropsInfo taskInfo={task}/>
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          <TeamInfoList taskInfo={task}/>
-        </TabPanel>
-        <TabPanel value={value} index={2}>
-          <TaskStatusInfo taskInfo={task}/>
-        </TabPanel>
-        <TabPanel value={value} index={3}>
-          <TaskMemo taskInfo={task}/>
-        </TabPanel>
-        <TabPanel value={value} index={4}>
-          <TaskMaster taskInfo={task}/>
-        </TabPanel>
-      </Box>
-
-    </div>
-  );
-}
-
-
-function TabPanel(props) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`vertical-tabpanel-${index}`}
-      aria-labelledby={`vertical-tab-${index}`}
-      {...other}
-    >
-     
-      <Box> 
-        {children}
-      </Box>
-      
-    </div>
-  );
-}
-
-const TaskPropsInfo = ({taskInfo}) => {
-  const classes = useStyles();
-
-  const [dDay, setdDay] = useState(0);
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    if(taskInfo) putLeftDay() 
-  },[]);
-
-
-  const putLeftDay = () => {
-
-    var leftDay = Math.floor((new Date(taskInfo.endDate) - now)/86400000)
-    var allDay = Math.floor((new Date(taskInfo.endDate) - new Date(taskInfo.startDate))/86400000)
-
-    setdDay(leftDay)
-    setProgress(((allDay-leftDay)/allDay)*100)
-  }
-
-  return (
-    <Box display="flex"> 
-      <List  className={classes.teamInfoFrom} subheader={<li />}>
-
-        <div style={{ margin:"5px 0px 5px 0px",  }}>
-          <div >
-            <Grid container alignItems="flex-end">
-              <Grid item xs>
-                <Typography variant="h6">
-                  <EllipsisText>
-                    { taskInfo.title }
-                  </EllipsisText>
-                </Typography>
-              </Grid>
-              <Grid item>
-                <Chip label={taskInfo.taskStatus}  style={{ backgroundColor: statusInfo[taskInfo.taskStatus].color, color:"white" ,margin:"-20px 0px 0px 0px" }} />
-              </Grid>
-            </Grid>
-            <Typography color="textSecondary" component="span" variant="body2" style={{ margin:"0px 0px 5px 0px" }}>
-              {taskInfo.taskDescription}
-            </Typography>
-          </div>
-        </div>
+      <Box className={classes.waveform}>
         
-        <Divider style={{ margin:"10px 0px 5px 0px" }}/>
-        <div>
-          <div>
-            <Box margin="20px 0px 10px 0px">
-              <Chip size="small" label={new Date(taskInfo.startDate).toLocaleDateString('ko-KR', { year: 'numeric',month: 'long', day: 'numeric',})} style={{ float:"left" }} />
-              <Chip size="small" label={new Date(taskInfo.endDate).toLocaleDateString('ko-KR', { year: 'numeric',month: 'long', day: 'numeric',})} style={{ float:"right" }} />
-              <br/>
-            </Box>
-            <LinearProgress variant="determinate" value={progress} style={{ width : "100%"}}/>
-            <Box textAlign="right"  margin="10px 0px 10px 0px">
-              { dDay > 0 ? dDay + "일 : 남은시간" : "만료됨" }
-            </Box>
-          </div>
-        </div>
+      </Box>
 
-        <Divider style={{ margin:"10px 0px 5px 0px" }}/>
-        <div  style={{ margin:"10px 0px 5px 0px" }}>
-          <Box textAlign="right">
-            { new Date( taskInfo.createdAt ).toLocaleDateString('ko-KR', { year: 'numeric',month: 'long', day: 'numeric',}) + " 에 생성됨"}
-            <br/>
-             {new Date( taskInfo.updatedAt ).toLocaleDateString('ko-KR', { year: 'numeric',month: 'long', day: 'numeric',}) + " 에 마지막으로 수정 됨"}
+      <Grid container spacing={3} className={classes.placeRoot}>
+
+        <Grid item xs={false} sm={3} className={classes.place}>
+          <Box width="auto" height="5%" color='white' textAlign="right" className={classes.header}>
           </Box>
-        </div>
-
-
-      </List>
-    </Box>
-  );
-}
-
-
-const TeamInfoList = ({taskInfo}) => {
-  const classes = useStyles();
-  
-  const { teamsInfo, masterId } = {...taskInfo}
-
-  return (
-    <Box display="flex"> 
-      <List  className={classes.teamInfoFrom} subheader={<li />}>
-        <Box margin="5px 0px 0px 0px">  
-          <span><Typography  variant="h5"component="span" > <strong> 팀 </strong> </Typography> </span>
-        </Box>
-
-        {teamsInfo ?  teamsInfo.map( us =>
-
-          <ListItem alignItems="flex-start">
-              { us.userId == masterId ? 
-                <StarIcon color="secondary" fontSize="small"/> :
-                <FaceIcon color="secondary" fontSize="small" visibility="hidden"/> 
-              }
-            <ListItemAvatar>
-              <Avatar alt="userImg" src={us.userImgUrl} />
-            </ListItemAvatar>
-            <ListItemText
-              primary={us.userNickname}
-              secondary={
-                <React.Fragment>
-                  <Typography
-                    component="span"
-                    variant="caption"
-                    color="textSecondary"
-                  >
-                    {"사용자 페이지로"}
-                  </Typography>
-                </React.Fragment>
-              }
-            />
-          </ListItem>
-        
-        )  : ""}
-      </List>
-    </Box>
-  );
-}
-
-
-
-const TaskStatusInfo = ({taskInfo}) => {
-
-  const classes = useStyles();
-  const dispatch = useDispatch();
-  const theme = useTheme();
-
-  const [activeStep, setActiveStep] = useState(0);
-  const maxSteps = Object.keys(statusInfo).length;
-
-  useEffect(() => {
-    setActiveStep(statusInfo[taskInfo.taskStatus].idx)
-  },[taskInfo]);
-
-
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const updateStatus = () => {
-    const newTask = { ...taskInfo, taskStatus : statusInfo[Object.keys(statusInfo)[activeStep]].text }
-    dispatch(updateTaskInfo(newTask))
-  }
-
-  return (
-    <Box  display="flex"> 
-      <List  className={classes.teamInfoFrom} subheader={<li/>}>
-        <Box margin="5px 0px 0px 0px">  
-          <span><Typography  variant="h5"component="span" > <strong> 프로젝트 상태 </strong> </Typography> </span>
-          <Chip size="small" label={ statusInfo[taskInfo.taskStatus].text } variant="outlined"  style={{ backgroundColor: statusInfo[taskInfo.taskStatus].color, color:"white" , margin:"-7px 0px 0px 5px" }}/>
-        </Box>
-        
-        <Typography color='secondary' style={{ margin:"15px 0px 5px 0px" }} > <strong> 프로젝트의 상태를 설정합니다. </strong> </Typography>
-
-        <Box width="100%" borderRadius={10}> 
-        <Button fullWidth disabled style={{ margin:"2px 0px 5px 0px", backgroundColor: statusInfo[Object.keys(statusInfo)[activeStep]].color , borderRadius:10 }} >
-          <Box height="8vh" marginBottom={1} color="white">
-            <Typography variant="h6" component="span" > <strong> {statusInfo[Object.keys(statusInfo)[activeStep]].korean} </strong> </Typography>
-            <Typography variant="caption"  > <strong> {statusInfo[Object.keys(statusInfo)[activeStep]].text} </strong> </Typography>
-            <div/>
-            <Typography variant="caption"  > {statusInfo[Object.keys(statusInfo)[activeStep]].description} </Typography>
-          </Box>     
-        </Button>
-          <MobileStepper
-          style={{ borderRadius: 10 }}
-                steps={maxSteps}
-                position="static"
-                variant="text"
-
-                activeStep={activeStep}
-                nextButton={
-                  <Button size="small" onClick={handleNext} disabled={activeStep === maxSteps - 1}>
-                    Next
-                    {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-                  </Button>
-                }
-                backButton={
-                  <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-                    {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-                    Back
-                  </Button>
-                }
-              />        
-        </Box>
-
-        <Button fullWidth variant="contained" color="secondary" onClick={updateStatus} style={{ margin:"7px 0px 5px 0px", backgroundColor: statusInfo[Object.keys(statusInfo)[activeStep]].color }}>
-          수정
-        </Button>
-
-      </List>
-    </Box>
-  );
-}
-
-
-const TaskMemo = ({taskInfo}) => {
-  const classes = useStyles();
-  const dispatch = useDispatch();
-
-  const [ taskMemo , setTaskMemo ] = useState(taskInfo.taskMemo)
-
-  const updateMemo = () => {
-    const newTask = { ...taskInfo, taskMemo : taskMemo }
-    dispatch(updateTaskInfo(newTask))
-  }
-
-  return (
-    <Box display="flex"> 
-      <List  className={classes.teamInfoFrom} subheader={<li />}>
-        <Box margin="5px 0px 0px 0px">  
-          <span><Typography  variant="h5"component="span" > <strong> 프로젝트 메모 </strong> </Typography> </span>
-        </Box>
-
-        <Typography color='secondary' style={{ margin:"15px 0px 5px 0px" }} > <strong> 프로젝트의 메모를 입력하세요 </strong> </Typography>
-
-        <Box className={classes.expandedPanel}>
-          <TextField
-            className={classes.commentField}
-            fullWidth
-            id="filled-multi=ine-flexible"
-            multiline
-            rows={4}
-            maxRows={4}
-            onChange={e => setTaskMemo(e.target.value)}
-            variant="outlined" 
-            value={taskMemo}
-          />
-          <Button variant="contained" color="secondary" onClick={updateMemo}>
-            저장
-          </Button>
-        </Box>
-      </List>
-    </Box>
-  );
-}
-
-
-
-const TaskMaster = ({taskInfo}) => {
-
-  const classes = useStyles();
-  const dispatch = useDispatch();
-
-  const joinUsersInfos = useSelector( store => store.user.joinUsers );
-
-  const [open, setOpen] = React.useState(false);
-  const [values, setValues] = useState(taskInfo);
-
-
-  useEffect(() => {
-    setValues(taskInfo)
-  },[taskInfo])
-
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-
-  const handleFormChange = (event) => {
-    const { name, value } = event.target
-    setValues({ ...values, [name]:  name=="endDate" || name=="startDate" ? new Date(value) : value })
-  }
-
-  const handleSubmit = () => {
-
-    const taskUsersIds = joinUsersInfos.map( userinfo => userinfo.userId )
-
-    const taskBody = { ...taskInfo , ...values, teamsId:[ taskInfo.masterId , ...taskUsersIds ] }
-
-    dispatch(updateTask(taskBody))
-      
-    setOpen(false);
-  };
-
-
-
-  return (
-    <div>
-    <Box display="flex"> 
-      <List  className={classes.teamInfoFrom} subheader={<li />}>
-        <Box margin="5px 0px 0px 0px">  
-          <span><Typography  variant="h5"component="span" > <strong> 프로젝트 관리 </strong> </Typography> </span>
-        </Box>
-
-        <Typography color='secondary' style={{ margin:"15px 0px 5px 0px" }} > <strong> 프로젝트 기본정보 </strong> </Typography>
-
-        <Button fullWidth variant="contained" color="secondary" onClick={handleClickOpen}>
-          수정
-        </Button>
-
-
-      </List>
-    </Box>
-
-    <Dialog
-    open={open}
-    onClose={e => setOpen(false)}
-    aria-labelledby="alert-dialog-title"
-    aria-describedby="alert-dialog-description"
-    >
-    <Box>
-      <DialogTitle id="alert-dialog-title"><h2>작업 정보 수정</h2></DialogTitle>
-      <DialogContent>
-        <DialogContentText id="alert-dialog-description">
-      <Grid container spacing={3}>
-          <Grid item xs={12} md={12}>
-            <TextField required name="title" id="title" label="사용자 작업 이름" fullWidth autoComplete="cc-name" onChange = {handleFormChange} value={values.title}/>
-          </Grid>
-          <Grid item xs={12} md={6}>
-          <TextField
-            required
-            fullWidth
-            name="startDate"
-            id="startDate"
-            label="시작일자"
-            type="date"
-            className={classes.textField}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            onChange = {handleFormChange}
-            value={new Date(values.startDate).toISOString().slice(0, 10)}
-          />
-          </Grid>
-          <Grid item xs={12} md={6}>
-          <TextField
-            required
-            fullWidth
-            name="endDate"
-            id="endDate"
-            label="종료일자"
-            type="date"
-            defaultValue={new Date(values.endDate).toISOString().slice(0, 10)}
-            className={classes.textField}
-            InputLabelProps={{
-              shrink: true,
-            }}
-            onChange = {handleFormChange}
-          />
-          </Grid>
-          <Grid item xs={12} md={12}>
-          <Typography variant="h6" gutterBottom>
-            참가 인원
-          </Typography>
-            <UserJoinList teamList={taskInfo.teamsInfo}/>
-          </Grid>
-          <Grid item xs={12} md={12}>
-            <TextField required name="taskDescription" id="taskDescription" label="작업 설명" multiline rows={4} rowsMax={8} fullWidth variant="outlined"  onChange = {handleFormChange} value={values.taskDescription}/>
-          </Grid>
+          <List className={classes.rootList}>
+    
+          </List>
         </Grid>
-      
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button variant="contained"  onClick={handleSubmit} color="primary" autoFocus >
-            수정
-        </Button>
-      </DialogActions>
-    </Box>
-    </Dialog>
+        <Grid item xs={12} sm={7} className={classes.placeList}>
+          <Box width="auto" height="5%" color='white' textAlign="right" className={classes.header}> 
+          </Box>
+          <Box className={classes.termsViewerForm}>
 
-  </div>
+          </Box>
+        </Grid>
+      </Grid>
+    </div>
   );
 }
 
-const EllipsisText = (props) => {
-  const { children } = props
-
-  return (
-    <div style={{
-      whiteSpace: "nowrap",
-      overflow: "hidden",
-      textOverflow: "ellipsis",
-      maxWidth: 200
-      }}>
-      {children}
-    </div>
-  )
-}
-
-
-export default withRouter(Task)
+export default withRouter(MainPage)
