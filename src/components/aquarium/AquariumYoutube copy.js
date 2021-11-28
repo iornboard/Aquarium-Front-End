@@ -35,6 +35,8 @@ import Fade from '@material-ui/core/Fade';
 import Zoom from '@material-ui/core/Zoom';
 import ListSubheader from '@material-ui/core/ListSubheader';
 
+
+
 import logo from '../../hoc/logo.png';
 
 //외부에서 가져온 커스컴 컴포넌트(기본 분류로 할 것) 또는 컴포넌트를 HOC형식으로 변환할 것
@@ -47,7 +49,6 @@ import ReactPlayer from 'react-player'
 import VREPlayer from 'videojs-react-enhanced';
 import 'video.js/dist/video-js.css';
 
-import randomColor from 'randomcolor';
 
 // const AccordionDetailsSty = withStyles((theme) => ({
 //   root: {
@@ -78,8 +79,8 @@ const useStyles = makeStyles((theme) => ({
   },
   fabProgress: {
     position: 'absolute',
-    top: 29,
-    left: 28.5,
+    top: 14.4,
+    left: 15.4,
     zIndex: 1,
   },
    markerModal: {
@@ -382,8 +383,6 @@ const CustomMarker = ({ mentInfo, userId }) => {
   const dispatch = useDispatch();
 
   // const timeRef = useRef(0);
-
-
   
   const [mentionMainInfo, setMentionMainInfo] = React.useState();  // 멘션 세부정보
 
@@ -394,8 +393,6 @@ const CustomMarker = ({ mentInfo, userId }) => {
   const [showed, setshowed] = React.useState(false);
   const [progress, setProgress] = React.useState(0);
 
-
-  const [MarkerColor, setMarkerColor] = React.useState( randomColor({luminosity: 'light'}) );
   
    // !!!수정해야 하는 사항 -> 마커를 움직을 때의 이슈를 해결 할 것 
   useEffect(() => {
@@ -451,20 +448,15 @@ const CustomMarker = ({ mentInfo, userId }) => {
     setChecked(false)
   }
   
-
+  
 
   return (
     <Box p={2} position='absolute' top={mentInfo.y} left={mentInfo.x} zIndex={1} >
 
       <Fade in={showed}>
         <Box >
-          <Chip 
-            avatar={ <Avatar src={mentInfo.avatarImg} /> } 
-            label={<EllipsisText> {mentInfo.mentText} </EllipsisText>} 
-            onClick={handleOpen} 
-            style={{ height:60, padding:10, borderStyle:"solid", borderWidth:'2px', borderColor: MarkerColor }} 
-            className={classes.basicShadow} />
-            <CircularProgress value={progress} size={35} thickness={8} variant="determinate" className={classes.fabProgress}/> {/* 남은 시간 표시 */}
+          <Chip avatar={ <Avatar src={mentInfo.avatarImg} /> } label={<EllipsisText> {mentInfo.mentText} </EllipsisText>} onClick={handleOpen} className={classes.basicShadow} />
+            <CircularProgress value={progress} size={35} thickness={8} variant="determinate" className={classes.fabProgress} /> {/* 남은 시간 표시 */}
         </Box>
       </Fade>
 
