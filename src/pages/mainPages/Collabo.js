@@ -356,6 +356,9 @@ const TaskPropsInfo = ({taskInfo,userId}) => {
 
   useEffect(() => {
     if(taskInfo) putLeftDay() 
+
+    dispatch(readTerm(taskInfo.termId))
+      .then(res => setTermInfo(res.payload))
   },[]);
 
 
@@ -370,9 +373,6 @@ const TaskPropsInfo = ({taskInfo,userId}) => {
 
   const handleLoadTerm = () => {
     setInOpen(true);
-    
-    dispatch(readTerm(taskInfo.termId))
-      .then(res => setTermInfo(res.payload))
   };
 
   const checkChange = (event) => {
@@ -436,9 +436,18 @@ const TaskPropsInfo = ({taskInfo,userId}) => {
              {new Date( taskInfo.updatedAt ).toLocaleDateString('ko-KR', { year: 'numeric',month: 'long', day: 'numeric',}) + " 에 마지막으로 수정 됨"}
              <br/>
              <br/>
-              <Button onClick={handleLoadTerm} color="primary" autoFocus >
-                약관확인 및 동의 
-              </Button>
+             { termInfo ? 
+                termInfo.agreesId.includes(userId) ?
+                  <Button color="primary" autoFocus >
+                    동의됨
+                  </Button>
+                  :
+                  <Button onClick={handleLoadTerm} color="primary" autoFocus >
+                    약관확인 및 동의 
+                  </Button>
+                :
+                ""
+            }
             <br/>
           </Box>
         </div>
