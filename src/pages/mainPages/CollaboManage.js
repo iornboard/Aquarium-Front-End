@@ -40,7 +40,8 @@ import {
   Resources,
 } from '@devexpress/dx-react-scheduler-material-ui';
 
-import { createProject, readProject, readAllProject } from '../../_actions/actionProject'
+// import { createProject, readProject, readAllProject } from '../../_actions/actionProject'
+import { createTerm, readTerm, readAllTerm, updateTerm } from '../../_actions/actionProject'
 import { createTask, readTask, readAllUserTask, readAllProjectTask } from '../../_actions/actionTask'
 
 import {statusInfo} from "../../conf/projectConfig"
@@ -143,9 +144,13 @@ function TaskManager({history, userInfo}) {
 
   const [tasks, setTasks] = useState([])
   const [project, setProject] = useState(sampleProjectinfo)
+  const [terms, setTerms] = useState([])
 
   const [open, setOpen] = React.useState(false);
+  const [inOpen, setInOpen] = React.useState(false);
   const [values, setValues] = useState([]);
+
+  const [termId, setTermId] = useState([]);
 
 
   useEffect(() => {
@@ -166,7 +171,7 @@ function TaskManager({history, userInfo}) {
     const taskUsersIds = joinUsersInfos.map( userinfo => userinfo.userId )
 
     const taskDefault = { title:"이름없는 작업", taskDescription:"내용 없음", teamsId:[userId , ...taskUsersIds], taskStatus:"defult", masterId:userId, projectId: project.projectId }
-    const taskBody = { ...taskDefault , ...values }
+    const taskBody = { ...taskDefault , ...values, termId: termId }
 
     dispatch(createTask(taskBody))
       .then(res => setTasks(prev => [...prev, res.payload]))
@@ -179,15 +184,30 @@ function TaskManager({history, userInfo}) {
 
 
 
-
-
-
-
-
-
   const handleClickOpen = () => {
     setOpen(true);
   };
+
+  const handleLoadTerm = () => {
+    setInOpen(true);
+
+    dispatch(readAllTerm(userId))
+      .then(res => setTerms(res.payload))
+  };
+
+  const handleCopyTerm = (termInfo) => {
+
+    const {termTitle, termDescription, termText, termRequired} = {...termInfo}
+    const newTermInfo = { termTitle: termTitle, termDescription: termDescription, termText: termText, termRequired: termRequired, termOwnerId: userId, agreesId:[userId]}
+
+    dispatch(createTerm(newTermInfo))
+      .then(res => setTermId(res.payload.termId) ) 
+
+    setInOpen(false);
+  };
+
+
+
 
 
   const handleFormChange = (event) => {
@@ -306,10 +326,9 @@ function TaskManager({history, userInfo}) {
                 <TextField required name="taskDescription" id="taskDescription" label="작업 설명" multiline rows={4} rowsMax={8} fullWidth variant="outlined"  onChange = {handleFormChange}/>
               </Grid>
               <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox color="secondary" name="saveCard" value="yes" />}
-                  label="위 내용을 이해하였고, 약관의 대해 동의 합니다."
-                />
+                <Button onClick={handleLoadTerm} color="primary" autoFocus >
+                  약관 추가하기
+                </Button>
               </Grid>
             </Grid>
           
@@ -317,10 +336,43 @@ function TaskManager({history, userInfo}) {
           </DialogContent>
           <DialogActions>
             <Button variant="contained"  onClick={handleSubmit} color="primary" autoFocus >
-              동의
+              생성
             </Button>
           </DialogActions>
         </Box>
+      </Dialog>
+
+
+
+
+      <Dialog
+        open={inOpen}
+        onClose={e => setInOpen(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+          <Box>
+            {terms ? terms.map( tr => 
+            
+              <Button className={classes.taskBar} onClick={ e => handleCopyTerm(tr)}>
+                <Box style={{margin:10}}>
+                  <Typography className={classes.title} color="textSecondary" gutterBottom>
+                    { new Date( tr.createdAt ).toLocaleDateString('ko-KR', { year: 'numeric',month: 'long', day: 'numeric',}) + " 에 생성됨"}
+                  </Typography>
+                  <Typography variant="h5" component="h3">
+                    <EllipsisText children={tr.termTitle}/>
+                  </Typography>
+                  <Typography className={classes.pos} color="textSecondary">
+                  <EllipsisText children={tr.termDescription}/>
+                  </Typography>
+                  <Typography variant="body2" component="p">
+                  <EllipsisText children={tr.termText}/>
+                  </Typography>
+                </Box>
+              </Button>
+
+            ) : <Box style={{margin:30}}>"생성된 약관이 없습니다. 추가해 주세요!"</Box>}
+          </Box>
       </Dialog>
 
     </div>
@@ -328,15 +380,6 @@ function TaskManager({history, userInfo}) {
   
   );
 }
-
-
-
-
-
-
-
-
-
 
 
 

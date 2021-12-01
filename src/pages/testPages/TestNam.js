@@ -32,6 +32,8 @@ import Switch from '@material-ui/core/Switch';
 
 import AssignmentIcon from '@material-ui/icons/Assignment';
 
+import { createTerm, readTerm, readAllTerm, updateTerm } from '../../_actions/actionProject'
+
 const sampleTerm = {
   termId:1,
   termTitle: '샘플 약관',
@@ -131,6 +133,7 @@ const useStyles = makeStyles((theme) => ({
 
   const [open, setOpen] = React.useState(false);
   const [termRequired, setTermRequired] = React.useState(false);
+  const [values, setValues] = useState();
 
   const toggleChecked = () => {
     setTermRequired((prev) => !prev);
@@ -145,8 +148,17 @@ const useStyles = makeStyles((theme) => ({
   };
 
   const handleSubmit = () => {
+
+    const newTermInfo = { ...values, termRequired: termRequired, termOwnerId: userId, agreesId:[userId]}
+    dispatch(createTerm(newTermInfo))
     setOpen(false);
   };
+
+  const handleFormChange = (event) => {
+    const { name, value } = event.target
+    setValues({ ...values, [name]: value })
+  }
+
 
 
 
@@ -222,7 +234,7 @@ const useStyles = makeStyles((theme) => ({
                 name="termTitle"
                 label="약관 제목"
                 fullWidth
-                
+                onChange={handleFormChange}
               />
             </Grid>
             <Grid item xs={12} sm={12}>
@@ -236,6 +248,7 @@ const useStyles = makeStyles((theme) => ({
                 maxRows={2}
                 variant="outlined" 
                 fullWidth
+                onChange={handleFormChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -248,6 +261,7 @@ const useStyles = makeStyles((theme) => ({
                 rows={12}
                 variant="outlined" 
                 fullWidth
+                onChange={handleFormChange}
               />
             </Grid>
             <Grid item xs={12}>
@@ -308,7 +322,7 @@ function TermFrom({termInfo}){
                 <br/>
                 <FormControlLabel
                     control={<Checkbox color="secondary" name="saveCard" value="yes" onChange={checkChange} />}
-                    label="Remember credit card details for next time"
+                    label="위 약관을 확인하였으며, 이에 동의합니다."
                 />
               <br/>
           </li>

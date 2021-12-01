@@ -30,3 +30,5 @@ export const ABOUT_TASK = 'ABOUT_TASK ';  // 임시의 댓글 관련 액션 전�
 
 export const ABOUT_MODAL = 'ABOUT_MODAL';  // 임시의 모달관련 리덕스
 export const ABOUT_CONTENT = 'ABOUT_CONTENT';  // 임시의 콘텐츠관련 리덕스
+
+export const ABOUT_TERM = 'ABOUT_TERM ';  // 임시의 약관 관련 액션 전용 리덕스 타입

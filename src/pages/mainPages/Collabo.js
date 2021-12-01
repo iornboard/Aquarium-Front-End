@@ -40,10 +40,13 @@ import FaceIcon from '@material-ui/icons/Face';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import AssessmentIcon from '@material-ui/icons/Assessment';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 
 import youtubeParser  from 'youtube-metadata-from-url';
 
 import { readTask, updateTask, updateTaskInfo, updateTaskStore } from '../../_actions/actionTask'
+import { createTerm, readTerm, readAllTerm, updateTerm } from '../../_actions/actionProject'
 import { createAquarium} from '../../_actions/actionAquarium'
 import { createRoom } from '../../_actions/actionChat'
 
@@ -298,7 +301,7 @@ const TaskProps = ({task,userId}) => {
       </Tabs>
       <Box className={classes.propsViews} > 
         <TabPanel value={value} index={0}>
-          <TaskPropsInfo taskInfo={task}/>
+          <TaskPropsInfo taskInfo={task} userId={userId}/>
         </TabPanel>
         <TabPanel value={value} index={1}>
           <TeamInfoList taskInfo={task}/>
@@ -339,11 +342,17 @@ function TabPanel(props) {
   );
 }
 
-const TaskPropsInfo = ({taskInfo}) => {
+const TaskPropsInfo = ({taskInfo,userId}) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const theme = useTheme();
 
   const [dDay, setdDay] = useState(0);
   const [progress, setProgress] = useState(0);
+
+  const [inOpen, setInOpen] = React.useState(false);
+  const [termInfo, setTermInfo] = React.useState();
+  const [checked, setChecked] = React.useState(false);
 
   useEffect(() => {
     if(taskInfo) putLeftDay() 
@@ -358,6 +367,27 @@ const TaskPropsInfo = ({taskInfo}) => {
     setdDay(leftDay)
     setProgress(((allDay-leftDay)/allDay)*100)
   }
+
+  const handleLoadTerm = () => {
+    setInOpen(true);
+    
+    dispatch(readTerm(taskInfo.termId))
+      .then(res => setTermInfo(res.payload))
+  };
+
+  const checkChange = (event) => {
+    setChecked(event.target.checked);
+  };
+
+  const handleAgree = (event) => {
+
+    const newTermInfo = {...termInfo, agreesId:[...termInfo.agreesId, userId]  }
+
+    setInOpen(false);
+    dispatch(updateTerm(newTermInfo))
+      .then(res => setTermInfo(res.payload))
+    
+  };
 
   return (
     <Box display="flex"> 
@@ -404,11 +434,62 @@ const TaskPropsInfo = ({taskInfo}) => {
             { new Date( taskInfo.createdAt ).toLocaleDateString('ko-KR', { year: 'numeric',month: 'long', day: 'numeric',}) + " 에 생성됨"}
             <br/>
              {new Date( taskInfo.updatedAt ).toLocaleDateString('ko-KR', { year: 'numeric',month: 'long', day: 'numeric',}) + " 에 마지막으로 수정 됨"}
+             <br/>
+             <br/>
+              <Button onClick={handleLoadTerm} color="primary" autoFocus >
+                약관확인 및 동의 
+              </Button>
+            <br/>
           </Box>
         </div>
 
-
       </List>
+
+      <Dialog
+        open={inOpen}
+        onClose={e => setInOpen(false)}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+          <Box style={{width: "50vh" , height:"80vh"}}>
+          { termInfo ? 
+          <List className={classes.rootList} style={{borderRadius: '0 0 10px 10px', padding: 20, height:'95%'}}>
+            <li>
+                <br/>
+                <Typography variant="h5" component="h2">
+                  <strong> {termInfo.termTitle} </strong>
+                  </Typography>
+                  <Typography variant="caption" color="textSecondary">
+                    {termInfo.termDescription}
+                  </Typography>      
+                  <br/><br/>
+                  <Box style={{minHeight:'35vh', padding: 20, background: theme.palette.primary.light , borderRadius: '10px'}}>
+                    <Typography color="textSecondary">
+                      {termInfo.termText}
+                    </Typography>  
+                  </Box>
+                  <br/>
+                  <FormControlLabel
+                      control={<Checkbox color="secondary" name="saveCard" value="yes" onChange={checkChange} />}
+                      label="위 약관을 확인하였으며, 이에 동의합니다."
+                  />
+                <br/>
+            </li>
+            <Divider/>
+            <li>
+                <br/>
+                <br/><br/>
+                <Box textAlign="right">
+                  <Button variant="contained" onClick={handleAgree} disabled={!checked} color="primary" href="#contained-buttons">
+                    동의
+                  </Button>
+                </Box>
+                <br/>
+            </li>
+          </List>
+          : <Box style={{margin:30}}> 약관이 설정되어 있지 않습니다. </Box>}
+          </Box>
+      </Dialog>
     </Box>
   );
 }
