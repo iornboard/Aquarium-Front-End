@@ -32,7 +32,7 @@ import Switch from '@material-ui/core/Switch';
 
 import AssignmentIcon from '@material-ui/icons/Assignment';
 
-import { createTerm, readTerm, readAllTerm, updateTerm } from '../../_actions/actionProject'
+import { createTerm, readTerm, readAllTerm, updateTerm, setTerm } from '../../_actions/actionProject'
 
 const sampleTerm = {
   termId:1,
@@ -131,9 +131,23 @@ const useStyles = makeStyles((theme) => ({
 
   const {userId, userNickname, userImgUrl} = {...userInfo} 
 
+  const thisTerm = useSelector( store => store.project.term);
+
+  const [terms, setTerms] = React.useState([]);
+  
   const [open, setOpen] = React.useState(false);
-  const [termRequired, setTermRequired] = React.useState(false);
+  const [termRequired, setTermRequired] = React.useState(true);
   const [values, setValues] = useState();
+
+  useEffect(() => {
+  
+    if(userId){
+      dispatch(readAllTerm(userId))
+        .then(res => setTerms(res.payload))
+    }
+
+  },[userId])
+
 
   const toggleChecked = () => {
     setTermRequired((prev) => !prev);
@@ -193,7 +207,7 @@ const useStyles = makeStyles((theme) => ({
             </ListItem>
             <Divider/>  
               <List className={classes.termList}>
-                {sampleTerms ? sampleTerms.map(tm=> ( <TermBar termInfo={tm}/> )) : ""}
+                {terms ? terms.map(tm=> ( <TermBar termInfo={tm}/> )) : ""}
               </List>
             <Divider/>
         </List>
@@ -203,9 +217,7 @@ const useStyles = makeStyles((theme) => ({
         <Grid item xs={12} sm={6} className={classes.placeList}>
 
           <Box className={classes.termsViewerForm}>
-
-            <TermFrom termInfo={sampleTerm}/>
-
+            { thisTerm ? <TermFrom termInfo={thisTerm}/> : "" }
           </Box>
         </Grid>
       </Grid>
@@ -334,9 +346,8 @@ function TermFrom({termInfo}){
                   <Typography variant="h6" gutterBottom className={classes.title}>
                   <strong> 약관 정보 </strong>
                   </Typography>
-                  <Typography color="textSecondary"> <strong> 약관 생성자 :  </strong> { termInfo.termOwnerInfo.userName }</Typography>
                   <Typography color="textSecondary"> <strong> 선택 여부 :  </strong> { termInfo.termRequired ? "필수" : "선택" }</Typography>
-                  <Typography color="textSecondary"> {new Date( termInfo.createAt ).toLocaleDateString('ko-KR', { year: 'numeric',month: 'long', day: 'numeric',}) + " 에 생성됨"} </Typography>
+                  <Typography color="textSecondary"> {new Date( termInfo.createdAt ).toLocaleDateString('ko-KR', { year: 'numeric',month: 'long', day: 'numeric',}) + " 에 생성됨"} </Typography>
 
               
                 </Grid>
@@ -346,11 +357,7 @@ function TermFrom({termInfo}){
                   </Typography>
                   <Grid container>
                   <AvatarGroup max={4}>
-                    <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-                    <Avatar alt="Travis Howard" src="/static/images/avatar/2.jpg" />
-                    <Avatar alt="Cindy Baker" src="/static/images/avatar/3.jpg" />
-                    <Avatar alt="Agnes Walker" src="/static/images/avatar/4.jpg" />
-                    <Avatar alt="Trevor Henderson" src="/static/images/avatar/5.jpg" />
+                    { termInfo.agreesInfo ? termInfo.agreesInfo.map( us => <Avatar alt="Remy Sharp" src={us.userImgUrl} /> ) : ""}
                   </AvatarGroup>
                   </Grid>
                 </Grid>
@@ -372,8 +379,17 @@ function TermFrom({termInfo}){
 
 function TermBar({termInfo}) {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const setTermHandler = (termInfo) => {
+
+    console.log(termInfo)
+
+    dispatch(setTerm(termInfo))
+  };
+
   return (
-        <Button className={classes.termBar}>
+        <Button className={classes.termBar} onClick={ e=> setTermHandler(termInfo)}>
           <List className={classes.termBarList}> 
           <ListItem>
             <ListItemAvatar>
@@ -381,7 +397,7 @@ function TermBar({termInfo}) {
                 <AssignmentIcon />
               </Avatar>
             </ListItemAvatar>
-            <ListItemText primary={termInfo.termTitle} secondary={new Date( termInfo.createAt ).toLocaleDateString('ko-KR', { year: 'numeric',month: 'long', day: 'numeric',}) + " 에 생성됨"} />
+            <ListItemText primary={termInfo.termTitle} secondary={new Date( termInfo.createdAt ).toLocaleDateString('ko-KR', { year: 'numeric',month: 'long', day: 'numeric',}) + " 에 생성됨"} />
           </ListItem> 
           </List>
         </Button>

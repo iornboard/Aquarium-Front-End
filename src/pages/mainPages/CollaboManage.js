@@ -24,6 +24,7 @@ import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import AssignmentIcon from '@material-ui/icons/Assignment';
 
 import Uploader from "../../components/common/Uploader";
 import UserJoinList from "../../components/common/UserJoinList";
@@ -355,20 +356,16 @@ function TaskManager({history, userInfo}) {
             {terms ? terms.map( tr => 
             
               <Button className={classes.taskBar} onClick={ e => handleCopyTerm(tr)}>
-                <Box style={{margin:10}}>
-                  <Typography className={classes.title} color="textSecondary" gutterBottom>
-                    { new Date( tr.createdAt ).toLocaleDateString('ko-KR', { year: 'numeric',month: 'long', day: 'numeric',}) + " 에 생성됨"}
-                  </Typography>
-                  <Typography variant="h5" component="h3">
-                    <EllipsisText children={tr.termTitle}/>
-                  </Typography>
-                  <Typography className={classes.pos} color="textSecondary">
-                  <EllipsisText children={tr.termDescription}/>
-                  </Typography>
-                  <Typography variant="body2" component="p">
-                  <EllipsisText children={tr.termText}/>
-                  </Typography>
-                </Box>
+               <List className={classes.termBarList}> 
+                <ListItem>
+                  <ListItemAvatar>
+                    <Avatar>
+                      <AssignmentIcon />
+                    </Avatar>
+                  </ListItemAvatar>
+                  <ListItemText primary={tr.termTitle} secondary={<EllipsisText children={tr.termText}/>} />
+                </ListItem> 
+                </List>
               </Button>
 
             ) : <Box style={{margin:30}}>"생성된 약관이 없습니다. 추가해 주세요!"</Box>}

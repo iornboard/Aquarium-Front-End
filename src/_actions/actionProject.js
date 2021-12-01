@@ -101,3 +101,13 @@ export function updateTerm(value) {
     };
 }
 
+
+export function setTerm(value) {
+    
+    return {
+        type: ABOUT_TERM,
+        payload : value
+    };
+}
+
+
